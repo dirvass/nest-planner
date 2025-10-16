@@ -1,0 +1,45 @@
+:root{
+  --brand:#0ea5b7;     /* accent colour */
+  --ink:#0f172a;       /* text */
+  --muted:#64748b;     /* secondary text */
+  --bg:#f8fafc;        /* page bg */
+  --card:#ffffff;      /* card bg */
+  --border:#e2e8f0;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;background:var(--bg);color:var(--ink);}
+
+.header{
+  position:relative; overflow:hidden; border-bottom:1px solid var(--border);
+  background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25)),
+              url("/hero.jpg") center/cover no-repeat;
+  color:#fff;
+}
+.header-inner{
+  max-width:1100px;margin:0 auto;padding:48px 16px 56px;
+}
+.badge{display:inline-block;padding:6px 10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;font-size:12px;backdrop-filter:blur(6px)}
+.title{font-size:34px;font-weight:800;margin:10px 0 6px}
+.subtitle{color:#e2e8f0;font-size:14px}
+
+.container{max-width:1100px;margin:-28px auto 40px;padding:0 16px}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  box-shadow:0 4px 20px rgba(2,8,23,.06);padding:16px;overflow:auto;
+}
+
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+select,input,button{border:1px solid var(--border);border-radius:12px;padding:8px 10px;font-size:14px;background:#fff}
+button{cursor:pointer}
+button.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+button.ghost{background:#f1f5f9}
+button:hover{filter:brightness(.98)}
+
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:900px}
+thead th{background:#f1f5f9;text-align:left;padding:10px}
+td{padding:10px;border-top:1px solid var(--border)}
+tfoot td{font-weight:700;background:#f9fafb}
+
+.helper{font-size:12px;color:var(--muted);margin-top:10px}
