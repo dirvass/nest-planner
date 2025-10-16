@@ -179,7 +179,7 @@ export default function App() {
             </select>
           </div>
 
-          <span style={{ marginLeft: 8 }}>Scenario presets:</span>
+          <span style={{ marginLeft: 8 }}>Senaryolar:</span>
           <button onClick={() => applyScenario("pessimistic")}>Pesimistik</button>
           <button onClick={() => applyScenario("base")}>Muhtemel</button>
           <button onClick={() => applyScenario("optimistic")}>Optimistik</button>
@@ -336,6 +336,7 @@ export default function App() {
           </div>
           <div style={{ fontSize: 12, color: "#64748b", marginTop: 8 }}>
             * İlk 2 yıl pazarlama giderleri nedeniyle ROI = 0 kabul edilmiştir. Tüm hesaplamalar EUR bazlıdır, görüntüleme seçilen kur ile yapılır.
+            **EBITDA = faiz vergi yıpranma payı ve amortisman öncesi kar
           </div>
         </div>
       </main>
