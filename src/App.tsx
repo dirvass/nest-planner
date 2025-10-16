@@ -55,6 +55,32 @@ export default function App() {
       base:        [700, 550],
       optimistic:  [1000, 800],
     };
+    // Senaryo altındaki toplam yıllık Net Kâr (tüm villalar, yıllık)
+function getScenarioAnnualNetProfit(scn: "pessimistic" | "base" | "optimistic") {
+  // Senaryo parametreleri (senin tanımların)
+  const feeMap = {
+    pessimistic: [400, 350],
+    base: [700, 550],
+    optimistic: [1000, 800],
+  } as const;
+  const costMap = { pessimistic: 0.40, base: 0.35, optimistic: 0.40 } as const;
+
+  // Bu hesap, mevcut villa sırasına göre ALYA = index 0, ZEHRA = index 1 varsayımıyla çalışır.
+  const occ = 0.60;
+  const fees = feeMap[scn];
+  const cost = costMap[scn];
+
+  // Her villa için: EBITDA = ücret * 365 * doluluk, Net = EBITDA * (1 - maliyet)
+  let totalNet = 0;
+  villas.forEach((_, i) => {
+    const daily = fees[i] ?? fees[0]; // fazladan villa eklenirse ilk değeri kullanır
+    const ebitda = daily * 365 * occ;
+    const net = ebitda * (1 - cost);
+    totalNet += net;
+  });
+  return totalNet; // yıllık toplam Net Kâr
+}
+
     const cost: Record<Scenario, number> = {
       pessimistic: 0.40,
       base:        0.35,
@@ -70,6 +96,26 @@ export default function App() {
       }))
     );
   }
+const roiData = [
+  {
+    year: 5,
+    Pesimistik: getScenarioAnnualNetProfit("pessimistic") * 5,
+    Muhtemel:   getScenarioAnnualNetProfit("base") * 5,
+    Optimistik: getScenarioAnnualNetProfit("optimistic") * 5,
+  },
+  {
+    year: 10,
+    Pesimistik: getScenarioAnnualNetProfit("pessimistic") * 10,
+    Muhtemel:   getScenarioAnnualNetProfit("base") * 10,
+    Optimistik: getScenarioAnnualNetProfit("optimistic") * 10,
+  },
+  {
+    year: 15,
+    Pesimistik: getScenarioAnnualNetProfit("pessimistic") * 15,
+    Muhtemel:   getScenarioAnnualNetProfit("base") * 15,
+    Optimistik: getScenarioAnnualNetProfit("optimistic") * 15,
+  },
+];
 
   return (
     <>
@@ -173,4 +219,8 @@ export default function App() {
       </main>
     </>
   );
+  <div style={{ marginTop: 16 }}>
+  <ScenarioChart data={roiData} currency={currency} />
+</div>
+
 }
