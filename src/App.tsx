@@ -75,7 +75,7 @@ export default function App() {
       {/* Hero / header with image */}
       <header className="header">
         <div className="header-inner">
-          <span className="badge">nest by Halalbooking</span>
+          <span className="badge">nest by AhmedSaidDizman</span>
           <h1 className="title">NEST – Annual Profit Planner</h1>
           <div className="subtitle">Plan villa gelir–gider ve ROI senaryolarını hızlıca simüle edin.</div>
         </div>
