@@ -198,7 +198,7 @@ export default function App() {
                 <th style={{ textAlign: "left", padding: 8 }}>Günlük Ücret (EUR)</th>
                 <th style={{ textAlign: "left", padding: 8 }}>Doluluk</th>
                 <th style={{ textAlign: "left", padding: 8 }}>Maliyet %</th>
-                <th style={{ textAlign: "left", padding: 8 }}>EBITDA</th>
+                <th style={{ textAlign: "left", padding: 8 }}>EBITDA**</th>
                 <th style={{ textAlign: "left", padding: 8 }}>Yıllık Net Kâr</th>
                 <th style={{ textAlign: "left", padding: 8 }}>5Y ROI*</th>
                 <th style={{ textAlign: "left", padding: 8 }}>10Y ROI*</th>
