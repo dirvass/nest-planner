@@ -76,7 +76,7 @@ export default function App() {
       <header className="header">
         <div className="header-inner">
           <span className="badge">nest by Ahmed Said Dizman</span>
-          <h1 className="title">NEST – Annual Profit Planner</h1>
+          <h1 className="title">NEST</h1>
           <div className="subtitle">Plan villa gelir–gider ve ROI senaryolarını hızlıca simüle edin.</div>
         </div>
       </header>
