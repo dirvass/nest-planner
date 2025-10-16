@@ -152,7 +152,7 @@ export default function App() {
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">nest by Halalbooking</span>
           <h1 className="title">NEST ULASLI</h1>
-          <div className="subtitle">Annual Profit Planner - villa gelir–gider ve ROI senaryoları</div>
+          <div className="subtitle">Ulaşlı Villa Projesi - Gelir–gider ve ROI senaryoları</div>
         </div>
       </header>
 
