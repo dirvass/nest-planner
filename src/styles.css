@@ -15,13 +15,14 @@ body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Ari
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
-  background: 
+  background:
     linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25)),
-    url("/hero.jpg") center/cover no-repeat;
+    url("/hero.jpg") center/contain no-repeat; /* <--- CHANGE: contain instead of cover */
   color: #fff;
-  height: 340px; /* previously auto — add a fixed height */
+  height: 100vh; /* makes it full-screen height */
   display: flex;
-  align-items: flex-end; /* ensures text sits nicely above bottom edge */
+  align-items: flex-end;
+  background-color: #000; /* optional – black background for any empty space */
 }
 
 .header-inner {
