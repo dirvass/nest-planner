@@ -1,3 +1,4 @@
+import ScenarioChart from "./ScenarioChart";
 import React, { useMemo, useState } from "react";
 
 type Villa = {
