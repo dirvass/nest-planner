@@ -58,7 +58,7 @@ export default function App() {
     const cost: Record<Scenario, number> = {
       pessimistic: 0.40,
       base:        0.35,
-      optimistic:  0.40
+      optimistic:  0.30
     };
     setVillas(prev =>
       prev.map((v, i) => ({
