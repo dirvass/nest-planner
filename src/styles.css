@@ -11,6 +11,34 @@
 html,body,#root{height:100%}
 body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;background:var(--bg);color:var(--ink);}
 
+.header {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: 
+    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25)),
+    url("/hero.jpg") center/cover no-repeat;
+  color: #fff;
+  height: 340px; /* previously auto — add a fixed height */
+  display: flex;
+  align-items: flex-end; /* ensures text sits nicely above bottom edge */
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 16px 56px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+  margin-top: -60px; /* reduce this or remove it if text is hidden */
+  position: relative;
+  z-index: 2;
+}
+
 .header{
   position:relative; overflow:hidden; border-bottom:1px solid var(--border);
   background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25)),
