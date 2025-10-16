@@ -81,7 +81,7 @@ export default function App() {
       base: [700, 550],
       optimistic: [1000, 800],
     } as const;
-    const costMap = { pessimistic: 0.4, base: 0.35, optimistic: 0.4 } as const;
+    const costMap = { pessimistic: 0.4, base: 0.35, optimistic: 0.3 } as const;
     const occ = 0.6;
 
     let totalNet = 0;
