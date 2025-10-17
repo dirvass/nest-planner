@@ -92,9 +92,9 @@ tfoot td{font-weight:700;background:#f9fafb}
 
 /* Mobil */
 @media (max-width: 768px){
-  .header{height:320px}
-  .header-inner{padding:32px 16px}
-  .container{margin-top:-40px}
+  .header{ height:70vh; } /* mobilde biraz daha kısa */
+  .header-inner{ padding:32px 16px; }
+  .container{ margin-top:-40px; }
 }
 /* ---------- LAYOUT YARDIMCILAR ---------- */
 .stack > * + * { margin-top: 16px; }        /* Dikey spacing */
