@@ -469,4 +469,57 @@ body::after{
   border-color: #0ea5b7;
   box-shadow: 0 0 0 4px rgba(14,165,183,.12);
 }
+/* Make summary column ~25% bigger */
+.booking-grid--wider-summary{
+  grid-template-columns: 0.8fr 1.2fr;   /* left:right */
+}
+@media (max-width: 980px){
+  .booking-grid--wider-summary{ grid-template-columns: 1fr; }
+}
 
+/* Enlarge price panel */
+.summary.enlarged h3{ font-size: 22px; }
+.price-table.enlarged td{ font-size: 15px; }
+.price-table.enlarged .total td{ font-size: 16px; }
+
+/* Shrink calendar ~50% visually while staying tidy */
+.shrink-50 .rdp{
+  transform: scale(.75);
+  transform-origin: top left;
+}
+.shrink-50{ overflow: hidden; }
+
+/* Extras section */
+.extras{ margin-top: 8px; }
+.extras-title{ margin: 4px 0 8px; font-size: 16px; }
+.extras-row{ display:flex; gap:16px; flex-wrap:wrap; }
+
+.switch{
+  display:flex; align-items:center; gap:12px;
+  padding:10px 12px; border:1px solid var(--border);
+  border-radius:14px; background:#fff; box-shadow:0 6px 18px rgba(2,8,23,.05);
+  margin-bottom:10px; cursor:pointer;
+}
+.switch input{ display:none; }
+.switch .slider{
+  width:44px; height:26px; border-radius:999px; background:#e2e8f0; position:relative; transition:.2s;
+}
+.switch .slider::after{
+  content:""; position:absolute; left:3px; top:3px; width:20px; height:20px; border-radius:50%;
+  background:#fff; box-shadow:0 1px 4px rgba(2,8,23,.25); transition:.2s;
+}
+.switch input:checked + .slider{ background:#0ea5b7; }
+.switch input:checked + .slider::after{ transform: translateX(18px); }
+.switch .switch-label{ display:flex; flex-direction:column; line-height:1.1; }
+.switch .switch-label span{ color:#64748b; font-size:12px; }
+
+/* Wider select for extras */
+.select-wrap.wide{ width:140px; }
+
+/* Calendar compact tweaks (still readable) */
+.compact-picker .rdp { --rdp-accent-color: #0ea5b7; }
+.compact-picker .rdp-head_cell{ font-size:11px; }
+.compact-picker .rdp-day{ font-size:12px; }
+
+/* Price “included” row tone */
+.price-table .muted.small{ color:#475569; }
