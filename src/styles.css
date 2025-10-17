@@ -408,3 +408,65 @@ body::after{
   margin: 6px 0;
 }
 .rdp-caption_label{ font-weight:700 }
+/* Make the booking grid put summary first on mobile (price is key) */
+.booking-grid--compact{
+  grid-template-columns: 1.05fr 0.95fr; /* left:right on desktop */
+}
+@media (max-width: 980px){
+  .booking-grid--compact{
+    grid-template-columns: 1fr;
+  }
+  .booking-grid--compact .summary{
+    order: -1;   /* summary first on mobile */
+    margin-bottom: 12px;
+  }
+}
+
+/* Compact calendar card */
+.compact-picker { padding: 10px; }
+.compact-picker .rdp { --rdp-accent-color: #0ea5b7; }
+
+/* Premium select controls */
+.elite-row { gap: 16px; align-items: flex-end; }
+.elite-field { min-width: 140px; }
+
+.select-wrap {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+}
+.select-wrap select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(2,8,23,.05);
+}
+.select-wrap::after{
+  content: "▾";
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  color: #64748b; font-size: 14px; pointer-events: none;
+}
+
+/* Luxe textarea */
+.textarea.luxe{
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(2,8,23,.06);
+  resize: vertical;
+}
+.textarea.luxe:focus{
+  outline: none;
+  border-color: #0ea5b7;
+  box-shadow: 0 0 0 4px rgba(14,165,183,.12);
+}
+
