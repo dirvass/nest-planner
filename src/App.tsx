@@ -150,7 +150,7 @@ export default function App() {
       {/* HERO SECTION */}
       <header className="header">
         <div className="header-inner" style={{ textAlign: "center" }}>
-          <span className="badge">nest by Halalbooking</span>
+          <span className="badge">nest by Ahmed Said Dizman</span>
           <h1 className="title">NEST ULASLI</h1>
           <div className="subtitle">Ulaşlı Villa Projesi - Gelir–gider ve ROI senaryoları</div>
         </div>
