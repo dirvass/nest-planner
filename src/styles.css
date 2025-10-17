@@ -169,3 +169,68 @@ thead th.sticky{ position:sticky; top:0; z-index:1; background:#f1f5f9 }
   .summary-card .summary-total{ font-size:34px }
   .shrink-65 .rdp{ transform:scale(.75) }
 }
+/* Stronger overlay for readability on bright hero areas */
+.header{
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.35) 40%, rgba(0,0,0,.25) 100%),
+    url("/hero.jpg") center center/cover no-repeat;
+}
+
+/* CTA group */
+.hero-cta{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  align-items:center;
+  margin-top:20px;
+  flex-wrap:wrap;            /* mobile-safe */
+}
+
+/* Modern pill buttons (glassy) */
+.hero-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 28px;
+  border-radius:999px;
+  font-weight:700;
+  letter-spacing:.2px;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.55);
+  color:#fff;
+  background:rgba(255,255,255,.16);
+  backdrop-filter:blur(10px);
+  box-shadow:0 8px 28px rgba(0,0,0,.25);
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+}
+
+.hero-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(0,0,0,.35);
+  background:rgba(255,255,255,.22);
+}
+
+/* Primary stands out as the main action */
+.hero-btn.primary{
+  border:none;
+  color:#0f172a;
+  background:#ffffff;
+  box-shadow:0 10px 30px rgba(255,255,255,.35), 0 6px 22px rgba(0,0,0,.25);
+}
+
+.hero-btn.primary:hover{
+  background:#f8fafc;
+}
+
+/* Optional "ghost" style for secondary */
+.hero-btn.ghost{
+  border:1px solid rgba(255,255,255,.6);
+  color:#fff;
+  background:rgba(0,0,0,.28);
+}
+
+/* Mobile tightening */
+@media (max-width: 640px){
+  .hero-btn{ padding:12px 20px; }
+  .hero-cta{ gap:12px; }
+}
