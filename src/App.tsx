@@ -1,10 +1,8 @@
-// src/App.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
 } from "recharts";
-import BookingPage from "./BookingPage";   // ✅ make sure the file exists
-import "./styles.css";
+import BookingPage from "./BookingPage";
 
 type Villa = {
   id: string;
@@ -17,12 +15,12 @@ type Scenario = "pessimistic" | "base" | "optimistic";
 type Currency = "EUR" | "USD" | "GBP";
 
 export default function App() {
-  // ---- Simple router: /book → BookingPage
+  // Pretty URL router: /book shows BookingPage
   if (typeof window !== "undefined" && window.location.pathname.startsWith("/book")) {
     return <BookingPage />;
   }
 
-  // ---------- Profit Planner (unchanged functional version) ----------
+  // ---------- Profit Planner ----------
   const [villas, setVillas] = useState<Villa[]>([
     { id: crypto.randomUUID(), name: "ALYA",  dailyFee: 700, occupancy: 0.60, costPct: 0.35 },
     { id: crypto.randomUUID(), name: "ZEHRA", dailyFee: 550, occupancy: 0.60, costPct: 0.35 },
@@ -72,7 +70,7 @@ export default function App() {
     const cost: Record<Scenario, number> = {
       pessimistic: 0.40,
       base:        0.35,
-      optimistic:  0.30,
+      optimistic:  0.30, // optimistic cost = 30%
     };
     setVillas(prev => prev.map((v, i) => ({
       ...v,
@@ -117,7 +115,7 @@ export default function App() {
     <>
       {/* HERO */}
       <header className="header">
-        <div className="header-inner" style={{ textAlign: "center" }}>
+        <div className="header-inner">
           <span className="badge">nest by Halalbooking</span>
           <h1 className="title">NEST ULASLI</h1>
           <div className="subtitle">Annual Profit Planner - villa gelir–gider ve ROI senaryoları</div>
@@ -126,72 +124,79 @@ export default function App() {
 
       <main className="container">
         {/* Controls */}
-        <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
+        <div className="toolbar">
           <div title="All values are stored in Euro. Display currency applies conversion.">
             <label style={{ marginRight: 6 }}>Currency (display)</label>
             <select value={currency} onChange={e => setCurrency(e.target.value as Currency)}>
-              <option value="EUR">€ Euro</option><option value="USD">$ USD</option><option value="GBP">£ GBP</option>
+              <option value="EUR">€ Euro</option>
+              <option value="USD">$ USD</option>
+              <option value="GBP">£ GBP</option>
             </select>
           </div>
           <span style={{ marginLeft: 8 }}>Scenario presets:</span>
-          <button onClick={() => applyScenario("pessimistic")}>Pesimistik</button>
-          <button onClick={() => applyScenario("base")}>Muhtemel</button>
-          <button onClick={() => applyScenario("optimistic")}>Optimistik</button>
-          <button onClick={addVilla} style={{ marginLeft: "auto" }}>+ Villa ekle</button>
+          <button className="ghost" onClick={() => applyScenario("pessimistic")}>Pesimistik</button>
+          <button className="ghost" onClick={() => applyScenario("base")}>Muhtemel</button>
+          <button className="ghost" onClick={() => applyScenario("optimistic")}>Optimistik</button>
+          <button className="primary" onClick={addVilla} style={{ marginLeft: "auto" }}>+ Villa ekle</button>
         </div>
 
         {/* Table */}
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table>
             <thead>
-              <tr style={{ background: "#f5f5f5" }}>
-                <th style={{ textAlign: "left", padding: 8 }}>Villa</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Günlük Ücret (EUR)</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Doluluk</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Maliyet %</th>
-                <th style={{ textAlign: "left", padding: 8 }}>EBITDA</th>
-                <th style={{ textAlign: "left", padding: 8 }}>Yıllık Net Kâr</th>
-                <th style={{ textAlign: "left", padding: 8 }}>5Y ROI*</th>
-                <th style={{ textAlign: "left", padding: 8 }}>10Y ROI*</th>
-                <th style={{ textAlign: "left", padding: 8 }}>15Y ROI*</th>
+              <tr>
+                <th>Villa</th>
+                <th>Günlük Ücret (EUR)</th>
+                <th>Doluluk</th>
+                <th>Maliyet %</th>
+                <th>EBITDA</th>
+                <th>Yıllık Net Kâr</th>
+                <th>5Y ROI*</th>
+                <th>10Y ROI*</th>
+                <th>15Y ROI*</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {rows.map(r => (
-                <tr key={r.id} style={{ borderTop: "1px solid #eee" }}>
-                  <td style={{ padding: 8 }}>
+                <tr key={r.id}>
+                  <td>
                     <input value={r.name} onChange={e => update(r.id, { name: e.target.value })} style={{ width: 120 }} />
                   </td>
-                  <td style={{ padding: 8 }}>
+                  <td>
                     <span>€ </span>
-                    <input type="number" value={r.dailyFee} onChange={e => update(r.id, { dailyFee: Number(e.target.value || 0) })} style={{ width: 80 }} />
+                    <input type="number" value={r.dailyFee}
+                      onChange={e => update(r.id, { dailyFee: Number(e.target.value || 0) })}
+                      style={{ width: 90 }} />
                     <span>/gece</span>
                   </td>
-                  <td style={{ padding: 8 }}>
-                    <input type="number" value={Math.round(r.occupancy * 100)} onChange={e => update(r.id, { occupancy: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })} style={{ width: 60 }} />%
+                  <td>
+                    <input type="number" min={0} max={100} value={Math.round(r.occupancy * 100)}
+                      onChange={e => update(r.id, { occupancy: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })}
+                      style={{ width: 60 }} />%
                   </td>
-                  <td style={{ padding: 8 }}>
-                    <input type="number" value={Math.round(r.costPct * 100)} onChange={e => update(r.id, { costPct: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })} style={{ width: 60 }} />%
+                  <td>
+                    <input type="number" min={0} max={100} value={Math.round(r.costPct * 100)}
+                      onChange={e => update(r.id, { costPct: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })}
+                      style={{ width: 60 }} />%
                   </td>
-                  <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(r.ebitdaEUR))}</td>
-                  <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(r.netEUR))}</td>
-                  <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(5)))}</td>
-                  <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(10)))}</td>
-                  <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(15)))}</td>
-                  <td style={{ padding: 8 }}><button onClick={() => removeVilla(r.id)}>Sil</button></td>
+                  <td>{symbols[currency]} {fmt2(fx(r.ebitdaEUR))}</td>
+                  <td>{symbols[currency]} {fmt2(fx(r.netEUR))}</td>
+                  <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(5)))}</td>
+                  <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(10)))}</td>
+                  <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(15)))}</td>
+                  <td><button className="ghost" onClick={() => removeVilla(r.id)}>Sil</button></td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr style={{ borderTop: "2px solid #ddd", fontWeight: 700 }}>
-                <td style={{ padding: 8 }}>Toplam</td>
-                <td></td><td></td><td></td>
-                <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(totals.ebitdaEUR))}</td>
-                <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(totals.netEUR))}</td>
-                <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(5)))}</td>
-                <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(10)))}</td>
-                <td style={{ padding: 8 }}>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(15)))}</td>
+              <tr>
+                <td>Toplam</td><td></td><td></td><td></td>
+                <td>{symbols[currency]} {fmt2(fx(totals.ebitdaEUR))}</td>
+                <td>{symbols[currency]} {fmt2(fx(totals.netEUR))}</td>
+                <td>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(5)))}</td>
+                <td>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(10)))}</td>
+                <td>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(15)))}</td>
                 <td></td>
               </tr>
             </tfoot>
@@ -199,7 +204,7 @@ export default function App() {
         </div>
 
         {/* Chart */}
-        <div style={{ marginTop: 32, background: "#fff", border: "1px solid #e2e8f0", borderRadius: 16, padding: 16, boxShadow: "0 8px 30px rgba(2,8,23,.06)" }}>
+        <div className="card" style={{ marginTop: 16 }}>
           <h3 style={{ margin: "0 0 12px 0" }}>Senaryolara göre toplam ROI (5/10/15 yıl) *</h3>
           <div style={{ width: "100%", height: 420 }}>
             <ResponsiveContainer>
@@ -208,9 +213,11 @@ export default function App() {
                 <XAxis dataKey="year" tickFormatter={(y) => `${y}Y`} />
                 <YAxis tickFormatter={(v) => `${symbols[currency]} ${fmt0(v as number)}`} width={90} />
                 <ReferenceLine x={10} stroke="#e5e7eb" />
-                <Tooltip contentStyle={{ background: "#0f172a", color: "#fff", borderRadius: 12, border: "none" }}
-                         labelFormatter={(y) => `${y} Yıl`}
-                         formatter={(val: any) => [`${symbols[currency]} ${fmt0(val as number)}`, ""]} />
+                <Tooltip
+                  contentStyle={{ background: "#0f172a", color: "#fff", borderRadius: 12, border: "none" }}
+                  labelFormatter={(y) => `${y} Yıl`}
+                  formatter={(val: any) => [`${symbols[currency]} ${fmt0(val as number)}`, ""]}
+                />
                 <Legend />
                 <Line type="monotone" dataKey="Pesimistik" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, strokeWidth: 1, stroke: "#fff" }} />
                 <Line type="monotone" dataKey="Muhtemel"   stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, strokeWidth: 1, stroke: "#fff" }} />
