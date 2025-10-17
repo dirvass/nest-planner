@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
-import { addDays, differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
+import { differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
 import "react-day-picker/dist/style.css";
 
 /* ---------- Config ---------- */
@@ -96,7 +96,7 @@ export default function BookingPage() {
     <>
       {/* HERO */}
       <header className="header">
-        {/* ✅ Sabit üst menü (tüm sayfalarda aynı stil) */}
+        {/* Sabit üst menü – tüm sayfalarda aynı */}
         <div className="nav-buttons">
           <a href="/" className="nav-btn">Home</a>
           <a href="/planner" className="nav-btn">Planner</a>
@@ -148,9 +148,8 @@ export default function BookingPage() {
                 numberOfMonths={months}
                 selected={range}
                 onSelect={(r) => {
-                  // normalise if user selects backwards
                   if (r?.from && r?.to && isBefore(r.to, r.from)) {
-                    setRange({ from: r.to, to: r.from });
+                    setRange({ from: r.to, to: r.from });  // normalize backward selection
                   } else {
                     setRange(r);
                   }
