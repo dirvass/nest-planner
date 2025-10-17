@@ -17,11 +17,14 @@ type Scenario = "pessimistic" | "base" | "optimistic";
 type Currency = "EUR" | "USD" | "GBP";
 
 export default function App() {
-  // --- Base villa data (in EUR)
-  const [villas, setVillas] = useState<Villa[]>([
-    { id: crypto.randomUUID(), name: "ALYA",  dailyFee: 700, occupancy: 0.6, costPct: 0.35 },
-    { id: crypto.randomUUID(), name: "ZEHRA", dailyFee: 550, occupancy: 0.6, costPct: 0.35 },
-  ]);
+  // If user visits /book → show booking page
+  if (typeof window !== "undefined" && window.location.pathname.startsWith("/book")) {
+    return <BookingPage />;
+  }
+
+  // The rest of your App.tsx stays the same below...
+  // (the NEST ULASLI profit planner page code continues here)
+
 
   // --- Currency setup
   const [currency, setCurrency] = useState<Currency>("EUR");
