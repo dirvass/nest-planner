@@ -336,8 +336,9 @@ export default function App() {
           </div>
           <div style={{ fontSize: 12, color: "#64748b", marginTop: 8 }}>
             * İlk 2 yıl pazarlama giderleri nedeniyle ROI = 0 kabul edilmiştir. Tüm hesaplamalar EUR bazlıdır, görüntüleme seçilen kur ile yapılır.
-            **EBITDA = faiz vergi yıpranma payı ve amortisman öncesi kar
-          </div>
+            <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
+  **EBITDA = faiz, vergi, yıpranma payı ve amortisman öncesi kâr
+</div>
         </div>
       </main>
     </>
