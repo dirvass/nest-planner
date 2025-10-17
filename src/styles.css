@@ -336,3 +336,36 @@ thead th.sticky{ position:sticky; top:0; z-index:1; background:#f1f5f9 }
 .nav-btn.dark:hover, .hero-btn.dark:hover {
   background: #3d4247;
 }
+/* place the hero buttons in the center, above the badge/title */
+.nav-buttons--hero{
+  position:absolute;
+  left:50%;
+  top:42%;                  /* adjust vertically as you like (40–45%) */
+  transform:translate(-50%, -160%);
+  gap:14px;
+}
+
+/* ensure links render as pills (not plain text) */
+.nav-buttons--hero a{
+  text-decoration:none;
+}
+
+/* already shared earlier, but crucial bits for the look */
+.nav-btn{
+  display:inline-block;
+  padding:10px 26px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:.2px;
+  border:1px solid rgba(255,255,255,.6);
+  background:rgba(0,0,0,.5);
+  color:#fff;
+  backdrop-filter:blur(6px);
+  transition:all .25s ease;
+}
+.nav-btn:hover{ background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.8); transform:translateY(-1px); }
+.nav-btn.primary{ background:#fff; color:#0f172a; border:none; }
+.nav-btn.primary:hover{ background:#f8fafc; transform:translateY(-1px); }
+.nav-btn.dark{ background:#2f3438; border:1px solid #555; }
+.nav-btn.dark:hover{ background:#3d4247; }
