@@ -113,14 +113,22 @@ export default function App() {
 
   return (
     <>
-      {/* HERO */}
-      <header className="header">
-        <div className="header-inner">
-          <span className="badge">nest by Halalbooking</span>
-          <h1 className="title">NEST ULASLI</h1>
-          <div className="subtitle">Annual Profit Planner - villa gelir–gider ve ROI senaryoları</div>
-        </div>
-      </header>
+     {/* HERO */}
+<header className="header">
+  {/* Üst sağ kısa nav */}
+  <nav className="topnav">
+    <a href="/">Planner</a>
+    <a href="/book">Book & Enquire</a>
+  </nav>
+
+  <div className="header-inner">
+    <span className="badge">by Ahmed Said Dizman</span>
+    <h1 className="title">NEST ULASLI</h1>
+    <div className="subtitle">
+      Annual Profit Planner - villa gelir–gider ve ROI senaryoları
+    </div>
+  </div>
+</header>
 
       <main className="container">
         {/* Controls */}
