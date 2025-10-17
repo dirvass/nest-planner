@@ -22,11 +22,16 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
   ]
 };
 
-// pricing
+// pricing constants
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
 const EXTRA_GUEST_FEE_EUR = 200;   // per extra guest (>2 yrs) per night
 const INCLUDED_GUESTS = 2;
+
+const CHEF_DINNER_PER_NIGHT = 200; // per night
+const QUAD_PER_HOUR = 50;          // per hour
+const TRANSFER_PER_WAY = 100;      // per way
+const TRANSFER_INCLUDED_NIGHTS = 7;
 
 // booking policy
 const MIN_NIGHTS = 3;
@@ -37,6 +42,8 @@ function nightsOf(range: DateRange | undefined) {
   return Math.max(0, differenceInCalendarDays(range.to, range.from));
 }
 const euro = (n: number) => `€ ${n.toFixed(2)}`;
+const options = (from: number, to: number) =>
+  Array.from({ length: to - from + 1 }, (_, i) => from + i);
 
 /* ---------- Component ---------- */
 export default function BookingPage() {
@@ -46,12 +53,14 @@ export default function BookingPage() {
   const [childrenOver2, setChildrenOver2] = useState(0);
   const [infants02, setInfants02] = useState(0);
   const [note, setNote] = useState("");
-  const [months, setMonths] = useState<number>(1); // compact: 1 month everywhere
 
-  useEffect(() => {
-    // still keep 1 month on all screens for a concise UI
-    setMonths(1);
-  }, []);
+  // Extras
+  const [chef, setChef] = useState(false);           // private chef (dinner)
+  const [quadHours, setQuadHours] = useState(0);     // quad bike hours
+  const [transferWays, setTransferWays] = useState(0); // one-way count (0/1/2)
+
+  // layout – we keep 1 month for compactness
+  const [months] = useState<number>(1);
 
   const n = nightsOf(range);
   const villaInfo = VILLAS[villa];
@@ -59,21 +68,24 @@ export default function BookingPage() {
   const overCapacity = partySizeExclInfants > villaInfo.sleeps;
   const underMinNights = n > 0 && n < MIN_NIGHTS;
 
+  // base + extra guest fee
   const extraGuests = Math.max(0, partySizeExclInfants - INCLUDED_GUESTS);
-  const price = useMemo(() => {
-    const base = n * villaInfo.nightlyEUR;
-    const extraGuestFee = n > 0 ? n * EXTRA_GUEST_FEE_EUR * extraGuests : 0;
-    const cleaning = n > 0 ? CLEANING_FEE : 0;
-    const service = (base + extraGuestFee + cleaning) * SERVICE_FEE_PCT;
-    return {
-      base,
-      extraGuestFee,
-      cleaning,
-      service,
-      total: base + extraGuestFee + cleaning + service,
-      deposit: 500
-    };
-  }, [n, villaInfo.nightlyEUR, extraGuests]);
+  const base = n * villaInfo.nightlyEUR;
+  const extraGuestFee = n > 0 ? n * EXTRA_GUEST_FEE_EUR * extraGuests : 0;
+
+  // extras pricing
+  const chefTotal = chef && n > 0 ? n * CHEF_DINNER_PER_NIGHT : 0;
+  const quadTotal = quadHours * QUAD_PER_HOUR;
+  const transferIncluded = n >= TRANSFER_INCLUDED_NIGHTS;
+  const transferTotal = transferIncluded ? 0 : transferWays * TRANSFER_PER_WAY;
+
+  const cleaning = n > 0 ? CLEANING_FEE : 0;
+
+  const subtotal = base + extraGuestFee + chefTotal + quadTotal + transferTotal + cleaning;
+  const service = subtotal * SERVICE_FEE_PCT;
+
+  const total = subtotal + service;
+  const deposit = 500;
 
   const today = startOfToday();
   const disabledDates = [{ before: today }, ...BOOKED[villa]];
@@ -84,19 +96,20 @@ export default function BookingPage() {
       `Villa: ${villaInfo.name}`,
       range?.from ? `Check-in: ${format(range.from, "dd MMM yyyy")}` : "Check-in: –",
       range?.to   ? `Check-out: ${format(range.to,   "dd MMM yyyy")}` : "Check-out: –",
-      `Guests: ${adults} adults, ${childrenOver2} children (over 2), ${infants02} infants (0–2)`,
       `Nights: ${n}`,
-      `Included guests: ${INCLUDED_GUESTS}; Extra chargeable guests: ${extraGuests} @ €${EXTRA_GUEST_FEE_EUR}/night`,
-      `Estimate: ${euro(price.total)} (excl. refundable deposit € ${price.deposit.toFixed(0)})`,
+      `Guests: ${adults} adults, ${childrenOver2} children (over 2), ${infants02} infants (0–2)`,
+      `Extras: Chef(dinner)=${chef ? "Yes" : "No"}, Quad=${quadHours}h, Transfers=${transferIncluded ? "Included" : `${transferWays} way(s)`}`,
+      `Estimate: ${euro(total)} (excl. refundable deposit € ${deposit.toFixed(0)})`,
       note ? `Note: ${note}` : ""
     ].join("\n")
   );
 
   const canSubmit = n >= MIN_NIGHTS && !overCapacity;
 
-  // helper for options
-  const options = (from: number, to: number) =>
-    Array.from({ length: to - from + 1 }, (_, i) => from + i);
+  // If nights >= 7 → default transfers to 0 and lock UI visually
+  useEffect(() => {
+    if (n >= TRANSFER_INCLUDED_NIGHTS) setTransferWays(0);
+  }, [n]);
 
   return (
     <>
@@ -111,16 +124,15 @@ export default function BookingPage() {
           <span className="badge">by Dizman</span>
           <h1 className="title">NEST ULASLI – Book & Enquire</h1>
           <div className="subtitle">
-            Private luxury villa with concierge service – seamless booking, curated experiences.
+            Price includes daily breakfast • bicycles • table tennis. For 7+ nights, return transfers & 1× floating breakfast are included.
           </div>
         </div>
       </header>
 
       <main className="container">
-        {/* Make summary more relevant – place it first on mobile */}
-        <section className="shell booking-grid booking-grid--compact">
-          {/* RIGHT (on desktop): sticky summary */}
-          <aside className="card sticky summary">
+        <section className="shell booking-grid booking-grid--compact booking-grid--wider-summary">
+          {/* SUMMARY – enlarged */}
+          <aside className="card sticky summary enlarged">
             <h3 style={{ marginTop: 0 }}>Your stay</h3>
             <div className="muted" style={{ marginBottom: 8 }}>
               {range?.from ? format(range.from, "dd MMM yyyy") : "–"} → {range?.to ? format(range.to!, "dd MMM yyyy") : "–"} · {n} {n === 1 ? "night" : "nights"}
@@ -130,38 +142,63 @@ export default function BookingPage() {
               Party: {adults} adults, {childrenOver2} children (over 2), {infants02} infants (0–2)
             </div>
 
-            <table className="price-table">
+            <table className="price-table enlarged">
               <tbody>
                 <tr>
                   <td>Accommodation</td>
                   <td className="end">{n} × € {villaInfo.nightlyEUR.toFixed(0)}</td>
-                  <td className="end">{euro(price.base)}</td>
+                  <td className="end">{euro(base)}</td>
                 </tr>
                 <tr>
                   <td>Extra guest fee</td>
                   <td className="end">
                     {n} × € {EXTRA_GUEST_FEE_EUR} × {extraGuests} {extraGuests === 1 ? "guest" : "guests"}
                   </td>
-                  <td className="end">{euro(price.extraGuestFee)}</td>
+                  <td className="end">{euro(extraGuestFee)}</td>
                 </tr>
+
+                {/* Extras */}
+                <tr>
+                  <td>Private chef (dinner)</td>
+                  <td className="end">{chef ? `${n} × € ${CHEF_DINNER_PER_NIGHT}` : "—"}</td>
+                  <td className="end">{chef ? euro(chefTotal) : "€ 0.00"}</td>
+                </tr>
+                <tr>
+                  <td>Quad bike</td>
+                  <td className="end">{quadHours} h × € {QUAD_PER_HOUR}</td>
+                  <td className="end">{euro(quadTotal)}</td>
+                </tr>
+                <tr>
+                  <td>Airport transfer</td>
+                  <td className="end">
+                    {transferIncluded ? "Included (7+ nights)" : `${transferWays} way(s) × € ${TRANSFER_PER_WAY}`}
+                  </td>
+                  <td className="end">{euro(transferTotal)}</td>
+                </tr>
+
                 <tr>
                   <td>Cleaning fee</td>
                   <td />
-                  <td className="end">{euro(price.cleaning)}</td>
+                  <td className="end">{euro(cleaning)}</td>
                 </tr>
                 <tr>
                   <td>Service {Math.round(SERVICE_FEE_PCT * 100)}%</td>
                   <td />
-                  <td className="end">{euro(price.service)}</td>
+                  <td className="end">{euro(service)}</td>
                 </tr>
                 <tr className="total">
                   <td>Total</td>
                   <td />
-                  <td className="end">{euro(price.total)}</td>
+                  <td className="end">{euro(total)}</td>
                 </tr>
                 <tr>
                   <td colSpan={3} className="muted small">
-                    Refundable security deposit on arrival: € {price.deposit.toFixed(0)}.
+                    Refundable security deposit on arrival: € {deposit.toFixed(0)}.
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={3} className="muted small">
+                    Includes daily breakfast • bicycles • table tennis{n >= TRANSFER_INCLUDED_NIGHTS ? " • return transfers • 1× floating breakfast" : ""}.
                   </td>
                 </tr>
               </tbody>
@@ -193,14 +230,13 @@ export default function BookingPage() {
             </div>
           </aside>
 
-          {/* LEFT (on desktop): compact calendar + selectors */}
+          {/* LEFT – compact calendar + selectors + extras */}
           <div className="card stack">
             <div className="section-header">
               <h3 style={{ margin: 0 }}>Availability</h3>
               <div className="muted">Nightly from <strong>€ {villaInfo.nightlyEUR.toFixed(0)}</strong></div>
             </div>
 
-            {/* Villa + reset */}
             <div className="row">
               <div>
                 <label className="label">Villa</label>
@@ -219,11 +255,11 @@ export default function BookingPage() {
               </button>
             </div>
 
-            {/* Compact Calendar */}
-            <div className="calendar-card compact-picker">
+            {/* Compact calendar (50% visual scale) */}
+            <div className="calendar-card compact-picker shrink-50">
               <DayPicker
                 mode="range"
-                numberOfMonths={months}                 // 1 month – concise
+                numberOfMonths={months}
                 selected={range}
                 onSelect={(r) => {
                   if (r?.from && r?.to && isBefore(r.to, r.from)) {
@@ -238,12 +274,12 @@ export default function BookingPage() {
                 captionLayout="dropdown"
                 pagedNavigation
                 styles={{
-                  caption: { fontWeight: 700, fontSize: 14 },
-                  head_cell: { fontSize: 12, color: "#64748b" },
-                  day: { width: 34, height: 34, margin: 2, borderRadius: 8 },
+                  caption: { fontWeight: 700, fontSize: 13 },
+                  head_cell: { fontSize: 11, color: "#64748b" },
+                  day: { width: 30, height: 30, margin: 1, borderRadius: 8 },
                   day_selected: { backgroundColor: "#0ea5b7", color: "#fff" },
                   day_range_middle: { backgroundColor: "rgba(14,165,183,.15)", color: "#0f172a" },
-                  nav_button: { width: 28, height: 28, borderRadius: 8 }
+                  nav_button: { width: 26, height: 26, borderRadius: 8 }
                 }}
               />
               <div className="helper">
@@ -251,41 +287,76 @@ export default function BookingPage() {
               </div>
             </div>
 
-            {/* Elegant guest selectors (dropdowns) */}
+            {/* Elegant guest selectors */}
             <div className="row elite-row">
               <div className="elite-field">
                 <label className="label">Adults</label>
                 <div className="select-wrap">
-                  <select
-                    value={adults}
-                    onChange={(e) => setAdults(Number(e.target.value))}
-                  >
+                  <select value={adults} onChange={(e) => setAdults(Number(e.target.value))}>
                     {options(1, 12).map(v => <option key={`ad-${v}`} value={v}>{v}</option>)}
                   </select>
                 </div>
               </div>
-
               <div className="elite-field">
                 <label className="label">Children (over 2)</label>
                 <div className="select-wrap">
-                  <select
-                    value={childrenOver2}
-                    onChange={(e) => setChildrenOver2(Number(e.target.value))}
-                  >
+                  <select value={childrenOver2} onChange={(e) => setChildrenOver2(Number(e.target.value))}>
                     {options(0, 12).map(v => <option key={`ch-${v}`} value={v}>{v}</option>)}
                   </select>
                 </div>
               </div>
-
               <div className="elite-field">
                 <label className="label">Infants (0–2)</label>
                 <div className="select-wrap">
-                  <select
-                    value={infants02}
-                    onChange={(e) => setInfants02(Number(e.target.value))}
-                  >
+                  <select value={infants02} onChange={(e) => setInfants02(Number(e.target.value))}>
                     {options(0, 6).map(v => <option key={`in-${v}`} value={v}>{v}</option>)}
                   </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Extras – premium layout */}
+            <div className="extras">
+              <h4 className="extras-title">Enhance your stay (optional)</h4>
+
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={chef}
+                  onChange={(e) => setChef(e.target.checked)}
+                />
+                <span className="slider" />
+                <div className="switch-label">
+                  <strong>Private chef (dinner)</strong>
+                  <span>€ {CHEF_DINNER_PER_NIGHT} / night</span>
+                </div>
+              </label>
+
+              <div className="extras-row">
+                <div className="elite-field">
+                  <label className="label">Quad bike (hours)</label>
+                  <div className="select-wrap wide">
+                    <select value={quadHours} onChange={(e) => setQuadHours(Number(e.target.value))}>
+                      {options(0, 12).map(v => <option key={`qh-${v}`} value={v}>{v}</option>)}
+                    </select>
+                  </div>
+                  <div className="muted small">€ {QUAD_PER_HOUR} / hour</div>
+                </div>
+
+                <div className="elite-field">
+                  <label className="label">Airport transfer (ways)</label>
+                  <div className="select-wrap wide">
+                    <select
+                      value={transferWays}
+                      onChange={(e) => setTransferWays(Number(e.target.value))}
+                      disabled={transferIncluded}
+                    >
+                      {[0,1,2].map(v => <option key={`tw-${v}`} value={v}>{v}</option>)}
+                    </select>
+                  </div>
+                  <div className="muted small">
+                    {transferIncluded ? "Included for 7+ nights" : `€ ${TRANSFER_PER_WAY} / way`}
+                  </div>
                 </div>
               </div>
             </div>
@@ -297,7 +368,7 @@ export default function BookingPage() {
                 className="textarea luxe"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                placeholder="Airport transfer, private chef, daily breakfast, yacht charter, nanny…"
+                placeholder="Airport transfer timing, private chef preferences, quad route time, dietary needs, nanny…"
                 rows={3}
               />
             </div>
