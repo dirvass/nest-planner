@@ -161,6 +161,16 @@ thead th{ background:#f1f5f9; text-align:left; padding:10px }
 td{ padding:10px; border-top:1px solid var(--border) }
 tfoot td{ font-weight:700; background:#f9fafb }
 thead th.sticky{ position:sticky; top:0; z-index:1; background:#f1f5f9 }
+/* Booking summary table must not inherit the 900px min-width */
+.summary .price-table,
+.price-table {
+  width: 100%;
+  min-width: 0;        /* override the global min-width:900px */
+  table-layout: auto;  /* allow the table to shrink within the sidebar */
+}
+
+/* Optional: make sure the sidebar doesn’t hide overflow just in case */
+.summary { overflow: visible; }
 
 /* Helpers */
 .helper{ font-size:12px; color:var(--muted); margin-top:10px }
