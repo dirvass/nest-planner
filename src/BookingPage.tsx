@@ -1,4 +1,3 @@
-// src/BookingPage.tsx
 import React, { useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
 import { differenceInCalendarDays, format } from "date-fns";
@@ -45,13 +44,7 @@ export default function BookingPage() {
     const base = n * villaInfo.nightlyEUR;
     const cleaning = n > 0 ? CLEANING_FEE : 0;
     const service = (base + cleaning) * SERVICE_FEE_PCT;
-    return {
-      base,
-      cleaning,
-      service,
-      total: base + cleaning + service,
-      deposit: REFUNDABLE_DEPOSIT
-    };
+    return { base, cleaning, service, total: base + cleaning + service, deposit: REFUNDABLE_DEPOSIT };
   }, [n, villaInfo.nightlyEUR]);
 
   const booked = BOOKED[villa];
@@ -75,7 +68,7 @@ export default function BookingPage() {
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">nest by Halalbooking</span>
           <h1 className="title">NEST ULASLI – Book & Enquire</h1>
-          <div className="subtitle">Private luxury villa with concierge service – seamless booking, curated experiences.</div>
+          <div className="subtitle">Private luxury villa with concierge service - seamless booking, curated experiences.</div>
         </div>
       </header>
 
@@ -104,11 +97,11 @@ export default function BookingPage() {
                 numberOfMonths={2}
                 disabled={booked}
                 fromMonth={new Date()}
-                captionLayout="dropdown"     // ✅ correct for v9
+                captionLayout="dropdown"
                 pagedNavigation
                 styles={{
                   day: { borderRadius: 10 },
-                  day_selected: { backgroundColor: "#0ea5b7", color: "white" },
+                  day_selected: { backgroundColor: "var(--brand)", color: "white" },
                   day_range_middle: { backgroundColor: "rgba(14,165,183,.15)" }
                 }}
               />
@@ -128,7 +121,7 @@ export default function BookingPage() {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Airport transfer, private chef, daily breakfast, yacht charter, nanny…"
-              style={{ width: "100%", height: 90, border: "1px solid #e2e8f0", borderRadius: 12, padding: 10 }}
+              style={{ width: "100%", height: 90, border: "1px solid var(--border)", borderRadius: 12, padding: 10 }}
             />
           </section>
 
@@ -163,10 +156,28 @@ export default function BookingPage() {
             <ul style={{ marginTop: 14, color: "#475569" }}>
               <li>Concierge can arrange private chef, daily housekeeping, yacht, car hire, massages and childcare.</li>
               <li>Check-in 16:00, check-out 11:00. No smoking indoors. Pets on request.</li>
-              <li>Flexible cancellation – ask your concierge for current terms.</li>
+              <li>Flexible cancellation - ask your concierge for current terms.</li>
             </ul>
           </aside>
         </div>
+
+        <section className="card" style={{ marginTop: 20 }}>
+          <h3 style={{ marginTop: 0 }}>Why book NEST ULASLI</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
+            <div>
+              <h4>Tailored stays</h4>
+              <p>We design each itinerary around you - from sunrise swims to sunset cruises. Your concierge is one WhatsApp away.</p>
+            </div>
+            <div>
+              <h4>Privacy & space</h4>
+              <p>Private grounds, panoramic sea views and resort-style amenities for families and close friends.</p>
+            </div>
+            <div>
+              <h4>Hotel-level housekeeping</h4>
+              <p>Fresh linens, mid-stay clean and daily refresh on request. Optional breakfast and private chef experiences.</p>
+            </div>
+          </div>
+        </section>
       </main>
     </>
   );
