@@ -64,13 +64,20 @@ export default function BookingPage() {
 
   return (
     <>
-      <header className="header">
-        <div className="header-inner" style={{ textAlign: "center" }}>
-          <span className="badge">nest by Halalbooking</span>
-          <h1 className="title">NEST ULASLI – Book & Enquire</h1>
-          <div className="subtitle">Private luxury villa with concierge service - seamless booking, curated experiences.</div>
-        </div>
-      </header>
+     <header className="header">
+  <nav className="topnav">
+    <a href="/">Planner</a>
+    <a href="/book">Book & Enquire</a>
+  </nav>
+
+  <div className="header-inner" style={{ textAlign: "center" }}>
+    <span className="badge">by Ahmed Said Dizman</span>
+    <h1 className="title">NEST ULASLI – Book & Enquire</h1>
+    <div className="subtitle">
+      Private luxury villa with concierge service – seamless booking, curated experiences.
+    </div>
+  </div>
+</header>
 
       <main className="container">
         <div className="card" style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 24 }}>
