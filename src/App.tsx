@@ -12,7 +12,6 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/planner" element={<PlannerPage />} />
         <Route path="/book" element={<BookingPage />} />
-        {/* bilinmeyen path'ler ana sayfaya */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
