@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
-import { differenceInCalendarDays, format } from "date-fns";
+import { addDays, differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
 import "react-day-picker/dist/style.css";
 
+/* ---------- Config ---------- */
 type VillaKey = "ALYA" | "ZEHRA";
 
 const VILLAS: Record<VillaKey, { name: string; nightlyEUR: number; sleeps: number }> = {
@@ -21,159 +22,252 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
   ]
 };
 
+// pricing add-ons
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
-const REFUNDABLE_DEPOSIT = 500;
 
-function nights(range: DateRange | undefined) {
+// booking policy
+const MIN_NIGHTS = 3; // change if needed
+
+/* ---------- Helpers ---------- */
+function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
   return Math.max(0, differenceInCalendarDays(range.to, range.from));
 }
 
+function euro(n: number) {
+  return `€ ${n.toFixed(2)}`;
+}
+
+/* ---------- Component ---------- */
 export default function BookingPage() {
   const [villa, setVilla] = useState<VillaKey>("ALYA");
   const [range, setRange] = useState<DateRange | undefined>();
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
   const [note, setNote] = useState("");
+  const [months, setMonths] = useState<number>(2); // responsive months
 
-  const n = nights(range);
+  // responsive months for calendar
+  useEffect(() => {
+    const onResize = () => setMonths(window.innerWidth < 980 ? 1 : 2);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const n = nightsOf(range);
   const villaInfo = VILLAS[villa];
+  const overCapacity = adults + children > villaInfo.sleeps;
+  const underMinNights = n > 0 && n < MIN_NIGHTS;
 
   const price = useMemo(() => {
     const base = n * villaInfo.nightlyEUR;
     const cleaning = n > 0 ? CLEANING_FEE : 0;
     const service = (base + cleaning) * SERVICE_FEE_PCT;
-    return { base, cleaning, service, total: base + cleaning + service, deposit: REFUNDABLE_DEPOSIT };
+    return {
+      base,
+      cleaning,
+      service,
+      total: base + cleaning + service,
+      deposit: 500
+    };
   }, [n, villaInfo.nightlyEUR]);
 
-  const booked = BOOKED[villa];
+  const today = startOfToday();
+  const disabledDates = [
+    { before: today },                // no past dates
+    ...BOOKED[villa],                 // block existing reservations
+  ];
 
   const waText = encodeURIComponent(
     [
       "Hello NEST ULASLI, I’d like to enquire about a stay.",
       `Villa: ${villaInfo.name}`,
-      range?.from ? `Check-in: ${format(range!.from!, "dd MMM yyyy")}` : "Check-in: –",
-      range?.to   ? `Check-out: ${format(range!.to!,   "dd MMM yyyy")}` : "Check-out: –",
-      `Guests: ${adults} adults, ${children} children`,
+      range?.from ? `Check-in: ${format(range.from, "dd MMM yyyy")}` : "Check-in: –",
+      range?.to   ? `Check-out: ${format(range.to,   "dd MMM yyyy")}` : "Check-out: –",
+      `Guests: ${adults} adults, ${children} children (sleeps up to ${villaInfo.sleeps})`,
       `Nights: ${n}`,
-      `Estimated total: € ${price.total.toFixed(2)} (excl. refundable deposit € ${price.deposit.toFixed(0)})`,
+      `Estimated total: ${euro(price.total)} (excl. refundable deposit € ${price.deposit.toFixed(0)})`,
       note ? `Note: ${note}` : ""
     ].join("\n")
   );
 
+  const canSubmit = n >= MIN_NIGHTS && !overCapacity;
+
   return (
     <>
-     <header className="header">
-  <nav className="topnav">
-    <a href="/">Planner</a>
-    <a href="/book">Book & Enquire</a>
-  </nav>
+      {/* HERO shared from main styles */}
+      <header className="header">
+        <nav className="topnav">
+          <a href="/">Planner</a>
+          <a href="/book" className="btn primary" style={{ borderColor: "rgba(255,255,255,.5)" }}>Book & Enquire</a>
+        </nav>
+        <div className="header-inner" style={{ textAlign: "center" }}>
+          <span className="badge">by Ahmed Said Dizman</span>
+          <h1 className="title">NEST ULASLI – Book & Enquire</h1>
+          <div className="subtitle">Private luxury villa with concierge service – seamless booking, curated experiences.</div>
+        </div>
+      </header>
 
-  <div className="header-inner" style={{ textAlign: "center" }}>
-    <span className="badge">by Ahmed Said Dizman</span>
-    <h1 className="title">NEST ULASLI – Book & Enquire</h1>
-    <div className="subtitle">
-      Private luxury villa with concierge service – seamless booking, curated experiences.
-    </div>
-  </div>
-</header>
-
+      {/* CONTENT */}
       <main className="container">
-        <div className="card" style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 24 }}>
-          {/* LEFT */}
-          <section>
-            <h3 style={{ marginTop: 0 }}>Availability & Dates</h3>
-
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginBottom: 10 }}>
-              <label>Villa</label>
-              <select value={villa} onChange={(e) => setVilla(e.target.value as VillaKey)}>
-                <option value="ALYA">ALYA — sleeps 8</option>
-                <option value="ZEHRA">ZEHRA — sleeps 6</option>
-              </select>
-              <span style={{ marginLeft: "auto", color: "#475569" }}>
-                Nightly from <strong>€ {VILLAS[villa].nightlyEUR.toFixed(0)}</strong>
-              </span>
+        <section className="shell booking-grid">
+          {/* LEFT: calendar & form */}
+          <div className="card stack">
+            <div className="section-header">
+              <h3 style={{ margin: 0 }}>Availability & Dates</h3>
+              <div className="muted">Nightly from <strong>€ {villaInfo.nightlyEUR.toFixed(0)}</strong></div>
             </div>
 
-            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 16, padding: 12 }}>
+            {/* Villa + reset */}
+            <div className="row">
+              <div>
+                <label className="label">Villa</label>
+                <select aria-label="Select villa" value={villa} onChange={(e) => { setVilla(e.target.value as VillaKey); setRange(undefined); }}>
+                  <option value="ALYA">ALYA — sleeps 8</option>
+                  <option value="ZEHRA">ZEHRA — sleeps 6</option>
+                </select>
+              </div>
+              <div className="spacer" />
+              <button className="ghost" onClick={() => setRange(undefined)} aria-label="Reset dates">Reset dates</button>
+            </div>
+
+            {/* Calendar */}
+            <div className="calendar-card">
               <DayPicker
                 mode="range"
+                numberOfMonths={months}
                 selected={range}
-                onSelect={setRange}
-                numberOfMonths={2}
-                disabled={booked}
-                fromMonth={new Date()}
+                onSelect={(r) => {
+                  // normalise if user selects backwards
+                  if (r?.from && r?.to && isBefore(r.to, r.from)) {
+                    setRange({ from: r.to, to: r.from });
+                  } else {
+                    setRange(r);
+                  }
+                }}
+                fromDate={today}
+                disabled={disabledDates}
                 captionLayout="dropdown"
                 pagedNavigation
                 styles={{
                   day: { borderRadius: 10 },
-                  day_selected: { backgroundColor: "var(--brand)", color: "white" },
+                  day_selected: { backgroundColor: "#0ea5b7", color: "white" },
                   day_range_middle: { backgroundColor: "rgba(14,165,183,.15)" }
                 }}
               />
-              <div className="helper">Dates shown in grey are unavailable. Minimum stay 3 nights in peak periods.</div>
+              <div className="helper">
+                Dates shown in grey are unavailable. Minimum stay {MIN_NIGHTS} nights in peak periods.
+              </div>
             </div>
 
-            <h3 style={{ marginTop: 18 }}>Guests</h3>
-            <div style={{ display: "flex", gap: 12 }}>
-              <label>Adults</label>
-              <input type="number" min={1} value={adults} onChange={(e) => setAdults(Number(e.target.value || 1))} style={{ width: 90 }} />
-              <label>Children</label>
-              <input type="number" min={0} value={children} onChange={(e) => setChildren(Number(e.target.value || 0))} style={{ width: 90 }} />
+            {/* Guests */}
+            <div className="row">
+              <div>
+                <label className="label">Adults</label>
+                <input type="number" min={1} value={adults} onChange={(e) => setAdults(Math.max(1, Number(e.target.value || 1)))} />
+              </div>
+              <div>
+                <label className="label">Children</label>
+                <input type="number" min={0} value={children} onChange={(e) => setChildren(Math.max(0, Number(e.target.value || 0)))} />
+              </div>
             </div>
+            {overCapacity && (
+              <div className="error">This villa sleeps up to {villaInfo.sleeps}. Please reduce guests or choose the other villa.</div>
+            )}
 
-            <h3 style={{ marginTop: 18 }}>Special requests</h3>
-            <textarea
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="Airport transfer, private chef, daily breakfast, yacht charter, nanny…"
-              style={{ width: "100%", height: 90, border: "1px solid var(--border)", borderRadius: 12, padding: 10 }}
-            />
-          </section>
+            {/* Notes */}
+            <div>
+              <label className="label">Special requests</label>
+              <textarea
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="Airport transfer, private chef, daily breakfast, yacht charter, nanny…"
+                rows={4}
+              />
+            </div>
+          </div>
 
-          {/* RIGHT */}
-          <aside className="card" style={{ alignSelf: "start" }}>
+          {/* RIGHT: sticky summary */}
+          <aside className="card sticky">
             <h3 style={{ marginTop: 0 }}>Your stay</h3>
-            <div style={{ color: "#475569", marginBottom: 8 }}>
-              {range?.from ? format(range.from, "dd MMM yyyy") : "–"} → {range?.to ? format(range.to, "dd MMM yyyy") : "–"} · {n} {n === 1 ? "night" : "nights"}
+            <div className="muted" style={{ marginBottom: 8 }}>
+              {range?.from ? format(range.from, "dd MMM yyyy") : "–"} → {range?.to ? format(range.to!, "dd MMM yyyy") : "–"} · {n} {n === 1 ? "night" : "nights"}
               <br />
               {villaInfo.name} · up to {villaInfo.sleeps} guests
             </div>
 
-            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 6 }}>
+            <table className="price-table">
               <tbody>
-                <tr><td>Accommodation</td><td style={{ textAlign: "right" }}>€ {price.base.toFixed(2)}</td></tr>
-                <tr><td>Cleaning fee</td><td style={{ textAlign: "right" }}>€ {price.cleaning.toFixed(2)}</td></tr>
-                <tr><td>Service {Math.round(SERVICE_FEE_PCT * 100)}%</td><td style={{ textAlign: "right" }}>€ {price.service.toFixed(2)}</td></tr>
-                <tr><td style={{ paddingTop: 6, fontWeight: 700 }}>Total</td><td style={{ textAlign: "right", paddingTop: 6, fontWeight: 700 }}>€ {price.total.toFixed(2)}</td></tr>
-                <tr><td colSpan={2} style={{ color: "#64748b", fontSize: 12, paddingTop: 6 }}>Refundable security deposit on arrival: € {price.deposit.toFixed(0)}.</td></tr>
+                <tr>
+                  <td>Accommodation</td>
+                  <td className="end">{n} × € {villaInfo.nightlyEUR.toFixed(0)}</td>
+                  <td className="end">{euro(price.base)}</td>
+                </tr>
+                <tr>
+                  <td>Cleaning fee</td>
+                  <td />
+                  <td className="end">{euro(price.cleaning)}</td>
+                </tr>
+                <tr>
+                  <td>Service {Math.round(SERVICE_FEE_PCT * 100)}%</td>
+                  <td />
+                  <td className="end">{euro(price.service)}</td>
+                </tr>
+                <tr className="total">
+                  <td>Total</td>
+                  <td />
+                  <td className="end">{euro(price.total)}</td>
+                </tr>
+                <tr>
+                  <td colSpan={3} className="muted small">
+                    Refundable security deposit on arrival: € {price.deposit.toFixed(0)}.
+                  </td>
+                </tr>
               </tbody>
             </table>
 
-            <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-              <a className="btn primary" href={`https://wa.me/00000000000?text=${waText}`} target="_blank" rel="noreferrer" style={{ flex: 1, textAlign: "center" }}>
+            {underMinNights && (
+              <div className="error" style={{ marginTop: 8 }}>
+                Minimum stay is {MIN_NIGHTS} nights. Please adjust your dates.
+              </div>
+            )}
+
+            <div className="cta-row">
+              <a
+                className={`btn primary ${!canSubmit ? "disabled" : ""}`}
+                aria-disabled={!canSubmit}
+                href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Enquire on WhatsApp
               </a>
-              <a className="btn ghost" href={`mailto:reservations@nest-ulasli.com?subject=Booking Enquiry – ${villaInfo.name}&body=${waText}`} style={{ flex: 1, textAlign: "center" }}>
+              <a
+                className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
+                aria-disabled={!canSubmit}
+                href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry – ${villaInfo.name}&body=${waText}` : undefined}
+              >
                 Request to Book
               </a>
             </div>
 
-            <ul style={{ marginTop: 14, color: "#475569" }}>
+            <ul className="bullets">
               <li>Concierge can arrange private chef, daily housekeeping, yacht, car hire, massages and childcare.</li>
               <li>Check-in 16:00, check-out 11:00. No smoking indoors. Pets on request.</li>
-              <li>Flexible cancellation - ask your concierge for current terms.</li>
+              <li>Flexible cancellation – ask your concierge for current terms.</li>
             </ul>
           </aside>
-        </div>
+        </section>
 
-        <section className="card" style={{ marginTop: 20 }}>
+        {/* Reasons */}
+        <section className="card stack shell" style={{ marginTop: 16 }}>
           <h3 style={{ marginTop: 0 }}>Why book NEST ULASLI</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
+          <div className="reasons">
             <div>
               <h4>Tailored stays</h4>
-              <p>We design each itinerary around you - from sunrise swims to sunset cruises. Your concierge is one WhatsApp away.</p>
+              <p>We design each itinerary around you – from sunrise swims to sunset cruises. Your concierge is one WhatsApp away.</p>
             </div>
             <div>
               <h4>Privacy & space</h4>
