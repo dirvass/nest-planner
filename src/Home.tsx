@@ -1,3 +1,9 @@
+<div className="nav-buttons">
+  <a href="/" className="nav-btn">Home</a>
+  <a href="/planner" className="nav-btn">Planner</a>
+  <a href="/book" className="nav-btn primary">Book & Enquire</a>
+</div>
+
 import React from "react";
 
 export default function Home() {
