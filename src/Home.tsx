@@ -1,19 +1,23 @@
-<div className="nav-buttons">
-  <a href="/" className="nav-btn">Home</a>
-  <a href="/planner" className="nav-btn">Planner</a>
-  <a href="/book" className="nav-btn primary">Book & Enquire</a>
-</div>
-
 import React from "react";
+import "./styles.css";
 
 export default function Home() {
   return (
     <header className="header">
       <div className="header-inner">
-        <span className="badge">by Ahmed Said Dizman</span>
-        <h1 className="hero-title">NEST ULASLI</h1>
+        {/* Brand badge */}
+        <span className="badge">by Dizman</span>
 
-        <div className="hero-buttons">
+        {/* Hero title & subtitle */}
+        <h1 className="hero-title">NEST ULAŞLI</h1>
+        <p className="hero-subtitle">
+          Private luxury villas overlooking the sea - experience serenity,
+          exclusivity, and design at its finest.
+        </p>
+
+        {/* ✅ Modern glassy call-to-action buttons */}
+        <div className="hero-cta">
+          <a href="/" className="hero-btn ghost">Home</a>
           <a href="/planner" className="hero-btn">Planner</a>
           <a href="/book" className="hero-btn primary">Book & Enquire</a>
         </div>
