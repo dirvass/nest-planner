@@ -1,8 +1,3 @@
-<div className="nav-buttons">
-  <a href="/" className="nav-btn">Home</a>
-  <a href="/planner" className="nav-btn">Planner</a>
-  <a href="/book" className="nav-btn primary">Book & Enquire</a>
-</div>
 import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
 import { addDays, differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
@@ -39,10 +34,7 @@ function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
   return Math.max(0, differenceInCalendarDays(range.to, range.from));
 }
-
-function euro(n: number) {
-  return `€ ${n.toFixed(2)}`;
-}
+function euro(n: number) { return `€ ${n.toFixed(2)}`; }
 
 /* ---------- Component ---------- */
 export default function BookingPage() {
@@ -102,16 +94,21 @@ export default function BookingPage() {
 
   return (
     <>
-      {/* HERO shared from main styles */}
+      {/* HERO */}
       <header className="header">
-        <nav className="topnav">
-          <a href="/">Planner</a>
-          <a href="/book" className="btn primary" style={{ borderColor: "rgba(255,255,255,.5)" }}>Book & Enquire</a>
-        </nav>
+        {/* ✅ Sabit üst menü (tüm sayfalarda aynı stil) */}
+        <div className="nav-buttons">
+          <a href="/" className="nav-btn">Home</a>
+          <a href="/planner" className="nav-btn">Planner</a>
+          <a href="/book" className="nav-btn primary">Book & Enquire</a>
+        </div>
+
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Ahmed Said Dizman</span>
           <h1 className="title">NEST ULASLI – Book & Enquire</h1>
-          <div className="subtitle">Private luxury villa with concierge service – seamless booking, curated experiences.</div>
+          <div className="subtitle">
+            Private luxury villa with concierge service – seamless booking, curated experiences.
+          </div>
         </div>
       </header>
 
@@ -129,13 +126,19 @@ export default function BookingPage() {
             <div className="row">
               <div>
                 <label className="label">Villa</label>
-                <select aria-label="Select villa" value={villa} onChange={(e) => { setVilla(e.target.value as VillaKey); setRange(undefined); }}>
+                <select
+                  aria-label="Select villa"
+                  value={villa}
+                  onChange={(e) => { setVilla(e.target.value as VillaKey); setRange(undefined); }}
+                >
                   <option value="ALYA">ALYA — sleeps 8</option>
                   <option value="ZEHRA">ZEHRA — sleeps 6</option>
                 </select>
               </div>
               <div className="spacer" />
-              <button className="ghost" onClick={() => setRange(undefined)} aria-label="Reset dates">Reset dates</button>
+              <button className="ghost" onClick={() => setRange(undefined)} aria-label="Reset dates">
+                Reset dates
+              </button>
             </div>
 
             {/* Calendar */}
@@ -171,15 +174,27 @@ export default function BookingPage() {
             <div className="row">
               <div>
                 <label className="label">Adults</label>
-                <input type="number" min={1} value={adults} onChange={(e) => setAdults(Math.max(1, Number(e.target.value || 1)))} />
+                <input
+                  type="number"
+                  min={1}
+                  value={adults}
+                  onChange={(e) => setAdults(Math.max(1, Number(e.target.value || 1)))}
+                />
               </div>
               <div>
                 <label className="label">Children</label>
-                <input type="number" min={0} value={children} onChange={(e) => setChildren(Math.max(0, Number(e.target.value || 0)))} />
+                <input
+                  type="number"
+                  min={0}
+                  value={children}
+                  onChange={(e) => setChildren(Math.max(0, Number(e.target.value || 0)))}
+                />
               </div>
             </div>
             {overCapacity && (
-              <div className="error">This villa sleeps up to {villaInfo.sleeps}. Please reduce guests or choose the other villa.</div>
+              <div className="error">
+                This villa sleeps up to {villaInfo.sleeps}. Please reduce guests or choose the other villa.
+              </div>
             )}
 
             {/* Notes */}
