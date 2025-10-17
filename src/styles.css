@@ -283,3 +283,56 @@ thead th.sticky{ position:sticky; top:0; z-index:1; background:#f1f5f9 }
 
 /* Varsayılan link rengi çiğ ise bastır */
 .header a{ color:inherit; }
+/* ---- Navigation / Hero Buttons: refined luxury style ---- */
+.nav-buttons, .hero-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  z-index: 10;
+}
+
+.nav-btn, .hero-btn {
+  display: inline-block;
+  padding: 10px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+
+/* hover efekti */
+.nav-btn:hover, .hero-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+/* aktif sayfa */
+.nav-btn.primary, .hero-btn.primary {
+  background: #fff;
+  color: #0f172a;
+  border: none;
+}
+
+.nav-btn.primary:hover, .hero-btn.primary:hover {
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+/* koyu gri varyant */
+.nav-btn.dark, .hero-btn.dark {
+  background: #2f3438;
+  border: 1px solid #555;
+}
+
+.nav-btn.dark:hover, .hero-btn.dark:hover {
+  background: #3d4247;
+}
