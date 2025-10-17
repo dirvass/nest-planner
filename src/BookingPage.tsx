@@ -11,7 +11,6 @@ const VILLAS: Record<VillaKey, { name: string; nightlyEUR: number; sleeps: numbe
   ZEHRA: { name: "ZEHRA", nightlyEUR: 550, sleeps: 6 },
 };
 
-// demo booked ranges – replace with your real availability
 const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
   ALYA: [
     { from: new Date(new Date().getFullYear(), 6, 12), to: new Date(new Date().getFullYear(), 6, 18) },
@@ -22,12 +21,9 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
   ]
 };
 
-// pricing add-ons
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
-
-// booking policy
-const MIN_NIGHTS = 3; // change if needed
+const MIN_NIGHTS = 3;
 
 /* ---------- Helpers ---------- */
 function nightsOf(range: DateRange | undefined) {
@@ -43,11 +39,11 @@ export default function BookingPage() {
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
   const [note, setNote] = useState("");
-  const [months, setMonths] = useState<number>(2); // responsive months
+  const [months, setMonths] = useState<number>(2);
 
-  // responsive months for calendar
+  // responsive months for calendar (tek ay: küçük ekran)
   useEffect(() => {
-    const onResize = () => setMonths(window.innerWidth < 980 ? 1 : 2);
+    const onResize = () => setMonths(window.innerWidth < 640 ? 1 : 2);
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -62,20 +58,11 @@ export default function BookingPage() {
     const base = n * villaInfo.nightlyEUR;
     const cleaning = n > 0 ? CLEANING_FEE : 0;
     const service = (base + cleaning) * SERVICE_FEE_PCT;
-    return {
-      base,
-      cleaning,
-      service,
-      total: base + cleaning + service,
-      deposit: 500
-    };
+    return { base, cleaning, service, total: base + cleaning + service, deposit: 500 };
   }, [n, villaInfo.nightlyEUR]);
 
   const today = startOfToday();
-  const disabledDates = [
-    { before: today },                // no past dates
-    ...BOOKED[villa],                 // block existing reservations
-  ];
+  const disabledDates = [{ before: today }, ...BOOKED[villa]];
 
   const waText = encodeURIComponent(
     [
@@ -92,12 +79,18 @@ export default function BookingPage() {
 
   const canSubmit = n >= MIN_NIGHTS && !overCapacity;
 
+  // sayaç yardımcıları
+  const inc = (setter: (v:number)=>void, val:number, max=99) => setter(Math.min(max, val + 1));
+  const dec = (setter: (v:number)=>void, val:number, min=0)  => setter(Math.max(min, val - 1));
+
   return (
     <>
       {/* HERO */}
       <header className="header">
-        {/* Sabit üst menü – tüm sayfalarda aynı */}
-        <div className="nav-buttons">
+        <div
+          className="nav-buttons"
+          style={{ position: "fixed", top: 24, right: 24, display: "flex", gap: 12, zIndex: 9999 }}
+        >
           <a href="/" className="nav-btn">Home</a>
           <a href="/planner" className="nav-btn">Planner</a>
           <a href="/book" className="nav-btn primary">Book & Enquire</a>
@@ -105,26 +98,23 @@ export default function BookingPage() {
 
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Ahmed Said Dizman</span>
-          <h1 className="title">NEST ULASLI – Book & Enquire</h1>
-          <div className="subtitle">
-            Private luxury villa with concierge service – seamless booking, curated experiences.
-          </div>
+          <h1 className="hero-title">NEST ULASLI – Book & Enquire</h1>
+          <p className="hero-subtitle">Private luxury villa with concierge service – seamless booking, curated experiences.</p>
         </div>
       </header>
 
       {/* CONTENT */}
       <main className="container">
         <section className="shell booking-grid">
-          {/* LEFT: calendar & form */}
+          {/* LEFT */}
           <div className="card stack">
             <div className="section-header">
               <h3 style={{ margin: 0 }}>Availability & Dates</h3>
               <div className="muted">Nightly from <strong>€ {villaInfo.nightlyEUR.toFixed(0)}</strong></div>
             </div>
 
-            {/* Villa + reset */}
             <div className="row">
-              <div>
+              <div className="field">
                 <label className="label">Villa</label>
                 <select
                   aria-label="Select villa"
@@ -141,7 +131,6 @@ export default function BookingPage() {
               </button>
             </div>
 
-            {/* Calendar */}
             <div className="calendar-card">
               <DayPicker
                 mode="range"
@@ -149,7 +138,7 @@ export default function BookingPage() {
                 selected={range}
                 onSelect={(r) => {
                   if (r?.from && r?.to && isBefore(r.to, r.from)) {
-                    setRange({ from: r.to, to: r.from });  // normalize backward selection
+                    setRange({ from: r.to, to: r.from });
                   } else {
                     setRange(r);
                   }
@@ -169,35 +158,33 @@ export default function BookingPage() {
               </div>
             </div>
 
-            {/* Guests */}
+            {/* Guests - counters */}
             <div className="row">
-              <div>
+              <div className="field">
                 <label className="label">Adults</label>
-                <input
-                  type="number"
-                  min={1}
-                  value={adults}
-                  onChange={(e) => setAdults(Math.max(1, Number(e.target.value || 1)))}
-                />
+                <div className="counter">
+                  <button onClick={() => dec(setAdults, adults, 1)} aria-label="Decrease adults">−</button>
+                  <input type="number" min={1} value={adults} onChange={e=>setAdults(Math.max(1, Number(e.target.value||1)))} />
+                  <button onClick={() => inc(setAdults, adults)} aria-label="Increase adults">+</button>
+                </div>
               </div>
-              <div>
+              <div className="field">
                 <label className="label">Children</label>
-                <input
-                  type="number"
-                  min={0}
-                  value={children}
-                  onChange={(e) => setChildren(Math.max(0, Number(e.target.value || 0)))}
-                />
+                <div className="counter">
+                  <button onClick={() => dec(setChildren, children, 0)} aria-label="Decrease children">−</button>
+                  <input type="number" min={0} value={children} onChange={e=>setChildren(Math.max(0, Number(e.target.value||0)))} />
+                  <button onClick={() => inc(setChildren, children)} aria-label="Increase children">+</button>
+                </div>
               </div>
             </div>
+
             {overCapacity && (
-              <div className="error">
+              <div className="error" style={{ color:"#b91c1c" }}>
                 This villa sleeps up to {villaInfo.sleeps}. Please reduce guests or choose the other villa.
               </div>
             )}
 
-            {/* Notes */}
-            <div>
+            <div className="field">
               <label className="label">Special requests</label>
               <textarea
                 value={note}
@@ -208,7 +195,7 @@ export default function BookingPage() {
             </div>
           </div>
 
-          {/* RIGHT: sticky summary */}
+          {/* RIGHT: summary */}
           <aside className="card sticky">
             <h3 style={{ marginTop: 0 }}>Your stay</h3>
             <div className="muted" style={{ marginBottom: 8 }}>
@@ -248,12 +235,13 @@ export default function BookingPage() {
             </table>
 
             {underMinNights && (
-              <div className="error" style={{ marginTop: 8 }}>
+              <div className="error" style={{ marginTop: 8, color:"#b45309" }}>
                 Minimum stay is {MIN_NIGHTS} nights. Please adjust your dates.
               </div>
             )}
 
-            <div className="cta-row">
+            {/* Masaüstü CTA’lar */}
+            <div className="cta-row aside-ctas">
               <a
                 className={`btn primary ${!canSubmit ? "disabled" : ""}`}
                 aria-disabled={!canSubmit}
@@ -279,26 +267,33 @@ export default function BookingPage() {
             </ul>
           </aside>
         </section>
-
-        {/* Reasons */}
-        <section className="card stack shell" style={{ marginTop: 16 }}>
-          <h3 style={{ marginTop: 0 }}>Why book NEST ULASLI</h3>
-          <div className="reasons">
-            <div>
-              <h4>Tailored stays</h4>
-              <p>We design each itinerary around you – from sunrise swims to sunset cruises. Your concierge is one WhatsApp away.</p>
-            </div>
-            <div>
-              <h4>Privacy & space</h4>
-              <p>Private grounds, panoramic sea views and resort-style amenities for families and close friends.</p>
-            </div>
-            <div>
-              <h4>Hotel-level housekeeping</h4>
-              <p>Fresh linens, mid-stay clean and daily refresh on request. Optional breakfast and private chef experiences.</p>
-            </div>
-          </div>
-        </section>
       </main>
+
+      {/* Mobil alt bar – sadece küçük ekranlarda görünür */}
+      <div className="bottom-bar">
+        <div className="info">
+          <span>{range?.from ? format(range.from, "dd MMM") : "—"} → {range?.to ? format(range.to!, "dd MMM") : "—"} · {n} {n===1?"night":"nights"}</span>
+          <span className="total">{euro(price.total)}</span>
+        </div>
+        <div className="actions">
+          <a
+            className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
+            aria-disabled={!canSubmit}
+            href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp
+          </a>
+          <a
+            className={`btn primary ${!canSubmit ? "disabled" : ""}`}
+            aria-disabled={!canSubmit}
+            href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry – ${villaInfo.name}&body=${waText}` : undefined}
+          >
+            Book
+          </a>
+        </div>
+      </div>
     </>
   );
 }
