@@ -129,7 +129,7 @@ export default function BookingPage() {
 
       <main className="container">
         {/* grid: summary emphasized */}
-        <section className="shell booking-grid booking-grid--wider-summary">
+        <section className="shell booking-grid booking-grid--summary-dominant">
           {/* SUMMARY */}
           <aside className="card summary-card sticky">
             <div className="summary-head">
@@ -258,7 +258,7 @@ export default function BookingPage() {
             </div>
 
             {/* compact calendar w/ legend */}
-            <div className="calendar-card compact-picker shrink-50 panel">
+            <div className="calendar-card compact-picker shrink-65 panel">
               <DayPicker
                 mode="range"
                 numberOfMonths={months}
