@@ -12,7 +12,6 @@ const VILLAS: Record<VillaKey, { name: string; nightlyEUR: number; sleeps: numbe
   ZEHRA: { name: "ZEHRA", nightlyEUR: 550, sleeps: 6 },
 };
 
-// demo booked ranges – replace with real availability as needed
 const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
   ALYA: [
     { from: new Date(new Date().getFullYear(), 6, 12), to: new Date(new Date().getFullYear(), 6, 18) },
@@ -26,7 +25,7 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
 // pricing
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
-const EXTRA_GUEST_FEE_EUR = 200;   // per extra guest (older than 2 yrs), PER NIGHT
+const EXTRA_GUEST_FEE_EUR = 200;   // per extra guest (>2 yrs) per night
 const INCLUDED_GUESTS = 2;
 
 // booking policy
@@ -45,33 +44,27 @@ export default function BookingPage() {
   const [range, setRange] = useState<DateRange | undefined>();
   const [adults, setAdults] = useState(2);
   const [childrenOver2, setChildrenOver2] = useState(0);
-  const [infants02, setInfants02] = useState(0); // 0–2 years (free)
+  const [infants02, setInfants02] = useState(0);
   const [note, setNote] = useState("");
-  const [months, setMonths] = useState<number>(2);
+  const [months, setMonths] = useState<number>(1); // compact: 1 month everywhere
 
-  // responsive months for calendar
   useEffect(() => {
-    const onResize = () => setMonths(window.innerWidth < 980 ? 1 : 2);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    // still keep 1 month on all screens for a concise UI
+    setMonths(1);
   }, []);
 
   const n = nightsOf(range);
   const villaInfo = VILLAS[villa];
-
-  // Capacity check (infants don't count towards surcharge; keep capacity rule simple)
   const partySizeExclInfants = adults + childrenOver2;
   const overCapacity = partySizeExclInfants > villaInfo.sleeps;
   const underMinNights = n > 0 && n < MIN_NIGHTS;
 
-  // ------- Pricing logic with extra-guest rule -------
   const extraGuests = Math.max(0, partySizeExclInfants - INCLUDED_GUESTS);
   const price = useMemo(() => {
     const base = n * villaInfo.nightlyEUR;
     const extraGuestFee = n > 0 ? n * EXTRA_GUEST_FEE_EUR * extraGuests : 0;
     const cleaning = n > 0 ? CLEANING_FEE : 0;
-    const service = (base + cleaning + extraGuestFee) * SERVICE_FEE_PCT;
+    const service = (base + extraGuestFee + cleaning) * SERVICE_FEE_PCT;
     return {
       base,
       extraGuestFee,
@@ -82,7 +75,6 @@ export default function BookingPage() {
     };
   }, [n, villaInfo.nightlyEUR, extraGuests]);
 
-  // calendar disable rules
   const today = startOfToday();
   const disabledDates = [{ before: today }, ...BOOKED[villa]];
 
@@ -102,9 +94,13 @@ export default function BookingPage() {
 
   const canSubmit = n >= MIN_NIGHTS && !overCapacity;
 
+  // helper for options
+  const options = (from: number, to: number) =>
+    Array.from({ length: to - from + 1 }, (_, i) => from + i);
+
   return (
     <>
-      {/* HERO with global nav (Home / Planner / Book) */}
+      {/* HERO with global nav */}
       <header className="header">
         <div className="nav-buttons">
           <a href="/" className="nav-btn">Home</a>
@@ -120,113 +116,10 @@ export default function BookingPage() {
         </div>
       </header>
 
-      {/* CONTENT */}
       <main className="container">
-        <section className="shell booking-grid">
-          {/* LEFT: calendar & form */}
-          <div className="card stack">
-            <div className="section-header">
-              <h3 style={{ margin: 0 }}>Availability</h3>
-              <div className="muted">Nightly from <strong>€ {villaInfo.nightlyEUR.toFixed(0)}</strong></div>
-            </div>
-
-            {/* Villa + reset */}
-            <div className="row">
-              <div>
-                <label className="label">Villa</label>
-                <select
-                  aria-label="Select villa"
-                  value={villa}
-                  onChange={(e) => { setVilla(e.target.value as VillaKey); setRange(undefined); }}
-                >
-                  <option value="ALYA">ALYA — sleeps 8</option>
-                  <option value="ZEHRA">ZEHRA — sleeps 6</option>
-                </select>
-              </div>
-              <div className="spacer" />
-              <button className="ghost" onClick={() => setRange(undefined)} aria-label="Reset dates">
-                Reset dates
-              </button>
-            </div>
-
-            {/* Calendar */}
-            <div className="calendar-card">
-              <DayPicker
-                mode="range"
-                numberOfMonths={months}
-                selected={range}
-                onSelect={(r) => {
-                  if (r?.from && r?.to && isBefore(r.to, r.from)) {
-                    setRange({ from: r.to, to: r.from });
-                  } else {
-                    setRange(r);
-                  }
-                }}
-                fromDate={today}
-                disabled={disabledDates}
-                captionLayout="dropdown"
-                pagedNavigation
-                styles={{
-                  day: { borderRadius: 10 },
-                  day_selected: { backgroundColor: "#0ea5b7", color: "white" },
-                  day_range_middle: { backgroundColor: "rgba(14,165,183,.15)" }
-                }}
-              />
-              <div className="helper">
-                Greyed dates are unavailable. Minimum stay {MIN_NIGHTS} nights in peak periods.
-              </div>
-            </div>
-
-            {/* Guests */}
-            <div className="row">
-              <div>
-                <label className="label">Adults</label>
-                <input
-                  type="number"
-                  min={1}
-                  value={adults}
-                  onChange={(e) => setAdults(Math.max(1, Number(e.target.value || 1)))}
-                />
-              </div>
-              <div>
-                <label className="label">Children (over 2)</label>
-                <input
-                  type="number"
-                  min={0}
-                  value={childrenOver2}
-                  onChange={(e) => setChildrenOver2(Math.max(0, Number(e.target.value || 0)))}
-                />
-              </div>
-              <div>
-                <label className="label">Infants (0–2)</label>
-                <input
-                  type="number"
-                  min={0}
-                  value={infants02}
-                  onChange={(e) => setInfants02(Math.max(0, Number(e.target.value || 0)))}
-                />
-              </div>
-            </div>
-
-            {overCapacity && (
-              <div className="error">
-                This villa sleeps up to {villaInfo.sleeps}. Please reduce guests or choose the other villa.
-              </div>
-            )}
-
-            {/* Notes */}
-            <div>
-              <label className="label">Special requests</label>
-              <textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="Airport transfer, private chef, daily breakfast, yacht charter, nanny…"
-                rows={4}
-              />
-            </div>
-          </div>
-
-          {/* RIGHT: sticky summary */}
+        {/* Make summary more relevant – place it first on mobile */}
+        <section className="shell booking-grid booking-grid--compact">
+          {/* RIGHT (on desktop): sticky summary */}
           <aside className="card sticky summary">
             <h3 style={{ marginTop: 0 }}>Your stay</h3>
             <div className="muted" style={{ marginBottom: 8 }}>
@@ -298,13 +191,117 @@ export default function BookingPage() {
                 Request to Book
               </a>
             </div>
-
-            <ul className="bullets">
-              <li>Concierge can arrange private chef, daily housekeeping, yacht, car hire, massages and childcare.</li>
-              <li>Check-in 16:00, check-out 11:00. No smoking indoors. Pets on request.</li>
-              <li>Flexible cancellation – ask your concierge for current terms.</li>
-            </ul>
           </aside>
+
+          {/* LEFT (on desktop): compact calendar + selectors */}
+          <div className="card stack">
+            <div className="section-header">
+              <h3 style={{ margin: 0 }}>Availability</h3>
+              <div className="muted">Nightly from <strong>€ {villaInfo.nightlyEUR.toFixed(0)}</strong></div>
+            </div>
+
+            {/* Villa + reset */}
+            <div className="row">
+              <div>
+                <label className="label">Villa</label>
+                <select
+                  aria-label="Select villa"
+                  value={villa}
+                  onChange={(e) => { setVilla(e.target.value as VillaKey); setRange(undefined); }}
+                >
+                  <option value="ALYA">ALYA — sleeps 8</option>
+                  <option value="ZEHRA">ZEHRA — sleeps 6</option>
+                </select>
+              </div>
+              <div className="spacer" />
+              <button className="ghost" onClick={() => setRange(undefined)} aria-label="Reset dates">
+                Reset dates
+              </button>
+            </div>
+
+            {/* Compact Calendar */}
+            <div className="calendar-card compact-picker">
+              <DayPicker
+                mode="range"
+                numberOfMonths={months}                 // 1 month – concise
+                selected={range}
+                onSelect={(r) => {
+                  if (r?.from && r?.to && isBefore(r.to, r.from)) {
+                    setRange({ from: r.to, to: r.from });
+                  } else {
+                    setRange(r);
+                  }
+                }}
+                fromDate={today}
+                disabled={disabledDates}
+                showOutsideDays
+                captionLayout="dropdown"
+                pagedNavigation
+                styles={{
+                  caption: { fontWeight: 700, fontSize: 14 },
+                  head_cell: { fontSize: 12, color: "#64748b" },
+                  day: { width: 34, height: 34, margin: 2, borderRadius: 8 },
+                  day_selected: { backgroundColor: "#0ea5b7", color: "#fff" },
+                  day_range_middle: { backgroundColor: "rgba(14,165,183,.15)", color: "#0f172a" },
+                  nav_button: { width: 28, height: 28, borderRadius: 8 }
+                }}
+              />
+              <div className="helper">
+                Greyed dates are unavailable. Minimum stay {MIN_NIGHTS} nights in peak periods.
+              </div>
+            </div>
+
+            {/* Elegant guest selectors (dropdowns) */}
+            <div className="row elite-row">
+              <div className="elite-field">
+                <label className="label">Adults</label>
+                <div className="select-wrap">
+                  <select
+                    value={adults}
+                    onChange={(e) => setAdults(Number(e.target.value))}
+                  >
+                    {options(1, 12).map(v => <option key={`ad-${v}`} value={v}>{v}</option>)}
+                  </select>
+                </div>
+              </div>
+
+              <div className="elite-field">
+                <label className="label">Children (over 2)</label>
+                <div className="select-wrap">
+                  <select
+                    value={childrenOver2}
+                    onChange={(e) => setChildrenOver2(Number(e.target.value))}
+                  >
+                    {options(0, 12).map(v => <option key={`ch-${v}`} value={v}>{v}</option>)}
+                  </select>
+                </div>
+              </div>
+
+              <div className="elite-field">
+                <label className="label">Infants (0–2)</label>
+                <div className="select-wrap">
+                  <select
+                    value={infants02}
+                    onChange={(e) => setInfants02(Number(e.target.value))}
+                  >
+                    {options(0, 6).map(v => <option key={`in-${v}`} value={v}>{v}</option>)}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Luxe notes */}
+            <div className="elite-field">
+              <label className="label">Special requests</label>
+              <textarea
+                className="textarea luxe"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="Airport transfer, private chef, daily breakfast, yacht charter, nanny…"
+                rows={3}
+              />
+            </div>
+          </div>
         </section>
 
         {/* Reasons */}
