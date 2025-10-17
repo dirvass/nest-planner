@@ -23,9 +23,10 @@ body{
   border-bottom:1px solid var(--border);
   background:
     linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25)),
-    url("/hero.jpg") center top/cover no-repeat; /* tüm resim görünsün */
+    url("/hero.jpg") center center/contain no-repeat; /* contain = resmi kesmeden göster */
+  background-color:#000; /* kenarlarda boşluk varsa siyah doldurur */
   color:#fff;
-  height:520px;                /* 340px → 520px */
+  height:100vh;                 /* tam ekran yüksekliği */
   display:flex;
   align-items:flex-end;
 }
