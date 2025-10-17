@@ -1,3 +1,8 @@
+<div className="nav-buttons">
+  <a href="/" className="nav-btn">Home</a>
+  <a href="/planner" className="nav-btn">Planner</a>
+  <a href="/book" className="nav-btn primary">Book & Enquire</a>
+</div>
 import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
 import { addDays, differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
