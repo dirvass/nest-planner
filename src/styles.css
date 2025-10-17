@@ -305,3 +305,22 @@ thead th.sticky{ position:sticky; top:0; z-index:1; background:#f1f5f9 }
 
 /* Küçük buton boyutları */
 .btn, .nav-btn, .hero-btn{ touch-action:manipulation }
+/* ---- Site-wide fixed background image (light) ---- */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;                         /* always behind content */
+  background: url("/hero.jpg") center/cover no-repeat;
+  opacity:.18;                        /* faint look */
+  filter: saturate(.9);
+  pointer-events:none;
+}
+
+/* optional: subtle white wash for extra “light” feel */
+body::after{
+  content:"";
+  position:fixed; inset:0; z-index:-1;
+  background: linear-gradient(to bottom, rgba(255,255,255,.35), rgba(255,255,255,.25));
+  pointer-events:none;
+}
