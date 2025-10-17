@@ -334,9 +334,9 @@ export default function App() {
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <div style={{ fontSize: 12, color: "#64748b", marginTop: 8 }}>
-            * İlk 2 yıl pazarlama giderleri nedeniyle ROI = 0 kabul edilmiştir. Tüm hesaplamalar EUR bazlıdır, görüntüleme seçilen kur ile yapılır.
-            <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
+          <div style={{ fontSize: 12, color: "#64748b", marginTop: 8, whiteSpace: "pre-line" }}>
+  * İlk 2 yıl pazarlama giderleri nedeniyle ROI = 0 kabul edilmiştir. 
+  Tüm hesaplamalar EUR bazlıdır, görüntüleme seçilen kur ile yapılır.{'\n'}
   **EBITDA = faiz, vergi, yıpranma payı ve amortisman öncesi kâr
 </div>
         </div>
