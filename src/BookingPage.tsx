@@ -113,26 +113,23 @@ export default function BookingPage() {
 
   return (
     <>
+      {/* HERO */}
       <header className="header">
-        <div className="nav-buttons">
-          <a href="/" className="nav-btn">Home</a>
-          <a href="/planner" className="nav-btn">Planner</a>
-          <a href="/book" className="nav-btn primary">Book & Enquire</a>
-        </div>
+        <TopNav />
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Dizman</span>
-          <h1 className="title">NEST ULASLI – Book & Enquire</h1>
+          <h1 className="hero-title">NEST ULASLI – Book & Enquire</h1>
           <div className="subtitle">
             Includes daily breakfast • bicycles • table tennis. For 7+ nights: return transfers & 1× floating breakfast.
           </div>
         </div>
       </header>
 
+      {/* CONTENT */}
       <main className="container">
-        {/* grid: summary emphasized */}
         <section className="shell booking-grid booking-grid--summary-dominant">
-          {/* SUMMARY */}
-          <aside className="card summary-card sticky">
+          {/* SUMMARY (left, big) */}
+          <aside className="summary summary-card sticky">
             <div className="summary-head">
               <div className="summary-total">{euro(total)}</div>
               <div className="summary-sub muted">
@@ -213,31 +210,28 @@ export default function BookingPage() {
             )}
 
             <div className="included">
-              <span className="badge badge-soft">Daily breakfast</span>
-              <span className="badge badge-soft">Bicycles</span>
-              <span className="badge badge-soft">Table tennis</span>
+              <span className="badge-soft">Daily breakfast</span>
+              <span className="badge-soft">Bicycles</span>
+              <span className="badge-soft">Table tennis</span>
               {n >= TRANSFER_INCLUDED_NIGHTS && (
                 <>
-                  <span className="badge badge-soft">Return transfers</span>
-                  <span className="badge badge-soft">1× Floating breakfast</span>
+                  <span className="badge-soft">Return transfers</span>
+                  <span className="badge-soft">1× Floating breakfast</span>
                 </>
               )}
             </div>
           </aside>
 
-          {/* LEFT: availability & form */}
-          <div className="card stack">
-            <div className="section-header">
-              <h3 style={{ margin: 0 }}>Availability</h3>
-              <div className="muted">Nightly from <strong>€ {villaInfo.nightlyEUR.toFixed(0)}</strong></div>
-            </div>
-
-            {/* chips */}
-            <div className="chips">
-              <span className="chip">{chips.d}</span>
-              <span className="chip">{chips.nightsTxt}</span>
-              <span className="chip">{chips.partyTxt}</span>
-              <span className="chip chip-soft">{chips.fromTxt}</span>
+          {/* AVAILABILITY + FORM (right, compact calendar) */}
+          <div className="panel stack">
+            <div className="panel-head">
+              <h3 className="panel-title">Availability</h3>
+              <div className="chips">
+                <span className="chip">{chips.d}</span>
+                <span className="chip">{chips.nightsTxt}</span>
+                <span className="chip">{chips.partyTxt}</span>
+                <span className="chip chip-soft">{chips.fromTxt}</span>
+              </div>
             </div>
 
             <div className="row">
@@ -258,8 +252,8 @@ export default function BookingPage() {
               </button>
             </div>
 
-            {/* compact calendar w/ legend */}
-            <div className="calendar-card compact-picker shrink-65 panel">
+            {/* compact calendar with legend */}
+            <div className="calendar-card compact-picker shrink-65">
               <DayPicker
                 mode="range"
                 numberOfMonths={months}
@@ -286,9 +280,9 @@ export default function BookingPage() {
                 }}
               />
               <div className="calendar-legend">
-                <span className="dot dot-sel" /> Selected
-                <span className="dot dot-un" /> Unavailable
-                <span className="dot dot-av" /> Available
+                <span><span className="dot dot-sel" /> Selected</span>
+                <span><span className="dot dot-un" /> Unavailable</span>
+                <span><span className="dot dot-av" /> Available</span>
               </div>
             </div>
 
