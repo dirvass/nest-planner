@@ -1,11 +1,5 @@
-import TopNav from "./components/TopNav";
-<div className="nav-buttons">
-  <a href="/" className="nav-btn">Home</a>
-  <a href="/planner" className="nav-btn">Planner</a>
-  <a href="/book" className="nav-btn primary">Book & Enquire</a>
-</div>
-
 import React, { useEffect, useMemo, useState } from "react";
+import TopNav from "./components/TopNav";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
 } from "recharts";
@@ -33,7 +27,11 @@ export default function PlannerPage() {
   useEffect(() => {
     fetch("https://api.exchangerate.host/latest?base=EUR&symbols=USD,GBP")
       .then(r => r.json())
-      .then(d => d?.rates && setRates(prev => ({ ...prev, USD: d.rates.USD ?? prev.USD, GBP: d.rates.GBP ?? prev.GBP })))
+      .then(d => d?.rates && setRates(prev => ({
+        ...prev,
+        USD: d.rates.USD ?? prev.USD,
+        GBP: d.rates.GBP ?? prev.GBP
+      })))
       .catch(() => {});
   }, []);
 
@@ -115,14 +113,10 @@ export default function PlannerPage() {
     <>
       {/* HERO */}
       <header className="header">
-        <div className="header-inner">
-          <div className="hero-actions">
-            <a href="/" className="pill">Home</a>
-            <a href="/book" className="pill pill-primary">Book & Enquire</a>
-          </div>
-
+        <TopNav />
+        <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Ahmed Said Dizman</span>
-          <h1 className="hero-title">NEST ULASLI</h1>
+          <h1 className="hero-title">NEST ULAŞLI</h1>
           <p className="hero-subtitle">Annual Profit Planner - villa gelir–gider ve ROI senaryoları</p>
         </div>
       </header>
@@ -174,20 +168,29 @@ export default function PlannerPage() {
                     </td>
                     <td>
                       <span>€ </span>
-                      <input type="number" value={r.dailyFee}
+                      <input
+                        type="number"
+                        value={r.dailyFee}
                         onChange={e => update(r.id, { dailyFee: Number(e.target.value || 0) })}
-                        style={{ width: 90 }} />
+                        style={{ width: 90 }}
+                      />
                       <span>/gece</span>
                     </td>
                     <td>
-                      <input type="number" min={0} max={100} value={Math.round(r.occupancy * 100)}
+                      <input
+                        type="number" min={0} max={100}
+                        value={Math.round(r.occupancy * 100)}
                         onChange={e => update(r.id, { occupancy: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })}
-                        style={{ width: 60 }} />%
+                        style={{ width: 60 }}
+                      />%
                     </td>
                     <td>
-                      <input type="number" min={0} max={100} value={Math.round(r.costPct * 100)}
+                      <input
+                        type="number" min={0} max={100}
+                        value={Math.round(r.costPct * 100)}
                         onChange={e => update(r.id, { costPct: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })}
-                        style={{ width: 60 }} />%
+                        style={{ width: 60 }}
+                      />%
                     </td>
                     <td>{symbols[currency]} {fmt2(fx(r.ebitdaEUR))}</td>
                     <td>{symbols[currency]} {fmt2(fx(r.netEUR))}</td>
