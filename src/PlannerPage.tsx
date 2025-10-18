@@ -1,3 +1,4 @@
+import TopNav from "./components/TopNav";
 <div className="nav-buttons">
   <a href="/" className="nav-btn">Home</a>
   <a href="/planner" className="nav-btn">Planner</a>
