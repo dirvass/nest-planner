@@ -475,3 +475,52 @@ select,input,button,textarea{ min-height: 40px; }
 /* 2.9 – Table: horizontal scroll on mobile (planner) */
 .table-wrap{ overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table{ min-width: 720px; }  /* allow scroll instead of squish on phones */
+/* Prevent horizontal scroll on mobile when calendar is scaled */
+html, body { overflow-x: hidden; }
+.no-overflow { overflow: hidden; max-width: 100%; }
+
+/* Booking grid - summary first on mobile, calendar second */
+.booking-grid.booking-grid--summary-dominant{
+  grid-template-columns: 1.1fr 0.65fr;
+  gap: 18px;
+}
+@media (max-width: 980px){
+  .booking-grid.booking-grid--summary-dominant{
+    grid-template-columns: 1fr;
+  }
+  /* Put summary before the calendar on small screens */
+  .summary{ order: -1; }
+}
+
+/* Compact DayPicker - keep small on all screens and especially mobile */
+.shrink-65 .rdp{ transform: scale(0.60); transform-origin: top left; }
+@media (max-width: 980px){
+  .shrink-65 .rdp{ transform: scale(0.70); }  /* slightly larger but still compact */
+}
+
+/* Sticky bottom booking bar - visible on mobile only */
+.bottom-bar{
+  position: sticky; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  padding: 10px 12px;
+  display: none; align-items: center; gap: 10px; z-index: 50;
+}
+.bottom-bar .info{ display:flex; flex-direction:column; line-height:1.15 }
+.bottom-bar .total{ font-weight: 800; font-size: 16px }
+.bottom-bar .sub{ color: var(--muted); font-size: 12px }
+.bottom-bar .actions{ display:flex; gap:8px; margin-left:auto }
+.bottom-bar .btn{ height: 36px; display:inline-flex; align-items:center; }
+
+@media (max-width: 980px){
+  .bottom-bar{ display: flex; }
+  /* hide duplicate CTAs in sidebar on mobile to avoid double actions */
+  .summary-ctas{ display: none; }
+}
+
+/* Make select controls easier to tap on mobile */
+.select-wrap select{ min-height: 40px; }
+
+/* Make the calendar card truly fluid */
+.calendar-card{ max-width: 100%; }
