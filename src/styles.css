@@ -7,16 +7,18 @@
   --border:#e2e8f0;
 }
 
-/* ---------------- Base & Background ---------------- */
+/* ---------- Base ---------- */
 *{ box-sizing:border-box }
 html,body,#root{ height:100% }
+html, body { overflow-x: hidden; }
 body{
   margin:0;
   font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background:var(--bg);
   color:var(--ink);
 }
-/* site-wide fixed hero image in light tone */
+
+/* Site-wide fixed hero image in light tone */
 body::before{
   content:""; position:fixed; inset:0; z-index:-2;
   background:url("/hero.jpg") center/cover no-repeat; opacity:.18; filter:saturate(.9);
@@ -28,11 +30,11 @@ body::after{
   pointer-events:none;
 }
 
-/* ---------------- Hero (landing + shared) ---------------- */
+/* ---------- Hero (shared) ---------- */
 .header{
   position:relative; overflow:hidden; border-bottom:1px solid var(--border);
   background:
-    linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.25)),
+    linear-gradient(180deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.35) 40%, rgba(0,0,0,.25) 100%),
     url("/hero.jpg") center/cover no-repeat;
   color:#fff; height:100vh; display:flex; align-items:flex-end; background-attachment:fixed;
 }
@@ -40,21 +42,28 @@ body::after{
   position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
   text-align:center; max-width:1100px; width:100%; color:#fff;
 }
-.badge{ display:inline-block; padding:8px 14px; background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,255,255,.35); border-radius:999px; font-size:14px; backdrop-filter:blur(6px) }
-.hero-title{ font-size:64px; font-weight:900; letter-spacing:1px; margin:18px 0 8px; text-shadow:0 2px 12px rgba(0,0,0,.45) }
-.hero-subtitle{ font-size:16px; color:#e2e8f0; letter-spacing:.3px; opacity:.95; margin:0 }
-.hero-buttons{ display:flex; gap:20px; justify-content:center; margin-top:32px }
-.hero-btn{
-  display:inline-block; padding:14px 36px; border-radius:999px; border:1px solid rgba(255,255,255,.7);
-  background:rgba(255,255,255,.25); color:#fff; text-decoration:none; font-size:18px; font-weight:600;
-  backdrop-filter:blur(10px); transition:all .3s ease; box-shadow:0 4px 20px rgba(0,0,0,.15);
+.badge{
+  display:inline-block; padding:8px 14px; background:rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.35); border-radius:999px; font-size:14px; backdrop-filter:blur(6px)
 }
-.hero-btn:hover{ background:rgba(255,255,255,.85); color:#0f172a; transform:translateY(-2px) }
-.hero-btn.primary{ background:#fff; color:#0f172a; border:none }
-.hero-btn.primary:hover{ background:#f8fafc; transform:translateY(-2px) }
+.hero-title{ font-size:64px; font-weight:900; letter-spacing:1px; margin:18px 0 8px; text-shadow:0 2px 12px rgba(0,0,0,.45) }
+.subtitle{ font-size:16px; color:#e2e8f0; letter-spacing:.3px; opacity:.95; margin:0 }
 
-/* ---------------- Generic layout ---------------- */
+/* Top right nav (TopNav) */
+.nav-buttons{
+  position: fixed; top: 20px; right: 20px; display:flex; gap:12px; z-index: 1000;
+}
+.nav-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 18px; border-radius:999px; text-decoration:none; font-weight:700; letter-spacing:.2px;
+  border:1px solid rgba(255,255,255,.6); background:rgba(0,0,0,.5); color:#fff; backdrop-filter:blur(6px);
+  transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.nav-btn:hover{ background:rgba(255,255,255,.15); transform:translateY(-1px) }
+.nav-btn.primary{ background:#fff; color:#0f172a; border:none }
+.nav-btn.primary:hover{ background:#f8fafc }
+
+/* ---------- Generic layout ---------- */
 .container{ max-width:1100px; margin:0 auto; padding:0 16px; margin-top:-60px; position:relative; z-index:2 }
 .card,.panel,.summary{
   background:var(--card); border:1px solid var(--border); border-radius:16px;
@@ -63,45 +72,48 @@ body::after{
 .helper{ font-size:12px; color:var(--muted) }
 .stack > * + * { margin-top:16px }
 
-/* ---------------- Booking layout (compact, premium) ---------------- */
+/* ---------- Booking layout ---------- */
 .booking-grid{ display:grid; gap:18px; margin-top:-52px }
-.booking-grid.booking-grid--summary-dominant{ grid-template-columns: 1.1fr 0.65fr } /* summary bigger */
-@media (max-width:1200px){ .booking-grid.booking-grid--summary-dominant{ grid-template-columns:1fr .8fr } }
+.booking-grid--summary-dominant{ grid-template-columns: 1.1fr 0.65fr }  /* summary bigger */
+@media (max-width:1200px){ .booking-grid--summary-dominant{ grid-template-columns:1fr .8fr } }
 @media (max-width:980px){ .booking-grid{ grid-template-columns:1fr; margin-top:-36px } .summary{ order:-1 } }
 
-/* Left: availability calendar panel */
 .panel-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:10px }
 .panel-title{ margin:0; font-size:18px }
 .chips{ display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 10px }
 .chip{ padding:6px 12px; border-radius:999px; background:#fff; border:1px solid var(--border); font-size:12.5px;
   box-shadow:0 2px 10px rgba(2,8,23,.05); color:#334155 }
 
-/* DayPicker – compact & glassy */
-.calendar-card{ padding:8px 10px 6px; border-radius:18px; background:rgba(255,255,255,.65);
+/* ---------- DayPicker – compact & glassy ---------- */
+.no-overflow{ overflow:hidden; max-width:100% }
+.calendar-card{ padding:10px; border-radius:16px; background:rgba(255,255,255,.65);
   backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.3) }
-.shrink-65 .rdp{ transform:scale(.60); transform-origin:top left; opacity:.9 }
+.shrink-65 .rdp{ transform:scale(.68); transform-origin:top left; }
+@media (max-width:980px){ .shrink-65 .rdp{ transform:scale(.78); } }
 .rdp{ --rdp-accent-color:var(--brand); --rdp-background-color:rgba(14,165,183,.12); margin:6px 0 }
 .rdp-caption_label{ font-weight:600; font-size:13px }
 .calendar-legend{ display:flex; justify-content:space-between; gap:12px; color:#64748b; font-size:11px; margin-top:4px }
 .calendar-legend .dot{ width:10px; height:10px; border-radius:50%; border:1px solid #cbd5e1; background:#fff; display:inline-block }
 .dot-sel{ background:#0ea5b7; border-color:#0ea5b7 } .dot-un{ background:#e2e8f0 } .dot-av{ background:#fff }
 
-/* Guest & notes fields */
-.elite-row{ display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap }
+/* ---------- Inputs ---------- */
+.row{ display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap }
 .elite-field{ min-width:140px }
+.label{ display:block; font-size:12px; color:#64748b; margin-bottom:6px }
 .select-wrap{ position:relative; width:120px; display:inline-block }
 .select-wrap select{
   appearance:none; width:100%; padding:10px 36px 10px 12px; border:1px solid var(--border); border-radius:12px;
   background:linear-gradient(to bottom,#fff,#f8fafc); font-weight:600; box-shadow:0 4px 18px rgba(2,8,23,.05); cursor:pointer
 }
 .select-wrap::after{ content:"▾"; position:absolute; right:10px; top:50%; transform:translateY(-50%); color:#64748b; font-size:14px; pointer-events:none }
+
 .textarea.luxe{
   width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:14px; background:linear-gradient(to bottom,#fff,#f9fafb);
   box-shadow:0 8px 24px rgba(2,8,23,.06); resize:vertical; transition:all .3s ease
 }
 .textarea.luxe:focus{ outline:none; border-color:var(--brand); box-shadow:0 0 0 3px rgba(14,165,183,.2) }
 
-/* Right: premium summary */
+/* ---------- Summary ---------- */
 .summary-card .summary-head{ text-align:left }
 .summary-card .summary-total{ font-size:46px; font-weight:900; letter-spacing:-.5px }
 .summary-card .summary-sub{ margin-top:4px; font-size:13px }
@@ -111,26 +123,22 @@ body::after{
 }
 .summary-lines .line{
   display:grid; grid-template-columns:1.2fr auto auto; gap:12px; align-items:center;
-  padding:5px 0; border-bottom:1px dashed #e5e7eb
+  padding:6px 0; border-bottom:1px dashed #e5e7eb
 }
 .summary-lines .line:last-child{ border-bottom:none }
 .summary-lines .hint{ font-size:11.5px; color:#94a3b8; font-style:italic }
-.price-table{ width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums }
-.price-table td{ padding:8px 0 }
 .badge-soft{
   background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0; border-radius:999px; padding:4px 9px; font-size:11px
 }
 .summary-ctas{ display:flex; gap:8px; margin-top:12px }
-.summary-ctas .btn{
-  border-radius:14px; font-weight:700; letter-spacing:.2px; padding:12px 20px; transition:all .3s ease
-}
+.btn{ display:inline-flex; align-items:center; justify-content:center; padding:12px 18px; border-radius:14px; font-weight:700; }
 .btn.primary{ background:var(--brand); color:#fff; border:none }
-.btn.primary:hover{ filter:brightness(1.1); transform:translateY(-2px) }
+.btn.primary:hover{ filter:brightness(1.05) }
 .btn.ghost{ background:#f8fafc; border:1px solid var(--border); color:var(--ink) }
-.btn.ghost:hover{ background:#fff; transform:translateY(-2px) }
+.btn.ghost:hover{ background:#fff }
 .btn.disabled{ opacity:.5; pointer-events:none }
 
-/* Extras (optional) */
+/* ---------- Extras ---------- */
 .extras{ margin-top:8px } .extras-title{ margin:0 0 8px }
 .extras-row{ display:flex; gap:16px; flex-wrap:wrap }
 .switch{
@@ -146,359 +154,22 @@ body::after{
 .switch .switch-label{ display:flex; flex-direction:column; line-height:1.1 }
 .switch .switch-label span{ color:#64748b; font-size:12px }
 
-/* ---------------- Tables (generic) ---------------- */
-table{ width:100%; border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums }
-thead th{ background:#f1f5f9; text-align:left; padding:10px }
+/* ---------- Tables (planner) ---------- */
+.table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch }
+table{ width:100%; min-width:720px; border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums }
+thead th{ background:#f1f5f9; text-align:left; padding:10px; position:sticky; top:0; z-index:1 }
 td{ border-top:1px solid var(--border); padding:10px }
-thead th.sticky{ position:sticky; top:0; z-index:1; background:#f1f5f9 }
 
-/* ---------------- Responsive tweaks ---------------- */
+/* ---------- Mobile tweaks ---------- */
 @media (max-width:768px){
   .header{ background-attachment:scroll; height:75vh }
-  .hero-title{ font-size:36px } .hero-subtitle{ font-size:14px }
-  .container{ margin-top:-40px } .card{ padding:12px }
+  .header-inner{ padding:0 16px }
+  .hero-title{ font-size:36px } .subtitle{ font-size:14px }
+  .container{ margin-top:-40px } .card,.panel,.summary{ padding:12px }
   .summary-card .summary-total{ font-size:34px }
-  .shrink-65 .rdp{ transform:scale(.75) }
-}
-/* Stronger overlay for readability on bright hero areas */
-.header{
-  background:
-    linear-gradient(180deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.35) 40%, rgba(0,0,0,.25) 100%),
-    url("/hero.jpg") center center/cover no-repeat;
 }
 
-/* CTA group */
-.hero-cta{
-  display:flex;
-  gap:16px;
-  justify-content:center;
-  align-items:center;
-  margin-top:20px;
-  flex-wrap:wrap;            /* mobile-safe */
-}
-
-/* Modern pill buttons (glassy) */
-.hero-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 28px;
-  border-radius:999px;
-  font-weight:700;
-  letter-spacing:.2px;
-  text-decoration:none;
-  border:1px solid rgba(255,255,255,.55);
-  color:#fff;
-  background:rgba(255,255,255,.16);
-  backdrop-filter:blur(10px);
-  box-shadow:0 8px 28px rgba(0,0,0,.25);
-  transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
-}
-
-.hero-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 32px rgba(0,0,0,.35);
-  background:rgba(255,255,255,.22);
-}
-
-/* Primary stands out as the main action */
-.hero-btn.primary{
-  border:none;
-  color:#0f172a;
-  background:#ffffff;
-  box-shadow:0 10px 30px rgba(255,255,255,.35), 0 6px 22px rgba(0,0,0,.25);
-}
-
-.hero-btn.primary:hover{
-  background:#f8fafc;
-}
-
-/* Optional "ghost" style for secondary */
-.hero-btn.ghost{
-  border:1px solid rgba(255,255,255,.6);
-  color:#fff;
-  background:rgba(0,0,0,.28);
-}
-
-/* Mobile tightening */
-@media (max-width: 640px){
-  .hero-btn{ padding:12px 20px; }
-  .hero-cta{ gap:12px; }
-}
-/* --- Hero CTA butonları görünür & modern --- */
-.hero-cta{
-  display:flex;
-  gap:16px;
-  justify-content:center;
-  margin-top:24px;
-  position:relative;
-  z-index:2;
-}
-
-.hero-btn{
-  display:inline-block;
-  padding:12px 24px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.6);
-  background:rgba(255,255,255,.18);
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-  letter-spacing:.2px;
-  backdrop-filter:blur(8px);
-  box-shadow:0 6px 24px rgba(0,0,0,.25);
-  transition:transform .2s ease, filter .2s ease, background .2s ease;
-}
-
-.hero-btn:hover{
-  background:rgba(255,255,255,.85);
-  color:#0f172a;
-  transform:translateY(-2px);
-}
-
-.hero-btn.primary{
-  background:#fff;
-  color:#0f172a;
-  border:none;
-}
-
-.hero-btn.primary:hover{
-  filter:brightness(0.98);
-  transform:translateY(-2px);
-}
-
-.hero-btn.ghost{
-  background:rgba(0,0,0,.35);
-  border:1px solid rgba(255,255,255,.35);
-}
-
-/* Varsayılan link rengi çiğ ise bastır */
-.header a{ color:inherit; }
-/* ---- Navigation / Hero Buttons: refined luxury style ---- */
-.nav-buttons, .hero-cta {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  align-items: center;
-  margin-top: 24px;
-  z-index: 10;
-}
-
-.nav-btn, .hero-btn {
-  display: inline-block;
-  padding: 10px 26px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.2px;
-  text-decoration: none;
-  transition: all 0.25s ease;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  backdrop-filter: blur(6px);
-}
-
-/* hover efekti */
-.nav-btn:hover, .hero-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.8);
-  transform: translateY(-1px);
-}
-
-/* aktif sayfa */
-.nav-btn.primary, .hero-btn.primary {
-  background: #fff;
-  color: #0f172a;
-  border: none;
-}
-
-.nav-btn.primary:hover, .hero-btn.primary:hover {
-  background: #f8fafc;
-  transform: translateY(-1px);
-}
-
-/* koyu gri varyant */
-.nav-btn.dark, .hero-btn.dark {
-  background: #2f3438;
-  border: 1px solid #555;
-}
-
-.nav-btn.dark:hover, .hero-btn.dark:hover {
-  background: #3d4247;
-}
-/* place the hero buttons in the center, above the badge/title */
-.nav-buttons--hero{
-  position:absolute;
-  left:50%;
-  top:42%;                  /* adjust vertically as you like (40–45%) */
-  transform:translate(-50%, -160%);
-  gap:14px;
-}
-
-/* ensure links render as pills (not plain text) */
-.nav-buttons--hero a{
-  text-decoration:none;
-}
-
-/* already shared earlier, but crucial bits for the look */
-.nav-btn{
-  display:inline-block;
-  padding:10px 26px;
-  border-radius:999px;
-  font-weight:700;
-  font-size:15px;
-  letter-spacing:.2px;
-  border:1px solid rgba(255,255,255,.6);
-  background:rgba(0,0,0,.5);
-  color:#fff;
-  backdrop-filter:blur(6px);
-  transition:all .25s ease;
-}
-.nav-btn:hover{ background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.8); transform:translateY(-1px); }
-.nav-btn.primary{ background:#fff; color:#0f172a; border:none; }
-.nav-btn.primary:hover{ background:#f8fafc; transform:translateY(-1px); }
-.nav-btn.dark{ background:#2f3438; border:1px solid #555; }
-.nav-btn.dark:hover{ background:#3d4247; }
-.nav-buttons{
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  display: flex;
-  gap: 16px;
-  z-index: 9999;
-}
-
-.nav-btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 22px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 20px;
-  box-shadow: 0 8px 28px rgba(2,8,23,.12);
-  transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
-  border: 1px solid rgba(255,255,255,.55);
-  backdrop-filter: blur(6px);
-}
-
-/* siyah cam görünümlü */
-.nav-btn.dark{
-  background: rgba(31,41,55,.9);
-  color: #fff;
-}
-.nav-btn.dark:hover{
-  filter: brightness(1.08);
-  transform: translateY(-2px);
-}
-
-/* beyaz buton */
-.nav-btn.primary{
-  background: #fff;
-  color: #0f172a;
-  border: none;
-}
-.nav-btn.primary:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(2,8,23,.15);
-}
-/* ===== Mobile-first Luxury OTA Polish ===== */
-
-/* 2.1 – Hero, nav & spacing on small screens */
-@media (max-width: 768px){
-  .header{ height: 70vh; background-attachment: scroll; }
-  .header-inner{ padding: 0 16px; }
-  .hero-title{ font-size: 32px; line-height: 1.1; }
-  .hero-subtitle{ font-size: 14px; }
-  .nav-buttons{ top: 12px; right: 12px; gap: 8px; }
-  .nav-btn{ padding: 10px 14px; font-size: 14px; box-shadow: 0 4px 18px rgba(2,8,23,.12); }
-}
-
-/* 2.2 – Booking grid: summary first, calendar compact */
-.booking-grid{ gap: 14px; }
-.booking-grid.booking-grid--summary-dominant{
-  grid-template-columns: 1.05fr 0.85fr;
-}
-@media (max-width: 980px){
-  .booking-grid.booking-grid--summary-dominant{
-    grid-template-columns: 1fr;
-  }
-  .summary{ order: -1; }         /* show total first (OTA pattern) */
-  .summary-card .summary-total{ font-size: 32px; }
-}
-
-/* 2.3 – Compact calendar (readable but small) */
-.shrink-65 .rdp{ transform: scale(.72); transform-origin: top left; }
-@media (max-width: 768px){
-  .shrink-65 .rdp{ transform: scale(.82); }
-}
-.calendar-card.panel{ padding: 10px; }
-
-/* 2.4 – Inputs: bigger touch targets */
-select,input,button,textarea{ min-height: 40px; }
-.select-wrap select{ min-height: 40px; }
-
-/* 2.5 – Summary CTA buttons: block on mobile */
-@media (max-width: 980px){
-  .summary-ctas{ display: none; } /* hide in card; we use bottom bar on mobile */
-}
-
-/* 2.6 – Sticky bottom booking bar (mobile) */
-.bottom-bar{
-  position: sticky;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(255,255,255,.96);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid var(--border);
-  padding: 10px 12px;
-  display: none; align-items: center; gap: 10px; z-index: 50;
-}
-.bottom-bar .info{ display: flex; flex-direction: column; line-height: 1.15; }
-.bottom-bar .total{ font-weight: 900; font-size: 18px; }
-.bottom-bar .sub{ color: var(--muted); font-size: 12px; }
-.bottom-bar .actions{ display: flex; gap: 8px; margin-left: auto; }
-.bottom-bar .btn{ padding: 10px 14px; border-radius: 12px; }
-@media (max-width: 980px){
-  .bottom-bar{ display: flex; }
-}
-
-/* 2.7 – Panels & chips tighter on small screens */
-.panel{ padding: 12px; }
-.chips{ gap: 6px; }
-.chip, .chip-soft{ font-size: 12.5px; padding: 6px 10px; }
-
-/* 2.8 – Improve tap affordance */
-.btn, .nav-btn{ touch-action: manipulation; }
-
-/* 2.9 – Table: horizontal scroll on mobile (planner) */
-.table-wrap{ overflow-x: auto; -webkit-overflow-scrolling: touch; }
-table{ min-width: 720px; }  /* allow scroll instead of squish on phones */
-/* Prevent horizontal scroll on mobile when calendar is scaled */
-html, body { overflow-x: hidden; }
-.no-overflow { overflow: hidden; max-width: 100%; }
-
-/* Booking grid - summary first on mobile, calendar second */
-.booking-grid.booking-grid--summary-dominant{
-  grid-template-columns: 1.1fr 0.65fr;
-  gap: 18px;
-}
-@media (max-width: 980px){
-  .booking-grid.booking-grid--summary-dominant{
-    grid-template-columns: 1fr;
-  }
-  /* Put summary before the calendar on small screens */
-  .summary{ order: -1; }
-}
-
-/* Compact DayPicker - keep small on all screens and especially mobile */
-.shrink-65 .rdp{ transform: scale(0.60); transform-origin: top left; }
-@media (max-width: 980px){
-  .shrink-65 .rdp{ transform: scale(0.70); }  /* slightly larger but still compact */
-}
-
-/* Sticky bottom booking bar - visible on mobile only */
+/* ---------- Mobile sticky actions ---------- */
 .bottom-bar{
   position: sticky; bottom: 0; left: 0; right: 0;
   background: rgba(255,255,255,.96);
@@ -508,19 +179,12 @@ html, body { overflow-x: hidden; }
   display: none; align-items: center; gap: 10px; z-index: 50;
 }
 .bottom-bar .info{ display:flex; flex-direction:column; line-height:1.15 }
-.bottom-bar .total{ font-weight: 800; font-size: 16px }
+.bottom-bar .total{ font-weight: 900; font-size: 18px }
 .bottom-bar .sub{ color: var(--muted); font-size: 12px }
 .bottom-bar .actions{ display:flex; gap:8px; margin-left:auto }
-.bottom-bar .btn{ height: 36px; display:inline-flex; align-items:center; }
+.bottom-bar .btn{ padding:10px 14px; border-radius:12px }
 
 @media (max-width: 980px){
-  .bottom-bar{ display: flex; }
-  /* hide duplicate CTAs in sidebar on mobile to avoid double actions */
-  .summary-ctas{ display: none; }
+  .summary-ctas{ display:none }  /* avoid duplicate CTAs on mobile */
+  .bottom-bar{ display:flex }
 }
-
-/* Make select controls easier to tap on mobile */
-.select-wrap select{ min-height: 40px; }
-
-/* Make the calendar card truly fluid */
-.calendar-card{ max-width: 100%; }
