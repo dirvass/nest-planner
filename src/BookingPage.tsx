@@ -35,7 +35,6 @@ function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
   return Math.max(0, differenceInCalendarDays(range.to, range.from));
 }
-
 const euro = (n: number) => `€ ${n.toFixed(2)}`;
 const options = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
 
@@ -52,22 +51,8 @@ export default function BookingPage() {
   const [quadHours, setQuadHours] = useState(0);
   const [transferWays, setTransferWays] = useState(0);
 
-  // --- Mobile awareness for layout & calendar ---
-  const [isMobile, setIsMobile] = useState(false);
-  const [months, setMonths] = useState(1); // force 1 month on mobile to avoid overflow
-
-  useEffect(() => {
-    const onResize = () => {
-      const mobile = window.innerWidth < 980;
-      setIsMobile(mobile);
-      setMonths(1); // keep compact even on tablet - safer
-      // lock viewport width to prevent horizontal scroll jiggle
-      document.documentElement.style.setProperty("--vw", `${window.innerWidth}px`);
-    };
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  // Calendar – always compact: 1 month
+  const months = 1;
 
   const n = nightsOf(range);
   const villaInfo = VILLAS[villa];
@@ -78,7 +63,6 @@ export default function BookingPage() {
   const extraGuests = Math.max(0, partySizeExclInfants - INCLUDED_GUESTS);
   const base = n * villaInfo.nightlyEUR;
   const extraGuestFee = n > 0 ? n * EXTRA_GUEST_FEE_EUR * extraGuests : 0;
-
   const chefTotal = chef && n > 0 ? n * CHEF_DINNER_PER_NIGHT : 0;
   const quadTotal = quadHours * QUAD_PER_HOUR;
   const transferIncluded = n >= TRANSFER_INCLUDED_NIGHTS;
@@ -98,10 +82,10 @@ export default function BookingPage() {
     [
       "Hello NEST ULASLI, I’d like to enquire about a stay.",
       `Villa: ${villaInfo.name}`,
-      range?.from ? `Check-in: ${format(range.from, "dd MMM yyyy")}` : "Check-in: -",
-      range?.to ? `Check-out: ${format(range.to, "dd MMM yyyy")}` : "Check-out: -",
+      range?.from ? `Check-in: ${format(range.from, "dd MMM yyyy")}` : "Check-in: –",
+      range?.to ? `Check-out: ${format(range.to, "dd MMM yyyy")}` : "Check-out: –",
       `Nights: ${n}`,
-      `Guests: ${adults} adults, ${childrenOver2} children (over 2), ${infants02} infants (0-2)`,
+      `Guests: ${adults} adults, ${childrenOver2} children (over 2), ${infants02} infants (0–2)`,
       `Extras: Chef(dinner)=${chef ? "Yes" : "No"}, Quad=${quadHours}h, Transfers=${transferIncluded ? "Included" : `${transferWays} way(s)`}`,
       `Estimate: ${euro(total)} (excl. refundable deposit € ${deposit.toFixed(0)})`,
       note ? `Note: ${note}` : "",
@@ -113,10 +97,9 @@ export default function BookingPage() {
   }, [n]);
 
   const chips = useMemo(() => {
-    const d =
-      range?.from && range?.to
-        ? `${format(range.from, "dd MMM")} -> ${format(range.to, "dd MMM yyyy")}`
-        : "Select dates";
+    const d = range?.from && range?.to
+      ? `${format(range.from, "dd MMM")} → ${format(range.to, "dd MMM yyyy")}`
+      : "Select dates";
     const nightsTxt = `${n} ${n === 1 ? "night" : "nights"}`;
     const partyTxt = `${adults}A · ${childrenOver2}C · ${infants02}I`;
     const fromTxt = `From € ${villaInfo.nightlyEUR.toFixed(0)}/night`;
@@ -130,7 +113,7 @@ export default function BookingPage() {
         <TopNav />
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Dizman</span>
-          <h1 className="hero-title">NEST ULASLI - Book & Enquire</h1>
+          <h1 className="hero-title">NEST ULASLI – Book & Enquire</h1>
           <div className="subtitle">
             Includes daily breakfast • bicycles • table tennis. For 7+ nights: return transfers & 1× floating breakfast.
           </div>
@@ -139,33 +122,27 @@ export default function BookingPage() {
 
       {/* CONTENT */}
       <main className="container">
-        {/* On mobile put SUMMARY first, Calendar second - controlled by CSS order */}
         <section className="shell booking-grid booking-grid--summary-dominant">
           {/* SUMMARY */}
           <aside className="summary summary-card sticky">
             <div className="summary-head">
               <div className="summary-total">{euro(total)}</div>
               <div className="summary-sub muted">
-                Estimate for your dates{n ? ` - ${n} ${n === 1 ? "night" : "nights"}` : ""} - excl. refundable deposit (€ {deposit})
+                Estimate for your dates{n ? ` · ${n} ${n === 1 ? "night" : "nights"}` : ""} — excl. refundable deposit (€ {deposit})
               </div>
               <div className="summary-ctas">
                 <a
                   className={`btn primary ${!canSubmit ? "disabled" : ""}`}
                   aria-disabled={!canSubmit}
                   href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
-                  target="_blank"
-                  rel="noreferrer"
+                  target="_blank" rel="noreferrer"
                 >
                   Enquire on WhatsApp
                 </a>
                 <a
                   className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
                   aria-disabled={!canSubmit}
-                  href={
-                    canSubmit
-                      ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry - ${villaInfo.name}&body=${waText}`
-                      : undefined
-                  }
+                  href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry – ${villaInfo.name}&body=${waText}` : undefined}
                 >
                   Request to Book
                 </a>
@@ -180,7 +157,6 @@ export default function BookingPage() {
                 <span className="hint">{n} × € {villaInfo.nightlyEUR.toFixed(0)}</span>
                 <strong>{euro(base)}</strong>
               </div>
-
               <div className="line">
                 <span>Extra guests</span>
                 <span className="hint">{n} × € {EXTRA_GUEST_FEE_EUR} × {extraGuests}</span>
@@ -190,7 +166,7 @@ export default function BookingPage() {
               <div className="group-label">Enhancements</div>
               <div className="line">
                 <span>Private chef (dinner)</span>
-                <span className="hint">{chef ? `${n} × € ${CHEF_DINNER_PER_NIGHT}` : "-"}</span>
+                <span className="hint">{chef ? `${n} × € ${CHEF_DINNER_PER_NIGHT}` : "—"}</span>
                 <strong>{chef ? euro(chefTotal) : "€ 0.00"}</strong>
               </div>
               <div className="line">
@@ -200,9 +176,7 @@ export default function BookingPage() {
               </div>
               <div className="line">
                 <span>Airport transfer</span>
-                <span className="hint">
-                  {transferIncluded ? "Included (7+ nights)" : `${transferWays} way(s) × € ${TRANSFER_PER_WAY}`}
-                </span>
+                <span className="hint">{transferIncluded ? "Included (7+ nights)" : `${transferWays} way(s) × € ${TRANSFER_PER_WAY}`}</span>
                 <strong>{euro(transferTotal)}</strong>
               </div>
 
@@ -256,18 +230,17 @@ export default function BookingPage() {
                   value={villa}
                   onChange={(e) => { setVilla(e.target.value as VillaKey); setRange(undefined); }}
                 >
-                  <option value="ALYA">ALYA - sleeps 8</option>
-                  <option value="ZEHRA">ZEHRA - sleeps 6</option>
+                  <option value="ALYA">ALYA — sleeps 8</option>
+                  <option value="ZEHRA">ZEHRA — sleeps 6</option>
                 </select>
               </div>
               <div className="spacer" />
-              <button className="ghost" onClick={() => setRange(undefined)} aria-label="Reset dates">
+              <button className="btn ghost" onClick={() => setRange(undefined)} aria-label="Reset dates">
                 Reset dates
               </button>
             </div>
 
-            {/* Compact Calendar */}
-            <div className="calendar-card compact-picker shrink-65 no-overflow">
+            <div className="calendar-card shrink-65 no-overflow">
               <DayPicker
                 mode="range"
                 numberOfMonths={months}
@@ -289,13 +262,12 @@ export default function BookingPage() {
               </div>
             </div>
 
-            {/* Guests */}
-            <div className="row elite-row">
+            <div className="row">
               <div className="elite-field">
                 <label className="label">Adults</label>
                 <div className="select-wrap">
                   <select value={adults} onChange={(e) => setAdults(Number(e.target.value))}>
-                    {options(1, 12).map((v) => <option key={`a-${v}`} value={v}>{v}</option>)}
+                    {options(1, 12).map(v => <option key={`a-${v}`} value={v}>{v}</option>)}
                   </select>
                 </div>
               </div>
@@ -303,21 +275,20 @@ export default function BookingPage() {
                 <label className="label">Children (over 2)</label>
                 <div className="select-wrap">
                   <select value={childrenOver2} onChange={(e) => setChildrenOver2(Number(e.target.value))}>
-                    {options(0, 12).map((v) => <option key={`c-${v}`} value={v}>{v}</option>)}
+                    {options(0, 12).map(v => <option key={`c-${v}`} value={v}>{v}</option>)}
                   </select>
                 </div>
               </div>
               <div className="elite-field">
-                <label className="label">Infants (0-2)</label>
+                <label className="label">Infants (0–2)</label>
                 <div className="select-wrap">
                   <select value={infants02} onChange={(e) => setInfants02(Number(e.target.value))}>
-                    {options(0, 6).map((v) => <option key={`i-${v}`} value={v}>{v}</option>)}
+                    {options(0, 6).map(v => <option key={`i-${v}`} value={v}>{v}</option>)}
                   </select>
                 </div>
               </div>
             </div>
 
-            {/* Extras */}
             <div className="extras panel">
               <h4 className="extras-title">Enhance your stay (optional)</h4>
               <label className="switch">
@@ -332,40 +303,37 @@ export default function BookingPage() {
               <div className="extras-row">
                 <div className="elite-field">
                   <label className="label">Quad bike (hours)</label>
-                  <div className="select-wrap wide">
+                  <div className="select-wrap" style={{ width: 140 }}>
                     <select value={quadHours} onChange={(e) => setQuadHours(Number(e.target.value))}>
-                      {options(0, 12).map((v) => <option key={`qh-${v}`} value={v}>{v}</option>)}
+                      {options(0, 12).map(v => <option key={`qh-${v}`} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <div className="muted small">€ {QUAD_PER_HOUR} / hour</div>
+                  <div className="helper">€ {QUAD_PER_HOUR} / hour</div>
                 </div>
 
                 <div className="elite-field">
                   <label className="label">Airport transfer (ways)</label>
-                  <div className="select-wrap wide">
+                  <div className="select-wrap" style={{ width: 140 }}>
                     <select
                       value={transferWays}
                       onChange={(e) => setTransferWays(Number(e.target.value))}
                       disabled={transferIncluded}
                     >
-                      {[0, 1, 2].map((v) => <option key={`tw-${v}`} value={v}>{v}</option>)}
+                      {[0,1,2].map(v => <option key={`tw-${v}`} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <div className="muted small">
-                    {transferIncluded ? "Included for 7+ nights" : `€ ${TRANSFER_PER_WAY} / way`}
-                  </div>
+                  <div className="helper">{transferIncluded ? "Included for 7+ nights" : `€ ${TRANSFER_PER_WAY} / way`}</div>
                 </div>
               </div>
             </div>
 
-            {/* Notes */}
             <div className="elite-field">
               <label className="label">Special requests</label>
               <textarea
                 className="textarea luxe"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                placeholder="Airport transfer timing, chef preferences, quad route time, dietary needs, nanny…"
+                placeholder="Airport transfer timing, chef preferences, dietary needs, nanny…"
                 rows={3}
               />
             </div>
@@ -377,26 +345,21 @@ export default function BookingPage() {
       <div className="bottom-bar" role="region" aria-label="Quick booking actions">
         <div className="info">
           <div className="total">{euro(total)}</div>
-          <div className="sub">{n ? `${n} ${n === 1 ? "night" : "nights"}` : "Select dates"} - {villaInfo.name}</div>
+          <div className="sub">{n ? `${n} ${n === 1 ? "night" : "nights"}` : "Select dates"} · {villaInfo.name}</div>
         </div>
         <div className="actions">
           <a
             className={`btn primary ${!canSubmit ? "disabled" : ""}`}
             aria-disabled={!canSubmit}
             href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
-            target="_blank"
-            rel="noreferrer"
+            target="_blank" rel="noreferrer"
           >
             Enquire
           </a>
           <a
             className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
             aria-disabled={!canSubmit}
-            href={
-              canSubmit
-                ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry - ${villaInfo.name}&body=${waText}`
-                : undefined
-            }
+            href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry – ${villaInfo.name}&body=${waText}` : undefined}
           >
             Email
           </a>
