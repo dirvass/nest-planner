@@ -31,12 +31,10 @@ const TRANSFER_PER_WAY = 100;
 const TRANSFER_INCLUDED_NIGHTS = 7;
 
 const MIN_NIGHTS = 3;
-
-const CONTACT = {
-  whatsappNumber: "905320000000",
-  whatsappDisplay: "+90 532 000 00 00",
-  email: "reservations@nest-ulasli.com",
-} as const;
+const WHATSAPP_NUMBER = "905320000000";
+const WHATSAPP_DISPLAY = "+90 532 000 00 00";
+const WHATSAPP_NUMBER = "+905370123285";
+const WHATSAPP_DISPLAY = "+90537 012 32 85";
 
 function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
@@ -101,8 +99,9 @@ export default function BookingPage() {
     ].filter(Boolean).join("\n"),
   );
 
-  const whatsappUrl = `https://wa.me/${CONTACT.whatsappNumber}?text=${waText}`;
-  const mailtoUrl = `mailto:${CONTACT.email}?subject=Booking Only – ${villaInfo.name}&body=${waText}`;
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+  const mailtoUrl = `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}`;
+  const mailtoUrl = `mailto:reservations@nest-ulasli.com?subject=Booking – ${villaInfo.name}&body=${waText}`;
 
   const validationMessage = useMemo(() => {
     if (!showValidation || canSubmit) return "";
@@ -277,6 +276,7 @@ export default function BookingPage() {
         <div className="hero__inner">
           <span className="badge">by Dizman</span>
           <h1 className="hero__title">NEST ULASLI – Booking Only</h1>
+          <h1 className="hero__title">NEST ULASLI – Booking </h1>
           <p className="hero__subtitle">
             Curate your stay, secure your preferred villa and tailor enhancements before confirming with our concierge team.
           </p>
