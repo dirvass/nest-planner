@@ -21,17 +21,17 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
 
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
-const EXTRA_GUEST_FEE_EUR = 200;
+const EXTRA_GUEST_FEE_EUR = 100;
 const INCLUDED_GUESTS = 2;
 
 const CHEF_DINNER_PER_NIGHT = 200;
 const QUAD_PER_HOUR = 50;
-const TRANSFER_PER_WAY = 100;
+const TRANSFER_PER_WAY = 150;
 const TRANSFER_INCLUDED_NIGHTS = 7;
 
 const MIN_NIGHTS = 3;
 const WHATSAPP_NUMBER = "+905370123285";
-const WHATSAPP_DISPLAY = "+905370123285";
+const WHATSAPP_DISPLAY = "+90537 012 32 85";
 
 function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
