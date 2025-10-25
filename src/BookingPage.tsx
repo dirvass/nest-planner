@@ -137,11 +137,12 @@ export default function BookingPage() {
   const handleSearch = () => {
     if (!canSubmit) {
       setShowValidation(true);
-      return;
     }
     if (typeof document === "undefined") return;
-    const summaryHeading = document.getElementById("booking-summary-heading");
-    summaryHeading?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const targetId = !canSubmit && (!range?.from || !range?.to)
+      ? "booking-calendar"
+      : "booking-summary-heading";
+    document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   useEffect(() => {
@@ -379,7 +380,7 @@ export default function BookingPage() {
               </button>
             </div>
 
-            {validationMessage && (
+            {showValidation && !canSubmit && range?.from && range?.to && validationMessage && (
               <div className="notice info" role="status">
                 {validationMessage}
               </div>
@@ -537,6 +538,12 @@ export default function BookingPage() {
                   Search
                 </button>
               </div>
+
+              {showValidation && !canSubmit && validationMessage && (
+                <div className="stay-validation" role="alert">
+                  {validationMessage}
+                </div>
+              )}
             </div>
 
             <div className="calendar-shell">
