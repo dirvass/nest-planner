@@ -1,3 +1,4 @@
+cat > src/BookingPage.tsx <<'TS'
 import TopNav from "./components/TopNav";
 import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
@@ -21,12 +22,12 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
 
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
-const EXTRA_GUEST_FEE_EUR = 100;
+const EXTRA_GUEST_FEE_EUR = 200;
 const INCLUDED_GUESTS = 2;
 
 const CHEF_DINNER_PER_NIGHT = 200;
 const QUAD_PER_HOUR = 50;
-const TRANSFER_PER_WAY = 150;
+const TRANSFER_PER_WAY = 100;
 const TRANSFER_INCLUDED_NIGHTS = 7;
 
 const MIN_NIGHTS = 3;
@@ -183,14 +184,18 @@ export default function BookingPage() {
   const checkOutText = range?.to ? format(range.to, "EEE, dd MMM") : "Add check-out";
   const nightsLabel = nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`;
   const servicePct = Math.round(SERVICE_FEE_PCT * 100);
+
   const primaryGuests = adults + childrenOver2;
-  const guestSummary = useMemo(() => (
-    primaryGuests
-      ? `${adults} adult${adults === 1 ? "" : "s"}`
+  const guestSummary = useMemo(
+    () =>
+      primaryGuests
+        ? `${adults} adult${adults === 1 ? "" : "s"}`
           + (childrenOver2 ? `, ${childrenOver2} child${childrenOver2 === 1 ? "" : "ren"}` : "")
           + (infants02 ? `, ${infants02} infant${infants02 === 1 ? "" : "s"}` : "")
-      : "Add guests"
-  ), [primaryGuests, adults, childrenOver2, infants02]);
+        : "Add guests",
+    [primaryGuests, adults, childrenOver2, infants02],
+  );
+
   const stayWindow = rangeSelected && range?.from && range?.to
     ? `${format(range.from, "dd MMM yyyy")} → ${format(range.to, "dd MMM yyyy")}`
     : "Select dates";
@@ -290,7 +295,7 @@ export default function BookingPage() {
             </div>
             <div className="intro-meta">
               <span className="meta-label">Talk to us</span>
-              <span className="meta-value">WhatsApp {WHATSAPP_DISPLAY}</span>
+              <span className="meta-value">WhatsApp {CONTACT.whatsappDisplay}</span>
               <span className="meta-sub">Everyday 09:00 – 22:00 TRT</span>
             </div>
           </div>
@@ -308,7 +313,7 @@ export default function BookingPage() {
                 <span className="summary-label">Estimated total</span>
                 <h2 id="booking-summary-heading" className="summary-total">{euro(total)}</h2>
                 <p className="summary-sub">
-                  {nights ? `For ${nightsLabel} in ${villaInfo.name}` : "Add dates to reveal your bespoke quote"} — excludes refundable deposit (€ {deposit.toFixed(0)}).
+                  {nights ? `For ${nights} ${nights === 1 ? "night" : "nights"} in ${villaInfo.name}` : "Add dates to reveal your bespoke quote"} — excludes refundable deposit (€ {deposit.toFixed(0)}).
                 </p>
               </div>
               <div className="summary-chip" aria-live="polite">
@@ -326,7 +331,7 @@ export default function BookingPage() {
               </div>
               <div>
                 <dt>Stay length</dt>
-                <dd>{nights ? nightsLabel : "Select dates"}</dd>
+                <dd>{nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates"}</dd>
                 <small>{MIN_NIGHTS}+ night minimum</small>
               </div>
               <div>
@@ -406,11 +411,11 @@ export default function BookingPage() {
               <div className="status-band" aria-live="polite">
                 <div className="status-band__item">
                   <span className="status-band__label">Stay window</span>
-                  <strong className="status-band__value">{stayWindow}</strong>
+                  <strong className="status-band__value">{rangeSelected && range?.from && range?.to ? `${format(range.from, "dd MMM yyyy")} → ${format(range.to, "dd MMM yyyy")}` : "Select dates"}</strong>
                 </div>
                 <div className="status-band__item">
                   <span className="status-band__label">Nights</span>
-                  <strong className="status-band__value">{nightsLabel}</strong>
+                  <strong className="status-band__value">{nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`}</strong>
                 </div>
                 <div className="status-band__item">
                   <span className="status-band__label">Guests</span>
@@ -575,7 +580,7 @@ export default function BookingPage() {
                       <option key={`transfer-${value}`} value={value}>{value}</option>
                     ))}
                   </select>
-                  <span className="field-hint">{transferIncluded ? "Included for 7+ nights" : `€ ${TRANSFER_PER_WAY} per way`}</span>
+                  <span className="field-hint">{transferIncluded ? "Included for 7+ nights" : `€ {TRANSFER_PER_WAY} per way`}</span>
                 </label>
               </div>
             </article>
@@ -605,7 +610,6 @@ export default function BookingPage() {
       <div className="mobile-bar" role="region" aria-label="Quick booking actions">
         <div>
           <strong>{euro(total)}</strong>
-          <span>{nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates"} · {guestSummary}</span>
         </div>
         <div className="mobile-bar__actions">
           <button type="button" className="btn primary" onClick={handleWhatsApp} disabled={!canSubmit}>WhatsApp</button>
@@ -615,3 +619,4 @@ export default function BookingPage() {
     </>
   );
 }
+TS
