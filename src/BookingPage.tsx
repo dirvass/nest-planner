@@ -1,3 +1,4 @@
+cat > src/BookingPage.tsx <<'TS'
 import TopNav from "./components/TopNav";
 import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
@@ -31,7 +32,6 @@ const TRANSFER_INCLUDED_NIGHTS = 7;
 
 const MIN_NIGHTS = 3;
 
-// Replace with your real values or import.meta.env variants
 const CONTACT = {
   whatsappNumber: "905320000000",
   whatsappDisplay: "+90 532 000 00 00",
@@ -313,7 +313,7 @@ export default function BookingPage() {
                 <span className="summary-label">Estimated total</span>
                 <h2 id="booking-summary-heading" className="summary-total">{euro(total)}</h2>
                 <p className="summary-sub">
-                  {nights ? `For ${nightsLabel} in ${villaInfo.name}` : "Add dates to reveal your bespoke quote"} — excludes refundable deposit (€ {deposit.toFixed(0)}).
+                  {nights ? `For ${nights} ${nights === 1 ? "night" : "nights"} in ${villaInfo.name}` : "Add dates to reveal your bespoke quote"} — excludes refundable deposit (€ {deposit.toFixed(0)}).
                 </p>
               </div>
               <div className="summary-chip" aria-live="polite">
@@ -331,7 +331,7 @@ export default function BookingPage() {
               </div>
               <div>
                 <dt>Stay length</dt>
-                <dd>{nights ? nightsLabel : "Select dates"}</dd>
+                <dd>{nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates"}</dd>
                 <small>{MIN_NIGHTS}+ night minimum</small>
               </div>
               <div>
@@ -411,11 +411,11 @@ export default function BookingPage() {
               <div className="status-band" aria-live="polite">
                 <div className="status-band__item">
                   <span className="status-band__label">Stay window</span>
-                  <strong className="status-band__value">{stayWindow}</strong>
+                  <strong className="status-band__value">{rangeSelected && range?.from && range?.to ? `${format(range.from, "dd MMM yyyy")} → ${format(range.to, "dd MMM yyyy")}` : "Select dates"}</strong>
                 </div>
                 <div className="status-band__item">
                   <span className="status-band__label">Nights</span>
-                  <strong className="status-band__value">{nightsLabel}</strong>
+                  <strong className="status-band__value">{nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`}</strong>
                 </div>
                 <div className="status-band__item">
                   <span className="status-band__label">Guests</span>
@@ -610,7 +610,6 @@ export default function BookingPage() {
       <div className="mobile-bar" role="region" aria-label="Quick booking actions">
         <div>
           <strong>{euro(total)}</strong>
-          <span>{nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates"} · {guestSummary}</span>
         </div>
         <div className="mobile-bar__actions">
           <button type="button" className="btn primary" onClick={handleWhatsApp} disabled={!canSubmit}>WhatsApp</button>
@@ -620,3 +619,4 @@ export default function BookingPage() {
     </>
   );
 }
+TS
