@@ -51,8 +51,8 @@ export default function BookingPage() {
   const [quadHours, setQuadHours] = useState(0);
   const [transferWays, setTransferWays] = useState(0);
 
-  // Calendar – always compact: 1 month
-  const months = 1;
+  // Calendar responsiveness
+  const [months, setMonths] = useState(1);
 
   const n = nightsOf(range);
   const villaInfo = VILLAS[villa];
@@ -80,7 +80,7 @@ export default function BookingPage() {
 
   const waText = encodeURIComponent(
     [
-      "Hello NEST ULASLI, I’d like to enquire about a stay.",
+      "Hello NEST ULASLI, I’d like to book a stay.",
       `Villa: ${villaInfo.name}`,
       range?.from ? `Check-in: ${format(range.from, "dd MMM yyyy")}` : "Check-in: –",
       range?.to ? `Check-out: ${format(range.to, "dd MMM yyyy")}` : "Check-out: –",
@@ -93,14 +93,96 @@ export default function BookingPage() {
   );
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updateMonths = () => setMonths(window.innerWidth >= 1024 ? 2 : 1);
+    updateMonths();
+    window.addEventListener("resize", updateMonths);
+    return () => window.removeEventListener("resize", updateMonths);
+  }, []);
+
+  useEffect(() => {
     if (n >= TRANSFER_INCLUDED_NIGHTS) setTransferWays(0);
   }, [n]);
+
+  const checkInText = range?.from ? format(range.from, "EEE, dd MMM") : "Add check-in";
+  const checkOutText = range?.to ? format(range.to, "EEE, dd MMM") : "Add check-out";
+  const nightsLabel = n ? `${n} ${n === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`;
+  const servicePct = Math.round(SERVICE_FEE_PCT * 100);
+
+  const summarySections = [
+    {
+      title: "Stay essentials",
+      lines: [
+        {
+          label: "Accommodation",
+          hint: n ? `${n} × € ${villaInfo.nightlyEUR.toFixed(0)}` : "Pick your travel dates",
+          amount: base,
+          placeholder: "Add dates",
+        },
+        {
+          label: "Extra guests",
+          hint:
+            extraGuests > 0
+              ? n > 0
+                ? `${n} × € ${EXTRA_GUEST_FEE_EUR} × ${extraGuests}`
+                : "Add dates to calculate extra guest fees"
+              : `Included for ${INCLUDED_GUESTS} guests`,
+          amount: extraGuestFee,
+          placeholder: extraGuests > 0 ? "Add dates" : "Included",
+        },
+      ],
+    },
+    {
+      title: "Enhancements",
+      lines: [
+        {
+          label: "Private chef (dinner)",
+          hint: chef && n > 0 ? `${n} × € ${CHEF_DINNER_PER_NIGHT}` : "Perfect for celebrations",
+          amount: chefTotal,
+          placeholder: chef ? "Add dates" : "Not added",
+        },
+        {
+          label: "Quad bike",
+          hint: quadHours > 0 ? `${quadHours} h × € ${QUAD_PER_HOUR}` : "Thrilling coastal trails",
+          amount: quadTotal,
+          placeholder: "Not added",
+        },
+        {
+          label: "Airport transfer",
+          hint: transferIncluded
+            ? "Included with 7+ nights"
+            : transferWays > 0
+              ? `${transferWays} way(s) × € ${TRANSFER_PER_WAY}`
+              : "Add private transfers if required",
+          amount: transferTotal,
+          placeholder: transferIncluded ? "Included" : "Not added",
+        },
+      ],
+    },
+    {
+      title: "Fees",
+      lines: [
+        {
+          label: "Cleaning fee",
+          hint: n > 0 ? "Per stay" : "Added once your stay is scheduled",
+          amount: cleaning,
+          placeholder: "—",
+        },
+        {
+          label: `Service ${servicePct}%`,
+          hint: "Curated concierge support",
+          amount: service,
+          placeholder: "—",
+        },
+      ],
+    },
+  ];
 
   const chips = useMemo(() => {
     const d = range?.from && range?.to
       ? `${format(range.from, "dd MMM")} → ${format(range.to, "dd MMM yyyy")}`
       : "Select dates";
-    const nightsTxt = `${n} ${n === 1 ? "night" : "nights"}`;
+    const nightsTxt = n ? `${n} ${n === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`;
     const partyTxt = `${adults}A · ${childrenOver2}C · ${infants02}I`;
     const fromTxt = `From € ${villaInfo.nightlyEUR.toFixed(0)}/night`;
     return { d, nightsTxt, partyTxt, fromTxt };
@@ -113,9 +195,9 @@ export default function BookingPage() {
         <TopNav />
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Dizman</span>
-          <h1 className="hero-title">NEST ULASLI – Book & Enquire</h1>
+          <h1 className="hero-title">NEST ULASLI – Booking Only</h1>
           <div className="subtitle">
-            Includes daily breakfast • bicycles • table tennis. For 7+ nights: return transfers & 1× floating breakfast.
+            Curate your stay, secure your preferred villa and tailor enhancements before confirming with our concierge team.
           </div>
         </div>
       </header>
@@ -124,80 +206,95 @@ export default function BookingPage() {
       <main className="container">
         <section className="shell booking-grid booking-grid--summary-dominant">
           {/* SUMMARY */}
-          <aside className="summary summary-card sticky">
-            <div className="summary-head">
-              <div className="summary-total">{euro(total)}</div>
-              <div className="summary-sub muted">
-                Estimate for your dates{n ? ` · ${n} ${n === 1 ? "night" : "nights"}` : ""} — excl. refundable deposit (€ {deposit})
+          <aside className="summary summary-card sticky" aria-labelledby="booking-summary-heading">
+            <div className="summary-top">
+              <div>
+                <span className="summary-label">Estimated total</span>
+                <h2 id="booking-summary-heading" className="summary-total">{euro(total)}</h2>
+                <p className="summary-sub muted">
+                  {n ? `For ${nightsLabel} in ${villaInfo.name}` : "Add dates to reveal your bespoke quote"} — excludes refundable deposit (€ {deposit.toFixed(0)}).
+                </p>
               </div>
-              <div className="summary-ctas">
-                <a
-                  className={`btn primary ${!canSubmit ? "disabled" : ""}`}
-                  aria-disabled={!canSubmit}
-                  href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
-                  target="_blank" rel="noreferrer"
-                >
-                  Enquire on WhatsApp
-                </a>
-                <a
-                  className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
-                  aria-disabled={!canSubmit}
-                  href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry – ${villaInfo.name}&body=${waText}` : undefined}
-                >
-                  Request to Book
-                </a>
+              <div className="summary-bubble" aria-live="polite">
+                <span className="summary-bubble-label">Deposit due</span>
+                <span className="summary-bubble-value">€ {deposit.toFixed(0)}</span>
+                <span className="summary-bubble-hint">Refundable on checkout</span>
               </div>
             </div>
 
-            <div className="divider" />
-
-            <div className="summary-lines">
-              <div className="line">
-                <span>Accommodation</span>
-                <span className="hint">{n} × € {villaInfo.nightlyEUR.toFixed(0)}</span>
-                <strong>{euro(base)}</strong>
+            <div className="summary-meta-grid">
+              <div className="meta-card">
+                <span className="meta-label">Villa</span>
+                <span className="meta-value">{villaInfo.name}</span>
+                <span className="meta-sub">Sleeps {villaInfo.sleeps}</span>
               </div>
-              <div className="line">
-                <span>Extra guests</span>
-                <span className="hint">{n} × € {EXTRA_GUEST_FEE_EUR} × {extraGuests}</span>
-                <strong>{euro(extraGuestFee)}</strong>
+              <div className="meta-card">
+                <span className="meta-label">Stay length</span>
+                <span className="meta-value">{n ? nightsLabel : "Select dates"}</span>
+                <span className="meta-sub">{MIN_NIGHTS}+ night minimum</span>
               </div>
-
-              <div className="group-label">Enhancements</div>
-              <div className="line">
-                <span>Private chef (dinner)</span>
-                <span className="hint">{chef ? `${n} × € ${CHEF_DINNER_PER_NIGHT}` : "—"}</span>
-                <strong>{chef ? euro(chefTotal) : "€ 0.00"}</strong>
-              </div>
-              <div className="line">
-                <span>Quad bike</span>
-                <span className="hint">{quadHours} h × € {QUAD_PER_HOUR}</span>
-                <strong>{euro(quadTotal)}</strong>
-              </div>
-              <div className="line">
-                <span>Airport transfer</span>
-                <span className="hint">{transferIncluded ? "Included (7+ nights)" : `${transferWays} way(s) × € ${TRANSFER_PER_WAY}`}</span>
-                <strong>{euro(transferTotal)}</strong>
-              </div>
-
-              <div className="group-label">Fees</div>
-              <div className="line">
-                <span>Cleaning fee</span>
-                <strong>{euro(cleaning)}</strong>
-              </div>
-              <div className="line">
-                <span>Service {Math.round(SERVICE_FEE_PCT * 100)}%</span>
-                <strong>{euro(service)}</strong>
+              <div className="meta-card">
+                <span className="meta-label">Guests</span>
+                <span className="meta-value">{partySizeExclInfants} guest{partySizeExclInfants === 1 ? "" : "s"}</span>
+                <span className="meta-sub">{infants02} infant{infants02 === 1 ? "" : "s"} (0–2)</span>
               </div>
             </div>
 
             {underMinNights && (
-              <div className="notice error" style={{ marginTop: 8 }}>
+              <div className="notice error" role="alert">
                 Minimum stay is {MIN_NIGHTS} nights. Please adjust your dates.
               </div>
             )}
+            {overCapacity && (
+              <div className="notice warning" role="alert">
+                {villaInfo.name} sleeps {villaInfo.sleeps}. Reduce adult or children guests to proceed.
+              </div>
+            )}
 
-            <div className="included">
+            <div className="summary-actions">
+              <a
+                className={`btn primary ${!canSubmit ? "disabled" : ""}`}
+                aria-disabled={!canSubmit}
+                href={canSubmit ? `https://wa.me/447860157472?text=${waText}` : undefined}
+                target="_blank" rel="noreferrer"
+              >
+                Book on WhatsApp
+              </a>
+              <a
+                className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
+                aria-disabled={!canSubmit}
+                href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}` : undefined}
+              >
+                Email booking
+              </a>
+            </div>
+
+            <div className="divider" />
+
+            {summarySections.map((section) => (
+              <section className="summary-section" key={section.title} aria-label={`${section.title} breakdown`}>
+                <h3 className="summary-section-title">{section.title}</h3>
+                <div className="summary-section-lines">
+                  {section.lines.map((line) => (
+                    <div className="summary-line" key={line.label}>
+                      <div className="summary-line-copy">
+                        <span className="summary-line-label">{line.label}</span>
+                        <span className="summary-line-hint">{line.hint}</span>
+                      </div>
+                      <span className={`summary-line-value ${line.amount === 0 ? "muted" : ""}`}>
+                        {line.amount > 0 ? euro(line.amount) : line.placeholder}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+
+            <div className="summary-foot muted">
+              Complimentary experiences unlock automatically once your stay reaches the qualifying nights.
+            </div>
+
+            <div className="included included-modern">
               <span className="badge-soft">Daily breakfast</span>
               <span className="badge-soft">Bicycles</span>
               <span className="badge-soft">Table tennis</span>
@@ -240,25 +337,49 @@ export default function BookingPage() {
               </button>
             </div>
 
-            <div className="calendar-card shrink-65 no-overflow">
-              <DayPicker
-                mode="range"
-                numberOfMonths={months}
-                selected={range}
-                onSelect={(r) => {
-                  if (r?.from && r?.to && isBefore(r.to, r.from)) setRange({ from: r.to, to: r.from });
-                  else setRange(r);
-                }}
-                fromDate={today}
-                disabled={disabledDates}
-                showOutsideDays
-                captionLayout="dropdown"
-                pagedNavigation
-              />
-              <div className="calendar-legend">
-                <span><span className="dot dot-sel" /> Selected</span>
-                <span><span className="dot dot-un" /> Unavailable</span>
-                <span><span className="dot dot-av" /> Available</span>
+            <div className="calendar-shell">
+              <div className="calendar-info">
+                <div className="calendar-metrics">
+                  <div className="calendar-metric">
+                    <span className="calendar-metric-label">Check-in</span>
+                    <span className="calendar-metric-value">{checkInText}</span>
+                  </div>
+                  <div className="calendar-metric">
+                    <span className="calendar-metric-label">Check-out</span>
+                    <span className="calendar-metric-value">{checkOutText}</span>
+                  </div>
+                  <div className="calendar-metric">
+                    <span className="calendar-metric-label">Stay</span>
+                    <span className="calendar-metric-value">{n ? nightsLabel : `${MIN_NIGHTS}+ nights`}</span>
+                  </div>
+                </div>
+
+                <div className="calendar-legend">
+                  <span><span className="dot dot-sel" /> Selected</span>
+                  <span><span className="dot dot-un" /> Unavailable</span>
+                  <span><span className="dot dot-av" /> Available</span>
+                </div>
+              </div>
+
+              <div className="calendar-card no-overflow">
+                <DayPicker
+                  mode="range"
+                  numberOfMonths={months}
+                  selected={range}
+                  onSelect={(r) => {
+                    if (r?.from && r?.to && isBefore(r.to, r.from)) setRange({ from: r.to, to: r.from });
+                    else setRange(r);
+                  }}
+                  fromDate={today}
+                  disabled={disabledDates}
+                  showOutsideDays
+                  captionLayout="dropdown"
+                  pagedNavigation
+                />
+              </div>
+
+              <div className="calendar-footnote muted">
+                Stay {MIN_NIGHTS}+ nights to unlock return transfers and a floating breakfast experience.
               </div>
             </div>
 
@@ -351,15 +472,15 @@ export default function BookingPage() {
           <a
             className={`btn primary ${!canSubmit ? "disabled" : ""}`}
             aria-disabled={!canSubmit}
-            href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
+            href={canSubmit ? `https://wa.me/447860157472?text=${waText}` : undefined}
             target="_blank" rel="noreferrer"
           >
-            Enquire
+            WhatsApp
           </a>
           <a
             className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
             aria-disabled={!canSubmit}
-            href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Enquiry – ${villaInfo.name}&body=${waText}` : undefined}
+            href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}` : undefined}
           >
             Email
           </a>
