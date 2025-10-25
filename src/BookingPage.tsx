@@ -107,6 +107,17 @@ export default function BookingPage() {
     return "Complete the details above to proceed.";
   }, [showValidation, canSubmit, range?.from, range?.to, underMinNights, overCapacity, villaInfo.name, villaInfo.sleeps]);
 
+  const scrollIntoViewById = (id: string) => {
+    if (typeof document === "undefined") return;
+    const prefersReduced = typeof window !== "undefined"
+      && typeof window.matchMedia === "function"
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById(id)?.scrollIntoView({
+      behavior: prefersReduced ? "auto" : "smooth",
+      block: "center",
+    });
+  };
+
   const handleWhatsApp = () => {
     if (!canSubmit) {
       setShowValidation(true);
@@ -128,21 +139,16 @@ export default function BookingPage() {
   };
 
   const revealCalendar = () => {
-    if (typeof document === "undefined") return;
-    document.getElementById("booking-calendar")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    scrollIntoViewById("booking-calendar");
   };
 
   const handleSearch = () => {
     if (!canSubmit) {
       setShowValidation(true);
-      if (typeof document !== "undefined") {
-        document.getElementById("booking-calendar")?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      scrollIntoViewById("booking-calendar");
       return;
     }
-    if (typeof document !== "undefined") {
-      document.getElementById("booking-summary-heading")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    scrollIntoViewById("booking-summary-heading");
   };
 
   useEffect(() => {
@@ -161,16 +167,22 @@ export default function BookingPage() {
     if (canSubmit && showValidation) setShowValidation(false);
   }, [canSubmit, showValidation]);
 
+  const rangeSelected = Boolean(range?.from && range?.to);
   const checkInText = range?.from ? format(range.from, "EEE, dd MMM") : "Add check-in";
   const checkOutText = range?.to ? format(range.to, "EEE, dd MMM") : "Add check-out";
   const nightsLabel = nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`;
   const servicePct = Math.round(SERVICE_FEE_PCT * 100);
   const primaryGuests = adults + childrenOver2;
-  const guestSummary = primaryGuests
-    ? `${adults} adult${adults === 1 ? "" : "s"}`
-        + (childrenOver2 ? `, ${childrenOver2} child${childrenOver2 === 1 ? "" : "ren"}` : "")
-        + (infants02 ? `, ${infants02} infant${infants02 === 1 ? "" : "s"}` : "")
-    : "Add guests";
+  const guestSummary = useMemo(() => (
+    primaryGuests
+      ? `${adults} adult${adults === 1 ? "" : "s"}`
+          + (childrenOver2 ? `, ${childrenOver2} child${childrenOver2 === 1 ? "" : "ren"}` : "")
+          + (infants02 ? `, ${infants02} infant${infants02 === 1 ? "" : "s"}` : "")
+      : "Add guests"
+  ), [primaryGuests, adults, childrenOver2, infants02]);
+  const stayWindow = rangeSelected && range?.from && range?.to
+    ? `${format(range.from, "dd MMM yyyy")} → ${format(range.to, "dd MMM yyyy")}`
+    : "Select dates";
 
   const summarySections = useMemo(() => ([
     {
@@ -379,6 +391,25 @@ export default function BookingPage() {
                 </button>
               </header>
 
+              <div className="status-band" aria-live="polite">
+                <div className="status-band__item">
+                  <span className="status-band__label">Stay window</span>
+                  <strong className="status-band__value">{stayWindow}</strong>
+                </div>
+                <div className="status-band__item">
+                  <span className="status-band__label">Nights</span>
+                  <strong className="status-band__value">{nightsLabel}</strong>
+                </div>
+                <div className="status-band__item">
+                  <span className="status-band__label">Guests</span>
+                  <strong className="status-band__value">{guestSummary}</strong>
+                </div>
+                <div className="status-band__item">
+                  <span className="status-band__label">Villa rate</span>
+                  <strong className="status-band__value">€ {villaInfo.nightlyEUR.toFixed(0)}/night</strong>
+                </div>
+              </div>
+
               <div className="field-grid">
                 <label className="field">
                   <span className="field__label">Villa</span>
@@ -400,14 +431,6 @@ export default function BookingPage() {
                   <span className="field__label">Check-out</span>
                   <span className="field__value">{checkOutText}</span>
                 </button>
-                <div className="summary-pill">
-                  <span className="field__label">Stay</span>
-                  <span className="field__value">{nightsLabel}</span>
-                </div>
-                <div className="summary-pill">
-                  <span className="field__label">From</span>
-                  <span className="field__value">€ {villaInfo.nightlyEUR.toFixed(0)}/night</span>
-                </div>
               </div>
 
               {showValidation && !canSubmit && (!range?.from || !range?.to) && (

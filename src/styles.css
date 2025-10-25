@@ -151,6 +151,15 @@ textarea {
   background: #f8fafc;
 }
 
+.nav-btn.dark {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.nav-btn.dark:hover {
+  background: rgba(15, 23, 42, 0.75);
+}
+
 .booking {
   max-width: 1120px;
   margin: -90px auto 120px;
@@ -452,6 +461,38 @@ textarea {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+.status-band {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(14, 165, 183, 0.08);
+}
+
+.status-band__item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.status-band__label {
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.status-band__value {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 0.95rem;
+  word-break: break-word;
 }
 
 .card-step {
@@ -847,6 +888,10 @@ textarea {
   .booking__intro {
     padding: 22px;
   }
+
+  .status-band {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
@@ -887,6 +932,10 @@ textarea {
 
   .mobile-bar {
     display: flex;
+  }
+
+  .status-band {
+    grid-template-columns: 1fr;
   }
 }
 
