@@ -97,7 +97,7 @@ export default function BookingPage() {
   );
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
-  const mailtoUrl = `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}`;
+  const mailtoUrl = `mailto:reservations@nest-ulasli.com?subject=Booking – ${villaInfo.name}&body=${waText}`;
 
   const validationMessage = useMemo(() => {
     if (!showValidation || canSubmit) return "";
@@ -259,7 +259,7 @@ export default function BookingPage() {
         <TopNav />
         <div className="hero__inner">
           <span className="badge">by Dizman</span>
-          <h1 className="hero__title">NEST ULASLI – Booking Only</h1>
+          <h1 className="hero__title">NEST ULASLI – Booking </h1>
           <p className="hero__subtitle">
             Curate your stay, secure your preferred villa and tailor enhancements before confirming with our concierge team.
           </p>
