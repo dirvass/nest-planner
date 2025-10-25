@@ -30,8 +30,8 @@ const TRANSFER_PER_WAY = 100;
 const TRANSFER_INCLUDED_NIGHTS = 7;
 
 const MIN_NIGHTS = 3;
-const WHATSAPP_NUMBER = "905320000000";
-const WHATSAPP_DISPLAY = "+90 532 000 00 00";
+const WHATSAPP_NUMBER = "+905370123285";
+const WHATSAPP_DISPLAY = "+905370123285";
 
 function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
