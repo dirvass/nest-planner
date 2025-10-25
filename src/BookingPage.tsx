@@ -21,17 +21,19 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
 
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
-const EXTRA_GUEST_FEE_EUR = 200;
+const EXTRA_GUEST_FEE_EUR = 100;
 const INCLUDED_GUESTS = 2;
 
 const CHEF_DINNER_PER_NIGHT = 200;
 const QUAD_PER_HOUR = 50;
-const TRANSFER_PER_WAY = 100;
+const TRANSFER_PER_WAY = 150;
 const TRANSFER_INCLUDED_NIGHTS = 7;
 
 const MIN_NIGHTS = 3;
 const WHATSAPP_NUMBER = "905320000000";
 const WHATSAPP_DISPLAY = "+90 532 000 00 00";
+const WHATSAPP_NUMBER = "+905370123285";
+const WHATSAPP_DISPLAY = "+90537 012 32 85";
 
 function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
@@ -98,6 +100,7 @@ export default function BookingPage() {
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
   const mailtoUrl = `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}`;
+  const mailtoUrl = `mailto:reservations@nest-ulasli.com?subject=Booking – ${villaInfo.name}&body=${waText}`;
 
   const validationMessage = useMemo(() => {
     if (!showValidation || canSubmit) return "";
@@ -268,6 +271,7 @@ export default function BookingPage() {
         <div className="hero__inner">
           <span className="badge">by Dizman</span>
           <h1 className="hero__title">NEST ULASLI – Booking Only</h1>
+          <h1 className="hero__title">NEST ULASLI – Booking </h1>
           <p className="hero__subtitle">
             Curate your stay, secure your preferred villa and tailor enhancements before confirming with our concierge team.
           </p>
