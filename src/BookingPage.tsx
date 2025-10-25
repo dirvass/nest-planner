@@ -30,6 +30,8 @@ const TRANSFER_PER_WAY = 100;
 const TRANSFER_INCLUDED_NIGHTS = 7;
 
 const MIN_NIGHTS = 3;
+const WHATSAPP_NUMBER = "905320000000";
+const WHATSAPP_DISPLAY = "+90 532 000 00 00";
 
 function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
@@ -45,6 +47,7 @@ export default function BookingPage() {
   const [childrenOver2, setChildrenOver2] = useState(0);
   const [infants02, setInfants02] = useState(0);
   const [note, setNote] = useState("");
+  const [showValidation, setShowValidation] = useState(false);
 
   // Extras
   const [chef, setChef] = useState(false);
@@ -92,6 +95,37 @@ export default function BookingPage() {
     ].join("\n")
   );
 
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+  const mailtoUrl = `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}`;
+
+  const validationMessage = useMemo(() => {
+    if (!showValidation || canSubmit) return "";
+    if (!range?.from || !range?.to) return "Choose check-in and check-out dates to continue.";
+    if (underMinNights) return `Minimum stay is ${MIN_NIGHTS} nights for this villa.`;
+    if (overCapacity) return `${villaInfo.name} sleeps ${villaInfo.sleeps}. Reduce the number of adult or child guests.`;
+    return "Complete the details above to proceed.";
+  }, [showValidation, canSubmit, range?.from, range?.to, underMinNights, overCapacity, villaInfo.name, villaInfo.sleeps]);
+
+  const handleWhatsApp = () => {
+    if (!canSubmit) {
+      setShowValidation(true);
+      return;
+    }
+    if (typeof window !== "undefined") {
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleEmail = () => {
+    if (!canSubmit) {
+      setShowValidation(true);
+      return;
+    }
+    if (typeof window !== "undefined") {
+      window.location.href = mailtoUrl;
+    }
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const updateMonths = () => setMonths(window.innerWidth >= 1024 ? 2 : 1);
@@ -103,6 +137,10 @@ export default function BookingPage() {
   useEffect(() => {
     if (n >= TRANSFER_INCLUDED_NIGHTS) setTransferWays(0);
   }, [n]);
+
+  useEffect(() => {
+    if (canSubmit && showValidation) setShowValidation(false);
+  }, [canSubmit, showValidation]);
 
   const checkInText = range?.from ? format(range.from, "EEE, dd MMM") : "Add check-in";
   const checkOutText = range?.to ? format(range.to, "EEE, dd MMM") : "Add check-out";
@@ -203,8 +241,32 @@ export default function BookingPage() {
       </header>
 
       {/* CONTENT */}
-      <main className="container">
-        <section className="shell booking-grid booking-grid--summary-dominant">
+      <section className="container booking-progress" aria-label="How to book">
+        <div className="progress-card">
+          <div className="progress-head">
+            <div>
+              <span className="badge">Tailor your escape</span>
+              <h2>Booking concierge</h2>
+              <p>
+                Follow the steps to design your stay, explore enhancements, then send the details directly to our concierge team.
+              </p>
+            </div>
+            <div className="progress-meta">
+              <span className="meta-label">Talk to us</span>
+              <span className="meta-value">WhatsApp {WHATSAPP_DISPLAY}</span>
+              <span className="meta-sub">Everyday 09:00 – 22:00 TRT</span>
+            </div>
+          </div>
+          <ol className="progress-steps">
+            <li><strong>Step 1.</strong> Pick your villa and ideal dates.</li>
+            <li><strong>Step 2.</strong> Confirm who’s travelling and add enhancements.</li>
+            <li><strong>Step 3.</strong> Submit via WhatsApp or email to reserve.</li>
+          </ol>
+        </div>
+      </section>
+
+      <main className="container booking-container">
+        <section className="booking-grid booking-grid--summary-dominant">
           {/* SUMMARY */}
           <aside className="summary summary-card sticky" aria-labelledby="booking-summary-heading">
             <div className="summary-top">
@@ -252,22 +314,29 @@ export default function BookingPage() {
             )}
 
             <div className="summary-actions">
-              <a
-                className={`btn primary ${!canSubmit ? "disabled" : ""}`}
-                aria-disabled={!canSubmit}
-                href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
-                target="_blank" rel="noreferrer"
+              <button
+                type="button"
+                className="btn primary"
+                onClick={handleWhatsApp}
+                disabled={!canSubmit}
               >
-                Book on WhatsApp
-              </a>
-              <a
-                className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
-                aria-disabled={!canSubmit}
-                href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}` : undefined}
+                Start WhatsApp chat
+              </button>
+              <button
+                type="button"
+                className="btn ghost"
+                onClick={handleEmail}
+                disabled={!canSubmit}
               >
                 Email booking
-              </a>
+              </button>
             </div>
+
+            {validationMessage && (
+              <div className="notice info" role="status">
+                {validationMessage}
+              </div>
+            )}
 
             <div className="divider" />
 
@@ -310,7 +379,10 @@ export default function BookingPage() {
           {/* AVAILABILITY + FORM */}
           <div className="panel stack">
             <div className="panel-head">
-              <h3 className="panel-title">Availability</h3>
+              <div>
+                <span className="panel-step">Step 1</span>
+                <h3 className="panel-title">Stay dates &amp; villa</h3>
+              </div>
               <div className="chips">
                 <span className="chip">{chips.d}</span>
                 <span className="chip">{chips.nightsTxt}</span>
@@ -353,7 +425,7 @@ export default function BookingPage() {
                 </div>
               </div>
 
-              <div className="calendar-card no-overflow">
+              <div className="calendar-card">
                 <DayPicker
                   mode="range"
                   numberOfMonths={months}
@@ -365,6 +437,7 @@ export default function BookingPage() {
                   fromDate={today}
                   disabled={disabledDates}
                   showOutsideDays
+                  fixedWeeks
                   captionLayout="dropdown"
                   pagedNavigation
                 />
@@ -378,6 +451,13 @@ export default function BookingPage() {
 
               <div className="calendar-footnote muted">
                 Stay {MIN_NIGHTS}+ nights to unlock return transfers and a floating breakfast experience.
+              </div>
+            </div>
+
+            <div className="panel-head">
+              <div>
+                <span className="panel-step">Step 2</span>
+                <h3 className="panel-title">Guests</h3>
               </div>
             </div>
 
@@ -405,6 +485,13 @@ export default function BookingPage() {
                     {options(0, 6).map(v => <option key={`i-${v}`} value={v}>{v}</option>)}
                   </select>
                 </div>
+              </div>
+            </div>
+
+            <div className="panel-head">
+              <div>
+                <span className="panel-step">Step 3</span>
+                <h3 className="panel-title">Enhancements</h3>
               </div>
             </div>
 
@@ -446,6 +533,13 @@ export default function BookingPage() {
               </div>
             </div>
 
+            <div className="panel-head">
+              <div>
+                <span className="panel-step">Step 4</span>
+                <h3 className="panel-title">Special requests</h3>
+              </div>
+            </div>
+
             <div className="elite-field">
               <label className="label">Special requests</label>
               <textarea
@@ -467,21 +561,12 @@ export default function BookingPage() {
           <div className="sub">{n ? `${n} ${n === 1 ? "night" : "nights"}` : "Select dates"} · {villaInfo.name}</div>
         </div>
         <div className="actions">
-          <a
-            className={`btn primary ${!canSubmit ? "disabled" : ""}`}
-            aria-disabled={!canSubmit}
-            href={canSubmit ? `https://wa.me/00000000000?text=${waText}` : undefined}
-            target="_blank" rel="noreferrer"
-          >
+          <button type="button" className="btn primary" onClick={handleWhatsApp} disabled={!canSubmit}>
             WhatsApp
-          </a>
-          <a
-            className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
-            aria-disabled={!canSubmit}
-            href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}` : undefined}
-          >
+          </button>
+          <button type="button" className="btn ghost" onClick={handleEmail} disabled={!canSubmit}>
             Email
-          </a>
+          </button>
         </div>
       </div>
     </>
