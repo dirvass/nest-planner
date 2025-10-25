@@ -29,8 +29,8 @@ index 9af957fc1002abcd9bb3cda68f4b8a4f9e8c089c..fc7aa0db6e4e179003af92b5d0e59a75
  
  const MIN_NIGHTS = 3;
 +const CONTACT = {
-+  whatsappNumber: "905320000000",
-+  whatsappDisplay: "+90 532 000 00 00",
++  whatsappNumber: "905370123285",
++  whatsappDisplay: "+90 537 012 32 85",
 +  email: "reservations@nest-ulasli.com",
 +} as const;
  
@@ -110,7 +110,7 @@ index 9af957fc1002abcd9bb3cda68f4b8a4f9e8c089c..fc7aa0db6e4e179003af92b5d0e59a75
    );
  
 +  const whatsappUrl = `https://wa.me/${CONTACT.whatsappNumber}?text=${waText}`;
-+  const mailtoUrl = `mailto:${CONTACT.email}?subject=Booking Only – ${villaInfo.name}&body=${waText}`;
++  const mailtoUrl = `mailto:${CONTACT.email}?subject=Booking – ${villaInfo.name}&body=${waText}`;
 +
 +  const validationMessage = useMemo(() => {
 +    if (!showValidation || canSubmit) return "";
@@ -305,9 +305,9 @@ index 9af957fc1002abcd9bb3cda68f4b8a4f9e8c089c..fc7aa0db6e4e179003af92b5d0e59a75
 -        <div className="header-inner" style={{ textAlign: "center" }}>
 +        <div className="hero__inner">
            <span className="badge">by Dizman</span>
--          <h1 className="hero-title">NEST ULASLI – Booking Only</h1>
+-          <h1 className="hero-title">NEST ULASLI – Booking</h1>
 -          <div className="subtitle">
-+          <h1 className="hero__title">NEST ULASLI – Booking Only</h1>
++          <h1 className="hero__title">NEST ULASLI – Booking</h1>
 +          <p className="hero__subtitle">
              Curate your stay, secure your preferred villa and tailor enhancements before confirming with our concierge team.
 -          </div>
@@ -422,7 +422,7 @@ index 9af957fc1002abcd9bb3cda68f4b8a4f9e8c089c..fc7aa0db6e4e179003af92b5d0e59a75
 -              <a
 -                className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
 -                aria-disabled={!canSubmit}
--                href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}` : undefined}
+-                href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking – ${villaInfo.name}&body=${waText}` : undefined}
 -              >
 +              <button type="button" className="btn primary" onClick={handleWhatsApp} disabled={!canSubmit}>
 +                Start WhatsApp chat
@@ -855,7 +855,7 @@ index 9af957fc1002abcd9bb3cda68f4b8a4f9e8c089c..fc7aa0db6e4e179003af92b5d0e59a75
 -          <a
 -            className={`btn ghost ${!canSubmit ? "disabled" : ""}`}
 -            aria-disabled={!canSubmit}
--            href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking Only – ${villaInfo.name}&body=${waText}` : undefined}
+-            href={canSubmit ? `mailto:reservations@nest-ulasli.com?subject=Booking – ${villaInfo.name}&body=${waText}` : undefined}
 -          >
 -            Email
 -          </a>
