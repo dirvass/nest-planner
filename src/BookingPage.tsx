@@ -1,5 +1,5 @@
 import TopNav from "./components/TopNav";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
 import { differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
 import "react-day-picker/dist/style.css";
@@ -37,8 +37,9 @@ function nightsOf(range: DateRange | undefined) {
   if (!range?.from || !range.to) return 0;
   return Math.max(0, differenceInCalendarDays(range.to, range.from));
 }
-const euro = (n: number) => `€ ${n.toFixed(2)}`;
-const options = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+
+const euro = (value: number) => `€ ${value.toFixed(2)}`;
+const options = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, index) => from + index);
 
 export default function BookingPage() {
   const [villa, setVilla] = useState<VillaKey>("ALYA");
@@ -48,7 +49,6 @@ export default function BookingPage() {
   const [infants02, setInfants02] = useState(0);
   const [note, setNote] = useState("");
   const [showValidation, setShowValidation] = useState(false);
-  const [guestMenuOpen, setGuestMenuOpen] = useState(false);
 
   // Extras
   const [chef, setChef] = useState(false);
@@ -57,22 +57,21 @@ export default function BookingPage() {
 
   // Calendar responsiveness
   const [months, setMonths] = useState(1);
-  const guestPopoverRef = useRef<HTMLDivElement | null>(null);
 
-  const n = nightsOf(range);
+  const nights = nightsOf(range);
   const villaInfo = VILLAS[villa];
   const partySizeExclInfants = adults + childrenOver2;
   const overCapacity = partySizeExclInfants > villaInfo.sleeps;
-  const underMinNights = n > 0 && n < MIN_NIGHTS;
+  const underMinNights = nights > 0 && nights < MIN_NIGHTS;
 
   const extraGuests = Math.max(0, partySizeExclInfants - INCLUDED_GUESTS);
-  const base = n * villaInfo.nightlyEUR;
-  const extraGuestFee = n > 0 ? n * EXTRA_GUEST_FEE_EUR * extraGuests : 0;
-  const chefTotal = chef && n > 0 ? n * CHEF_DINNER_PER_NIGHT : 0;
+  const base = nights * villaInfo.nightlyEUR;
+  const extraGuestFee = nights > 0 ? nights * EXTRA_GUEST_FEE_EUR * extraGuests : 0;
+  const chefTotal = chef && nights > 0 ? nights * CHEF_DINNER_PER_NIGHT : 0;
   const quadTotal = quadHours * QUAD_PER_HOUR;
-  const transferIncluded = n >= TRANSFER_INCLUDED_NIGHTS;
+  const transferIncluded = nights >= TRANSFER_INCLUDED_NIGHTS;
   const transferTotal = transferIncluded ? 0 : transferWays * TRANSFER_PER_WAY;
-  const cleaning = n > 0 ? CLEANING_FEE : 0;
+  const cleaning = nights > 0 ? CLEANING_FEE : 0;
 
   const subtotal = base + extraGuestFee + chefTotal + quadTotal + transferTotal + cleaning;
   const service = subtotal * SERVICE_FEE_PCT;
@@ -81,7 +80,7 @@ export default function BookingPage() {
 
   const today = startOfToday();
   const disabledDates = [{ before: today }, ...BOOKED[villa]];
-  const canSubmit = n >= MIN_NIGHTS && !overCapacity;
+  const canSubmit = nights >= MIN_NIGHTS && !overCapacity;
 
   const waText = encodeURIComponent(
     [
@@ -89,12 +88,12 @@ export default function BookingPage() {
       `Villa: ${villaInfo.name}`,
       range?.from ? `Check-in: ${format(range.from, "dd MMM yyyy")}` : "Check-in: –",
       range?.to ? `Check-out: ${format(range.to, "dd MMM yyyy")}` : "Check-out: –",
-      `Nights: ${n}`,
+      `Nights: ${nights}`,
       `Guests: ${adults} adults, ${childrenOver2} children (over 2), ${infants02} infants (0–2)`,
       `Extras: Chef(dinner)=${chef ? "Yes" : "No"}, Quad=${quadHours}h, Transfers=${transferIncluded ? "Included" : `${transferWays} way(s)`}`,
       `Estimate: ${euro(total)} (excl. refundable deposit € ${deposit.toFixed(0)})`,
       note ? `Note: ${note}` : "",
-    ].join("\n")
+    ].filter(Boolean).join("\n"),
   );
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
@@ -130,19 +129,20 @@ export default function BookingPage() {
 
   const revealCalendar = () => {
     if (typeof document === "undefined") return;
-    const calendar = document.getElementById("booking-calendar");
-    calendar?.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("booking-calendar")?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const handleSearch = () => {
     if (!canSubmit) {
       setShowValidation(true);
+      if (typeof document !== "undefined") {
+        document.getElementById("booking-calendar")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
     }
-    if (typeof document === "undefined") return;
-    const targetId = !canSubmit && (!range?.from || !range?.to)
-      ? "booking-calendar"
-      : "booking-summary-heading";
-    document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (typeof document !== "undefined") {
+      document.getElementById("booking-summary-heading")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   useEffect(() => {
@@ -154,45 +154,31 @@ export default function BookingPage() {
   }, []);
 
   useEffect(() => {
-    if (n >= TRANSFER_INCLUDED_NIGHTS) setTransferWays(0);
-  }, [n]);
+    if (nights >= TRANSFER_INCLUDED_NIGHTS) setTransferWays(0);
+  }, [nights]);
 
   useEffect(() => {
     if (canSubmit && showValidation) setShowValidation(false);
   }, [canSubmit, showValidation]);
 
-  useEffect(() => {
-    if (!guestMenuOpen) return;
-    const handleClick = (event: MouseEvent) => {
-      if (!guestPopoverRef.current) return;
-      if (!guestPopoverRef.current.contains(event.target as Node)) {
-        setGuestMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [guestMenuOpen]);
-
   const checkInText = range?.from ? format(range.from, "EEE, dd MMM") : "Add check-in";
   const checkOutText = range?.to ? format(range.to, "EEE, dd MMM") : "Add check-out";
-  const nightsLabel = n ? `${n} ${n === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`;
+  const nightsLabel = nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`;
   const servicePct = Math.round(SERVICE_FEE_PCT * 100);
   const primaryGuests = adults + childrenOver2;
   const guestSummary = primaryGuests
     ? `${adults} adult${adults === 1 ? "" : "s"}`
-        + (childrenOver2
-          ? `, ${childrenOver2} child${childrenOver2 === 1 ? "" : "ren"}`
-          : "")
+        + (childrenOver2 ? `, ${childrenOver2} child${childrenOver2 === 1 ? "" : "ren"}` : "")
         + (infants02 ? `, ${infants02} infant${infants02 === 1 ? "" : "s"}` : "")
     : "Add guests";
 
-  const summarySections = [
+  const summarySections = useMemo(() => ([
     {
       title: "Stay essentials",
       lines: [
         {
           label: "Accommodation",
-          hint: n ? `${n} × € ${villaInfo.nightlyEUR.toFixed(0)}` : "Pick your travel dates",
+          hint: nights ? `${nights} × € ${villaInfo.nightlyEUR.toFixed(0)}` : "Pick your travel dates",
           amount: base,
           placeholder: "Add dates",
         },
@@ -200,8 +186,8 @@ export default function BookingPage() {
           label: "Extra guests",
           hint:
             extraGuests > 0
-              ? n > 0
-                ? `${n} × € ${EXTRA_GUEST_FEE_EUR} × ${extraGuests}`
+              ? nights > 0
+                ? `${nights} × € ${EXTRA_GUEST_FEE_EUR} × ${extraGuests}`
                 : "Add dates to calculate extra guest fees"
               : `Included for ${INCLUDED_GUESTS} guests`,
           amount: extraGuestFee,
@@ -214,7 +200,7 @@ export default function BookingPage() {
       lines: [
         {
           label: "Private chef (dinner)",
-          hint: chef && n > 0 ? `${n} × € ${CHEF_DINNER_PER_NIGHT}` : "Perfect for celebrations",
+          hint: chef && nights > 0 ? `${nights} × € ${CHEF_DINNER_PER_NIGHT}` : "Perfect for celebrations",
           amount: chefTotal,
           placeholder: chef ? "Add dates" : "Not added",
         },
@@ -241,7 +227,7 @@ export default function BookingPage() {
       lines: [
         {
           label: "Cleaning fee",
-          hint: n > 0 ? "Per stay" : "Added once your stay is scheduled",
+          hint: nights > 0 ? "Per stay" : "Added once your stay is scheduled",
           amount: cleaning,
           placeholder: "—",
         },
@@ -253,323 +239,199 @@ export default function BookingPage() {
         },
       ],
     },
-  ];
-
-  const chips = useMemo(() => {
-    const d = range?.from && range?.to
-      ? `${format(range.from, "dd MMM")} → ${format(range.to, "dd MMM yyyy")}`
-      : "Select dates";
-    const nightsTxt = n ? `${n} ${n === 1 ? "night" : "nights"}` : `${MIN_NIGHTS}+ nights`;
-    const partyTxt = `${adults}A · ${childrenOver2}C · ${infants02}I`;
-    const fromTxt = `From € ${villaInfo.nightlyEUR.toFixed(0)}/night`;
-    return { d, nightsTxt, partyTxt, fromTxt };
-  }, [range, n, adults, childrenOver2, infants02, villaInfo.nightlyEUR]);
-
-  const adjustGuests = (setter: React.Dispatch<React.SetStateAction<number>>, delta: number, min: number, max: number) => {
-    setter((prev) => {
-      const next = prev + delta;
-      if (next < min) return min;
-      if (next > max) return max;
-      return next;
-    });
-  };
+  ]), [base, chef, chefTotal, cleaning, extraGuestFee, extraGuests, nights, quadHours, quadTotal, service, servicePct, transferIncluded, transferTotal, transferWays, villaInfo.nightlyEUR]);
 
   return (
     <>
-      {/* HERO */}
-      <header className="header">
+      <header className="hero">
         <TopNav />
-        <div className="header-inner" style={{ textAlign: "center" }}>
+        <div className="hero__inner">
           <span className="badge">by Dizman</span>
-          <h1 className="hero-title">NEST ULASLI – Booking Only</h1>
-          <div className="subtitle">
+          <h1 className="hero__title">NEST ULASLI – Booking Only</h1>
+          <p className="hero__subtitle">
             Curate your stay, secure your preferred villa and tailor enhancements before confirming with our concierge team.
-          </div>
+          </p>
         </div>
       </header>
 
-      {/* CONTENT */}
-      <section className="container booking-progress" aria-label="How to book">
-        <div className="progress-card">
-          <div className="progress-head">
-            <div>
+      <main className="booking">
+        <section className="booking__intro" aria-label="Booking concierge steps">
+          <div className="intro-card">
+            <div className="intro-copy">
               <span className="badge">Tailor your escape</span>
               <h2>Booking concierge</h2>
               <p>
                 Follow the steps to design your stay, explore enhancements, then send the details directly to our concierge team.
               </p>
             </div>
-            <div className="progress-meta">
+            <div className="intro-meta">
               <span className="meta-label">Talk to us</span>
               <span className="meta-value">WhatsApp {WHATSAPP_DISPLAY}</span>
               <span className="meta-sub">Everyday 09:00 – 22:00 TRT</span>
             </div>
           </div>
-          <ol className="progress-steps">
+          <ol className="intro-steps">
             <li><strong>Step 1.</strong> Pick your villa and ideal dates.</li>
             <li><strong>Step 2.</strong> Confirm who’s travelling and add enhancements.</li>
             <li><strong>Step 3.</strong> Submit via WhatsApp or email to reserve.</li>
           </ol>
-        </div>
-      </section>
+        </section>
 
-      <main className="container booking-container">
-        <section className="booking-grid booking-grid--summary-dominant">
-          {/* SUMMARY */}
-          <aside className="summary summary-card sticky" aria-labelledby="booking-summary-heading">
-            <div className="summary-top">
+        <section className="booking__layout">
+          <aside className="summary-card" aria-labelledby="booking-summary-heading">
+            <div className="summary-card__header">
               <div>
                 <span className="summary-label">Estimated total</span>
                 <h2 id="booking-summary-heading" className="summary-total">{euro(total)}</h2>
-                <p className="summary-sub muted">
-                  {n ? `For ${nightsLabel} in ${villaInfo.name}` : "Add dates to reveal your bespoke quote"} — excludes refundable deposit (€ {deposit.toFixed(0)}).
+                <p className="summary-sub">
+                  {nights ? `For ${nightsLabel} in ${villaInfo.name}` : "Add dates to reveal your bespoke quote"} — excludes refundable deposit (€ {deposit.toFixed(0)}).
                 </p>
               </div>
-              <div className="summary-bubble" aria-live="polite">
-                <span className="summary-bubble-label">Deposit due</span>
-                <span className="summary-bubble-value">€ {deposit.toFixed(0)}</span>
-                <span className="summary-bubble-hint">Refundable on checkout</span>
+              <div className="summary-chip" aria-live="polite">
+                <span className="summary-chip__label">Deposit due</span>
+                <span className="summary-chip__value">€ {deposit.toFixed(0)}</span>
+                <span className="summary-chip__hint">Refundable on checkout</span>
               </div>
             </div>
 
-            <div className="summary-meta-grid">
-              <div className="meta-card">
-                <span className="meta-label">Villa</span>
-                <span className="meta-value">{villaInfo.name}</span>
-                <span className="meta-sub">Sleeps {villaInfo.sleeps}</span>
+            <dl className="summary-meta">
+              <div>
+                <dt>Villa</dt>
+                <dd>{villaInfo.name}</dd>
+                <small>Sleeps {villaInfo.sleeps}</small>
               </div>
-              <div className="meta-card">
-                <span className="meta-label">Stay length</span>
-                <span className="meta-value">{n ? nightsLabel : "Select dates"}</span>
-                <span className="meta-sub">{MIN_NIGHTS}+ night minimum</span>
+              <div>
+                <dt>Stay length</dt>
+                <dd>{nights ? nightsLabel : "Select dates"}</dd>
+                <small>{MIN_NIGHTS}+ night minimum</small>
               </div>
-              <div className="meta-card">
-                <span className="meta-label">Guests</span>
-                <span className="meta-value">{partySizeExclInfants} guest{partySizeExclInfants === 1 ? "" : "s"}</span>
-                <span className="meta-sub">{infants02} infant{infants02 === 1 ? "" : "s"} (0–2)</span>
+              <div>
+                <dt>Guests</dt>
+                <dd>{partySizeExclInfants} guest{partySizeExclInfants === 1 ? "" : "s"}</dd>
+                <small>{infants02} infant{infants02 === 1 ? "" : "s"} (0–2)</small>
               </div>
-            </div>
-
-            {underMinNights && (
-              <div className="notice error" role="alert">
-                Minimum stay is {MIN_NIGHTS} nights. Please adjust your dates.
-              </div>
-            )}
-            {overCapacity && (
-              <div className="notice warning" role="alert">
-                {villaInfo.name} sleeps {villaInfo.sleeps}. Reduce adult or children guests to proceed.
-              </div>
-            )}
+            </dl>
 
             <div className="summary-actions">
-              <button
-                type="button"
-                className="btn primary"
-                onClick={handleWhatsApp}
-                disabled={!canSubmit}
-              >
+              <button type="button" className="btn primary" onClick={handleWhatsApp} disabled={!canSubmit}>
                 Start WhatsApp chat
               </button>
-              <button
-                type="button"
-                className="btn ghost"
-                onClick={handleEmail}
-                disabled={!canSubmit}
-              >
+              <button type="button" className="btn ghost" onClick={handleEmail} disabled={!canSubmit}>
                 Email booking
               </button>
             </div>
 
             {showValidation && !canSubmit && range?.from && range?.to && validationMessage && (
-              <div className="notice info" role="status">
-                {validationMessage}
-              </div>
+              <div className="summary-note" role="status">{validationMessage}</div>
             )}
 
-            <div className="divider" />
-
-            {summarySections.map((section) => (
-              <section className="summary-section" key={section.title} aria-label={`${section.title} breakdown`}>
-                <h3 className="summary-section-title">{section.title}</h3>
-                <div className="summary-section-lines">
-                  {section.lines.map((line) => (
-                    <div className="summary-line" key={line.label}>
-                      <div className="summary-line-copy">
-                        <span className="summary-line-label">{line.label}</span>
-                        <span className="summary-line-hint">{line.hint}</span>
-                      </div>
-                      <span className={`summary-line-value ${line.amount === 0 ? "muted" : ""}`}>
-                        {line.amount > 0 ? euro(line.amount) : line.placeholder}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ))}
-
-            <div className="summary-foot muted">
-              Complimentary experiences unlock automatically once your stay reaches the qualifying nights.
+            <div className="summary-breakdown">
+              {summarySections.map((section) => (
+                <section key={section.title} aria-label={`${section.title} breakdown`}>
+                  <h3>{section.title}</h3>
+                  <ul>
+                    {section.lines.map((line) => (
+                      <li key={line.label}>
+                        <div>
+                          <span className="line-label">{line.label}</span>
+                          <span className="line-hint">{line.hint}</span>
+                        </div>
+                        <span className={`line-value ${line.amount === 0 ? "muted" : ""}`}>
+                          {line.amount > 0 ? euro(line.amount) : line.placeholder}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
             </div>
 
-            <div className="included included-modern">
-              <span className="badge-soft">Daily breakfast</span>
-              <span className="badge-soft">Bicycles</span>
-              <span className="badge-soft">Table tennis</span>
-              {n >= TRANSFER_INCLUDED_NIGHTS && (
+            <p className="summary-foot">
+              Complimentary experiences unlock automatically once your stay reaches the qualifying nights.
+            </p>
+
+            <div className="summary-included">
+              <span>Daily breakfast</span>
+              <span>Bicycles</span>
+              <span>Table tennis</span>
+              {nights >= TRANSFER_INCLUDED_NIGHTS && (
                 <>
-                  <span className="badge-soft">Return transfers</span>
-                  <span className="badge-soft">1× Floating breakfast</span>
+                  <span>Return transfers</span>
+                  <span>1× Floating breakfast</span>
                 </>
               )}
             </div>
           </aside>
 
-          {/* AVAILABILITY + FORM */}
-          <div className="panel stack">
-            <div className="panel-head">
-              <div>
-                <span className="panel-step">Step 1</span>
-                <h3 className="panel-title">Plan your stay</h3>
-              </div>
-              <div className="chips">
-                <span className="chip">{chips.d}</span>
-                <span className="chip">{chips.nightsTxt}</span>
-                <span className="chip">{chips.partyTxt}</span>
-                <span className="chip chip-soft">{chips.fromTxt}</span>
-              </div>
-            </div>
+          <section className="booking-flow">
+            <article className="card availability" aria-labelledby="availability-heading">
+              <header className="card-header">
+                <div>
+                  <span className="card-step">Step 1</span>
+                  <h3 id="availability-heading">Check availability</h3>
+                </div>
+                <button
+                  type="button"
+                  className="link-button"
+                  onClick={() => { setRange(undefined); setShowValidation(false); }}
+                >
+                  Reset dates
+                </button>
+              </header>
 
-            <div className="stay-search">
-              <div className="stay-search-top">
-                <label className="stay-select">
-                  <span className="stay-select-label">Villa</span>
+              <div className="field-grid">
+                <label className="field">
+                  <span className="field__label">Villa</span>
                   <select
                     aria-label="Select villa"
                     value={villa}
-                    onChange={(e) => { setVilla(e.target.value as VillaKey); setRange(undefined); }}
+                    onChange={(event) => { setVilla(event.target.value as VillaKey); setRange(undefined); setShowValidation(false); }}
                   >
                     <option value="ALYA">ALYA — sleeps 8</option>
                     <option value="ZEHRA">ZEHRA — sleeps 6</option>
                   </select>
                 </label>
-                <button
-                  className="stay-reset"
-                  onClick={() => { setRange(undefined); setShowValidation(false); }}
-                  aria-label="Reset dates"
-                >
-                  Reset dates
+
+                <button type="button" className="date-field" onClick={revealCalendar}>
+                  <span className="field__label">Check-in</span>
+                  <span className="field__value">{checkInText}</span>
                 </button>
-              </div>
-
-              <div className="stay-search-inner">
-                <button type="button" className="stay-field stay-field--dates" onClick={revealCalendar}>
-                  <span className="stay-field-block">
-                    <span className="stay-field-label">Check-in</span>
-                    <span className="stay-field-value">{checkInText}</span>
-                  </span>
-                  <span className="stay-field-arrow" aria-hidden>
-                    →
-                  </span>
-                  <span className="stay-field-block">
-                    <span className="stay-field-label">Check-out</span>
-                    <span className="stay-field-value">{checkOutText}</span>
-                  </span>
+                <button type="button" className="date-field" onClick={revealCalendar}>
+                  <span className="field__label">Check-out</span>
+                  <span className="field__value">{checkOutText}</span>
                 </button>
-
-                <span className="stay-divider" aria-hidden />
-
-                <div className="stay-guest" ref={guestPopoverRef}>
-                  <button
-                    type="button"
-                    className={`stay-field ${guestMenuOpen ? "is-active" : ""}`}
-                    onClick={() => setGuestMenuOpen((open) => !open)}
-                    aria-haspopup="dialog"
-                    aria-expanded={guestMenuOpen}
-                  >
-                    <span className="stay-field-label">Guests</span>
-                    <span className="stay-field-value">{guestSummary}</span>
-                  </button>
-
-                  {guestMenuOpen && (
-                    <div className="guest-popover" role="dialog" aria-label="Guest selection">
-                      <div className="guest-row">
-                        <div>
-                          <span className="guest-title">Adults</span>
-                          <span className="guest-sub">Ages 13+</span>
-                        </div>
-                        <div className="guest-counter">
-                          <button type="button" onClick={() => adjustGuests(setAdults, -1, 1, 12)} aria-label="Remove adult">−</button>
-                          <span>{adults}</span>
-                          <button type="button" onClick={() => adjustGuests(setAdults, 1, 1, 12)} aria-label="Add adult">+</button>
-                        </div>
-                      </div>
-                      <div className="guest-row">
-                        <div>
-                          <span className="guest-title">Children</span>
-                          <span className="guest-sub">Ages 3–12</span>
-                        </div>
-                        <div className="guest-counter">
-                          <button type="button" onClick={() => adjustGuests(setChildrenOver2, -1, 0, 12)} aria-label="Remove child">−</button>
-                          <span>{childrenOver2}</span>
-                          <button type="button" onClick={() => adjustGuests(setChildrenOver2, 1, 0, 12)} aria-label="Add child">+</button>
-                        </div>
-                      </div>
-                      <div className="guest-row">
-                        <div>
-                          <span className="guest-title">Infants</span>
-                          <span className="guest-sub">Under 3</span>
-                        </div>
-                        <div className="guest-counter">
-                          <button type="button" onClick={() => adjustGuests(setInfants02, -1, 0, 6)} aria-label="Remove infant">−</button>
-                          <span>{infants02}</span>
-                          <button type="button" onClick={() => adjustGuests(setInfants02, 1, 0, 6)} aria-label="Add infant">+</button>
-                        </div>
-                      </div>
-                      <button type="button" className="guest-close" onClick={() => setGuestMenuOpen(false)}>
-                        Done
-                      </button>
-                    </div>
-                  )}
+                <div className="summary-pill">
+                  <span className="field__label">Stay</span>
+                  <span className="field__value">{nightsLabel}</span>
                 </div>
-
-                <span className="stay-divider stay-divider--flush" aria-hidden />
-
-                <button type="button" className="stay-search-btn" onClick={handleSearch}>
-                  Search
-                </button>
+                <div className="summary-pill">
+                  <span className="field__label">From</span>
+                  <span className="field__value">€ {villaInfo.nightlyEUR.toFixed(0)}/night</span>
+                </div>
               </div>
 
-              {showValidation && !canSubmit && validationMessage && (
-                <div className="stay-validation" role="alert">
-                  {validationMessage}
+              {showValidation && !canSubmit && (!range?.from || !range?.to) && (
+                <div className="inline-warning" role="alert">
+                  Choose check-in and check-out dates to continue.
                 </div>
               )}
-            </div>
+              {showValidation && !canSubmit && range?.from && range?.to && underMinNights && (
+                <div className="inline-warning" role="alert">
+                  Minimum stay is {MIN_NIGHTS} nights for this villa.
+                </div>
+              )}
 
-            <div className="calendar-shell">
-              <div className="calendar-metrics">
-                <div className="calendar-metric">
-                  <span className="calendar-metric-label">Check-in</span>
-                  <span className="calendar-metric-value">{checkInText}</span>
-                </div>
-                <div className="calendar-metric">
-                  <span className="calendar-metric-label">Check-out</span>
-                  <span className="calendar-metric-value">{checkOutText}</span>
-                </div>
-                <div className="calendar-metric">
-                  <span className="calendar-metric-label">Stay</span>
-                  <span className="calendar-metric-value">{n ? nightsLabel : `${MIN_NIGHTS}+ nights`}</span>
-                </div>
-              </div>
-
-              <div className="calendar-card" id="booking-calendar">
+              <div className="calendar" id="booking-calendar">
                 <DayPicker
                   mode="range"
                   numberOfMonths={months}
                   selected={range}
-                  onSelect={(r) => {
-                    if (r?.from && r?.to && isBefore(r.to, r.from)) setRange({ from: r.to, to: r.from });
-                    else setRange(r);
+                  onSelect={(selectedRange) => {
+                    if (selectedRange?.from && selectedRange?.to && isBefore(selectedRange.to, selectedRange.from)) {
+                      setRange({ from: selectedRange.to, to: selectedRange.from });
+                    } else {
+                      setRange(selectedRange);
+                    }
                   }}
                   fromDate={today}
                   disabled={disabledDates}
@@ -580,96 +442,139 @@ export default function BookingPage() {
                 />
               </div>
 
-              <div className="calendar-legend">
-                <span><span className="dot dot-sel" /> Selected</span>
-                <span><span className="dot dot-un" /> Unavailable</span>
-                <span><span className="dot dot-av" /> Available</span>
+              <div className="calendar-foot">
+                <div className="legend">
+                  <span><span className="dot dot--selected" /> Selected</span>
+                  <span><span className="dot dot--unavailable" /> Unavailable</span>
+                  <span><span className="dot dot--available" /> Available</span>
+                </div>
+                <p>Stay {MIN_NIGHTS}+ nights to unlock return transfers and a floating breakfast experience.</p>
               </div>
 
-              <div className="calendar-footnote muted">
-                Stay {MIN_NIGHTS}+ nights to unlock return transfers and a floating breakfast experience.
+              <div className="card-actions">
+                <button type="button" className="btn primary" onClick={handleSearch}>
+                  Review pricing
+                </button>
               </div>
-            </div>
+            </article>
 
-            <div className="panel-head">
-              <div>
-                <span className="panel-step">Step 2</span>
-                <h3 className="panel-title">Enhancements</h3>
+            <article className="card" aria-labelledby="guests-heading">
+              <header className="card-header">
+                <div>
+                  <span className="card-step">Step 2</span>
+                  <h3 id="guests-heading">Guest details</h3>
+                </div>
+              </header>
+
+              <div className="guest-grid">
+                <label className="field">
+                  <span className="field__label">Adults</span>
+                  <select value={adults} onChange={(event) => setAdults(Number(event.target.value))}>
+                    {options(1, 12).map((value) => (
+                      <option key={`adult-${value}`} value={value}>{value}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="field">
+                  <span className="field__label">Children (3–12)</span>
+                  <select value={childrenOver2} onChange={(event) => setChildrenOver2(Number(event.target.value))}>
+                    {options(0, 12).map((value) => (
+                      <option key={`child-${value}`} value={value}>{value}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="field">
+                  <span className="field__label">Infants (0–2)</span>
+                  <select value={infants02} onChange={(event) => setInfants02(Number(event.target.value))}>
+                    {options(0, 6).map((value) => (
+                      <option key={`infant-${value}`} value={value}>{value}</option>
+                    ))}
+                  </select>
+                </label>
               </div>
-            </div>
 
-            <div className="extras panel">
-              <h4 className="extras-title">Enhance your stay (optional)</h4>
-              <label className="switch">
-                <input type="checkbox" checked={chef} onChange={(e) => setChef(e.target.checked)} />
-                <span className="slider" />
-                <div className="switch-label">
+              <p className="field-hint">{villaInfo.name} sleeps {villaInfo.sleeps}. Additional guests incur € {EXTRA_GUEST_FEE_EUR} per person per night.</p>
+
+              {showValidation && overCapacity && (
+                <div className="inline-warning" role="alert">
+                  {villaInfo.name} sleeps {villaInfo.sleeps}. Reduce adult or child guests to proceed.
+                </div>
+              )}
+            </article>
+
+            <article className="card" aria-labelledby="enhancements-heading">
+              <header className="card-header">
+                <div>
+                  <span className="card-step">Step 3</span>
+                  <h3 id="enhancements-heading">Enhancements</h3>
+                </div>
+              </header>
+
+              <label className="toggle">
+                <input type="checkbox" checked={chef} onChange={(event) => setChef(event.target.checked)} />
+                <span className="toggle__control" />
+                <div>
                   <strong>Private chef (dinner)</strong>
-                  <span>€ {CHEF_DINNER_PER_NIGHT} / night</span>
+                  <span>€ {CHEF_DINNER_PER_NIGHT} per night</span>
                 </div>
               </label>
 
-              <div className="extras-row">
-                <div className="elite-field">
-                  <label className="label">Quad bike (hours)</label>
-                  <div className="select-wrap" style={{ width: 140 }}>
-                    <select value={quadHours} onChange={(e) => setQuadHours(Number(e.target.value))}>
-                      {options(0, 12).map(v => <option key={`qh-${v}`} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <div className="helper">€ {QUAD_PER_HOUR} / hour</div>
-                </div>
-
-                <div className="elite-field">
-                  <label className="label">Airport transfer (ways)</label>
-                  <div className="select-wrap" style={{ width: 140 }}>
-                    <select
-                      value={transferWays}
-                      onChange={(e) => setTransferWays(Number(e.target.value))}
-                      disabled={transferIncluded}
-                    >
-                      {[0,1,2].map(v => <option key={`tw-${v}`} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <div className="helper">{transferIncluded ? "Included for 7+ nights" : `€ ${TRANSFER_PER_WAY} / way`}</div>
-                </div>
+              <div className="enhancement-grid">
+                <label className="field">
+                  <span className="field__label">Quad bike (hours)</span>
+                  <select value={quadHours} onChange={(event) => setQuadHours(Number(event.target.value))}>
+                    {options(0, 12).map((value) => (
+                      <option key={`quad-${value}`} value={value}>{value}</option>
+                    ))}
+                  </select>
+                  <span className="field-hint">€ {QUAD_PER_HOUR} per hour</span>
+                </label>
+                <label className="field">
+                  <span className="field__label">Airport transfer (ways)</span>
+                  <select
+                    value={transferWays}
+                    onChange={(event) => setTransferWays(Number(event.target.value))}
+                    disabled={transferIncluded}
+                  >
+                    {[0, 1, 2].map((value) => (
+                      <option key={`transfer-${value}`} value={value}>{value}</option>
+                    ))}
+                  </select>
+                  <span className="field-hint">{transferIncluded ? "Included for 7+ nights" : `€ ${TRANSFER_PER_WAY} per way`}</span>
+                </label>
               </div>
-            </div>
+            </article>
 
-            <div className="panel-head">
-              <div>
-                <span className="panel-step">Step 3</span>
-                <h3 className="panel-title">Special requests</h3>
-              </div>
-            </div>
+            <article className="card" aria-labelledby="requests-heading">
+              <header className="card-header">
+                <div>
+                  <span className="card-step">Step 4</span>
+                  <h3 id="requests-heading">Special requests</h3>
+                </div>
+              </header>
 
-            <div className="elite-field">
-              <label className="label">Special requests</label>
-              <textarea
-                className="textarea luxe"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="Airport transfer timing, chef preferences, dietary needs, nanny…"
-                rows={3}
-              />
-            </div>
-          </div>
+              <label className="field textarea-field">
+                <span className="field__label">Let us know anything else</span>
+                <textarea
+                  value={note}
+                  onChange={(event) => setNote(event.target.value)}
+                  placeholder="Airport transfer timing, chef preferences, dietary needs, nanny…"
+                  rows={4}
+                />
+              </label>
+            </article>
+          </section>
         </section>
       </main>
 
-      {/* MOBILE STICKY BAR */}
-      <div className="bottom-bar" role="region" aria-label="Quick booking actions">
-        <div className="info">
-          <div className="total">{euro(total)}</div>
-          <div className="sub">{n ? `${n} ${n === 1 ? "night" : "nights"}` : "Select dates"} · {villaInfo.name}</div>
+      <div className="mobile-bar" role="region" aria-label="Quick booking actions">
+        <div>
+          <strong>{euro(total)}</strong>
+          <span>{nights ? `${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates"} · {guestSummary}</span>
         </div>
-        <div className="actions">
-          <button type="button" className="btn primary" onClick={handleWhatsApp} disabled={!canSubmit}>
-            WhatsApp
-          </button>
-          <button type="button" className="btn ghost" onClick={handleEmail} disabled={!canSubmit}>
-            Email
-          </button>
+        <div className="mobile-bar__actions">
+          <button type="button" className="btn primary" onClick={handleWhatsApp} disabled={!canSubmit}>WhatsApp</button>
+          <button type="button" className="btn ghost" onClick={handleEmail} disabled={!canSubmit}>Email</button>
         </div>
       </div>
     </>
