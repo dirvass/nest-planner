@@ -64,7 +64,7 @@ header.hero .badge,
    =======================================================*/
 .booking{
   max-width: 1120px;
-  margin: -90px auto 120px;
+  margin: -48px auto 120px;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
@@ -345,6 +345,32 @@ header.hero .badge,
 .booking + .mobile-bar .mobile-bar__actions,
 .booking .mobile-bar__actions{ display:flex; gap:10px }
 
+/* Floating WhatsApp button */
+.whatsapp-fab{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 28px rgba(34,197,94,.35), 0 2px 6px rgba(0,0,0,.15);
+  border: 1px solid rgba(255,255,255,.6);
+  z-index: 60;
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.whatsapp-fab:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+@media (max-width: 480px){
+  .whatsapp-fab{ right: 14px; bottom: 14px; width: 52px; height: 52px; }
+}
+
 /* =========================== Breakpoints ============================*/
 @media (min-width:1200px){
   .booking{ max-width:1320px }
@@ -400,6 +426,7 @@ header.hero .badge,
   .booking .intro-card{ flex-direction:column }
   .booking{ padding:0 16px }
 }
+
 /* ===================== Planner page (scoped) ===================== */
 .planner {
   max-width: 1200px;
