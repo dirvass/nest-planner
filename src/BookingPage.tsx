@@ -1,4 +1,3 @@
-cat > src/BookingPage.tsx <<'TS'
 import TopNav from "./components/TopNav";
 import React, { useEffect, useMemo, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
@@ -619,4 +618,3 @@ export default function BookingPage() {
     </>
   );
 }
-TS
