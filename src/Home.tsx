@@ -3,15 +3,18 @@ import TopNav from "./components/TopNav";
 
 export default function Home() {
   return (
-    <header className="header">
+    <header className="hero">
+      {/* Top navigation */}
       <TopNav />
-      <div className="header-inner" style={{ textAlign: "center" }}>
+
+      {/* Hero content */}
+      <div className="hero__inner">
         <span className="badge">by Ahmed Said Dizman</span>
-        <h1 className="hero-title">NEST ULASLI</h1>
-        <p className="hero-subtitle">
-          Annual Profit Planner - villa gelir–gider ve ROI senaryoları
+        <h1 className="hero__title">NEST ULASLI</h1>
+        <p className="hero__subtitle">
+          Annual Profit Planner – villa gelir–gider ve ROI senaryoları
         </p>
-        <div className="hero-buttons" aria-hidden />
+        <div className="hero-buttons" aria-hidden="true" />
       </div>
     </header>
   );
