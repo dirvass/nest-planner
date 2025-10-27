@@ -21,7 +21,7 @@ const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
 
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
-const EXTRA_GUEST_FEE_EUR = 200;
+const EXTRA_GUEST_FEE_EUR = 100;
 const INCLUDED_GUESTS = 2;
 
 const CHEF_DINNER_PER_NIGHT = 200;
@@ -32,8 +32,8 @@ const TRANSFER_INCLUDED_NIGHTS = 7;
 const MIN_NIGHTS = 3;
 
 const CONTACT = {
-  whatsappNumber: "905320000000",
-  whatsappDisplay: "+90 532 000 00 00",
+  whatsappNumber: "905370123285",
+  whatsappDisplay: "+90 537 012 32 85",
   email: "reservations@nest-ulasli.com",
 } as const;
 
@@ -292,12 +292,23 @@ export default function BookingPage() {
                 Follow the steps to design your stay, explore enhancements, then send the details directly to our concierge team.
               </p>
             </div>
+
+            {/* WhatsApp contact as a button */}
             <div className="intro-meta">
               <span className="meta-label">Talk to us</span>
-              <span className="meta-value">WhatsApp {CONTACT.whatsappDisplay}</span>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn primary"
+                aria-label={`WhatsApp ${CONTACT.whatsappDisplay}`}
+              >
+                WhatsApp {CONTACT.whatsappDisplay}
+              </a>
               <span className="meta-sub">Everyday 09:00 – 22:00 TRT</span>
             </div>
           </div>
+
           <ol className="intro-steps">
             <li><strong>Step 1.</strong> Pick your villa and ideal dates.</li>
             <li><strong>Step 2.</strong> Confirm who’s travelling and add enhancements.</li>
@@ -474,8 +485,8 @@ export default function BookingPage() {
                   }}
                   fromDate={today}
                   disabled={disabledDates}
-                  showOutsideDays
-                  fixedWeeks
+                  showOutsideDays={false}   // FIX: ay dışı günleri gizle
+                  fixedWeeks={false}        // FIX: 6 haftaya sabitlemeyi kapat
                   captionLayout="dropdown"
                   pagedNavigation
                 />
@@ -579,7 +590,7 @@ export default function BookingPage() {
                       <option key={`transfer-${value}`} value={value}>{value}</option>
                     ))}
                   </select>
-                  <span className="field-hint">{transferIncluded ? "Included for 7+ nights" : `€ {TRANSFER_PER_WAY} per way`}</span>
+                  <span className="field-hint">{transferIncluded ? "Included for 7+ nights" : `€ ${TRANSFER_PER_WAY} per way`}</span>
                 </label>
               </div>
             </article>
