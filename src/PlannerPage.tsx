@@ -68,7 +68,7 @@ export default function PlannerPage() {
     const cost: Record<Scenario, number> = {
       pessimistic: 0.40,
       base:        0.35,
-      optimistic:  0.30, // optimistic cost = 30%
+      optimistic:  0.30,
     };
     setVillas(prev => prev.map((v, i) => ({
       ...v,
@@ -112,18 +112,18 @@ export default function PlannerPage() {
   return (
     <>
       {/* HERO */}
-      <header className="header">
+      <header className="hero">
         <TopNav />
-        <div className="header-inner" style={{ textAlign: "center" }}>
+        <div className="hero__inner" style={{ textAlign: "center" }}>
           <span className="badge">by Ahmed Said Dizman</span>
-          <h1 className="hero-title">NEST ULAŞLI</h1>
-          <p className="hero-subtitle">Annual Profit Planner - villa gelir–gider ve ROI senaryoları</p>
+          <h1 className="hero__title">NEST ULAŞLI</h1>
+          <p className="hero__subtitle">Annual Profit Planner - villa gelir–gider ve ROI senaryoları</p>
         </div>
       </header>
 
       {/* CONTENT */}
-      <main className="container">
-        <section className="shell main-card stack-lg">
+      <main className="planner">
+        <section className="card stack-lg">
           {/* Controls */}
           <div className="toolbar">
             <div title="All values are stored in Euro. Display currency applies conversion.">
@@ -136,28 +136,28 @@ export default function PlannerPage() {
             </div>
 
             <span style={{ marginLeft: 8 }}>Scenario presets:</span>
-            <button className="ghost" onClick={() => applyScenario("pessimistic")}>Pesimistik</button>
-            <button className="ghost" onClick={() => applyScenario("base")}>Muhtemel</button>
-            <button className="ghost" onClick={() => applyScenario("optimistic")}>Optimistik</button>
+            <button className="btn ghost" onClick={() => applyScenario("pessimistic")}>Pesimistik</button>
+            <button className="btn ghost" onClick={() => applyScenario("base")}>Muhtemel</button>
+            <button className="btn ghost" onClick={() => applyScenario("optimistic")}>Optimistik</button>
 
-            <button className="primary" onClick={addVilla} style={{ marginLeft: "auto" }}>+ Villa ekle</button>
+            <button className="btn primary" onClick={addVilla} style={{ marginLeft: "auto" }}>+ Villa ekle</button>
           </div>
 
           {/* Table */}
-          <div className="table-wrap">
+          <div className="table-wrap card">
             <table>
               <thead>
                 <tr>
-                  <th className="sticky">Villa</th>
-                  <th className="sticky">Günlük Ücret (EUR)</th>
-                  <th className="sticky">Doluluk</th>
-                  <th className="sticky">Maliyet %</th>
-                  <th className="sticky">EBITDA</th>
-                  <th className="sticky">Yıllık Net Kâr</th>
-                  <th className="sticky">5Y ROI*</th>
-                  <th className="sticky">10Y ROI*</th>
-                  <th className="sticky">15Y ROI*</th>
-                  <th className="sticky"></th>
+                  <th>Villa</th>
+                  <th>Günlük Ücret (EUR)</th>
+                  <th>Doluluk</th>
+                  <th>Maliyet %</th>
+                  <th>EBITDA</th>
+                  <th>Yıllık Net Kâr</th>
+                  <th>5Y ROI*</th>
+                  <th>10Y ROI*</th>
+                  <th>15Y ROI*</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -197,7 +197,7 @@ export default function PlannerPage() {
                     <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(5)))}</td>
                     <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(10)))}</td>
                     <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(15)))}</td>
-                    <td><button className="ghost" onClick={() => removeVilla(r.id)}>Sil</button></td>
+                    <td><button className="btn ghost" onClick={() => removeVilla(r.id)}>Sil</button></td>
                   </tr>
                 ))}
               </tbody>
@@ -216,7 +216,7 @@ export default function PlannerPage() {
           </div>
 
           {/* Chart */}
-          <div className="chart-wrap">
+          <section className="card chart-card">
             <h3 style={{ margin: "0 0 12px 0" }}>Senaryolara göre toplam ROI (5/10/15 yıl) *</h3>
             <div style={{ width: "100%", height: 420 }}>
               <ResponsiveContainer>
@@ -243,7 +243,7 @@ export default function PlannerPage() {
             <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
               **EBITDA = faiz, vergi, yıpranma payı ve amortisman öncesi kâr
             </div>
-          </div>
+          </section>
         </section>
       </main>
     </>
