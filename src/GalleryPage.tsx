@@ -6,12 +6,12 @@ type Media =
   | { id: string; type: "video"; src: string; poster?: string; alt: string };
 
 const MEDIA: Media[] = [
-  // ---- IMAGES (put full-size in /public/media, thumbs optional) ----
+  // ---- IMAGES ----
   { id: "img-1", type: "image", src: "/media/villa-01.jpg", alt: "Infinity pool with sea view" },
   { id: "img-2", type: "image", src: "/media/villa-02.jpg", alt: "Master bedroom with balcony" },
   { id: "img-3", type: "image", src: "/media/villa-03.jpg", alt: "Sunset over the valley" },
   { id: "img-4", type: "image", src: "/media/villa-04.jpg", alt: "Modern kitchen and island" },
-  // ---- VIDEOS (MP4) ----
+  // ---- VIDEOS ----
   { id: "vid-1", type: "video", src: "/media/tour-01.mp4", poster: "/media/tour-01-poster.jpg", alt: "Property tour video 1" },
   { id: "vid-2", type: "video", src: "/media/tour-02.mp4", poster: "/media/tour-02-poster.jpg", alt: "Property tour video 2" },
 ];
@@ -62,36 +62,56 @@ export default function GalleryPage() {
       {/* HERO */}
       <header className="header">
         <TopNav />
-        <div className="header-inner" style={{ textAlign: "center" }}>
-          <span className="badge">by Ahmed Said Dizman</span>
-          <h1 className="hero-title">Gallery</h1>
-          <p className="subtitle">Photos and videos of NEST ULASLI</p>
+        {/* Fluid, responsive header text */}
+        <div className="page-header">
+          <span className="page-by">by Ahmed Said Dizman</span>
+          <h1 className="page-title">Gallery</h1>
+          <p className="page-subtitle">Photos and videos of NEST ULASLI</p>
+
+          {/* Segmented filter pills */}
+          <div className="segmented" role="tablist" aria-label="Filter gallery">
+            <button
+              role="tab"
+              aria-selected={filter === "all"}
+              className={`seg-btn ${filter === "all" ? "active" : ""}`}
+              onClick={() => setFilter("all")}
+            >
+              All
+            </button>
+            <button
+              role="tab"
+              aria-selected={filter === "photos"}
+              className={`seg-btn ${filter === "photos" ? "active" : ""}`}
+              onClick={() => setFilter("photos")}
+            >
+              Photos
+            </button>
+            <button
+              role="tab"
+              aria-selected={filter === "videos"}
+              className={`seg-btn ${filter === "videos" ? "active" : ""}`}
+              onClick={() => setFilter("videos")}
+            >
+              Videos
+            </button>
+          </div>
         </div>
       </header>
 
       {/* CONTENT */}
       <main className="container">
         <section className="shell stack">
-          {/* Filters */}
-          <div className="gallery-toolbar">
-            <button
-              className={`pill ${filter === "all" ? "pill-active" : ""}`}
-              onClick={() => setFilter("all")}
-            >All</button>
-            <button
-              className={`pill ${filter === "photos" ? "pill-active" : ""}`}
-              onClick={() => setFilter("photos")}
-            >Photos</button>
-            <button
-              className={`pill ${filter === "videos" ? "pill-active" : ""}`}
-              onClick={() => setFilter("videos")}
-            >Videos</button>
-          </div>
-
           {/* Grid */}
           <div className="gallery-grid">
             {items.map(item => (
-              <article key={item.id} className="media-card" onClick={() => open(item.id)}>
+              <article
+                key={item.id}
+                className="media-card"
+                onClick={() => open(item.id)}
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === "Enter") open(item.id); }}
+                aria-label={`${item.type === "image" ? "Image" : "Video"}: ${item.alt}`}
+              >
                 {item.type === "image" ? (
                   <img
                     className="media-thumb"
@@ -100,7 +120,7 @@ export default function GalleryPage() {
                     loading="lazy"
                   />
                 ) : (
-                  <div className="video-thumb">
+                  <div className="video-thumb" aria-label={`${item.alt} (tap to play)`}>
                     <img
                       src={item.poster || "/hero.jpg"}
                       alt={item.alt}
@@ -124,7 +144,11 @@ export default function GalleryPage() {
 
           <div className="lightbox-inner" onClick={e => e.stopPropagation()}>
             {items[activeIndex].type === "image" ? (
-              <img className="lightbox-media" src={(items[activeIndex] as any).src} alt={(items[activeIndex] as any).alt} />
+              <img
+                className="lightbox-media"
+                src={(items[activeIndex] as any).src}
+                alt={(items[activeIndex] as any).alt}
+              />
             ) : (
               <video
                 className="lightbox-media"
