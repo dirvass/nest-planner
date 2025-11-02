@@ -23,13 +23,13 @@ export default function GalleryPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const items = useMemo(() => {
-    if (filter === "photos") return MEDIA.filter(m => m.type === "image");
-    if (filter === "videos") return MEDIA.filter(m => m.type === "video");
+    if (filter === "photos") return MEDIA.filter((m) => m.type === "image");
+    if (filter === "videos") return MEDIA.filter((m) => m.type === "video");
     return MEDIA;
   }, [filter]);
 
   const activeIndex = useMemo(
-    () => (activeId ? items.findIndex(i => i.id === activeId) : -1),
+    () => (activeId ? items.findIndex((i) => i.id === activeId) : -1),
     [activeId, items]
   );
 
@@ -58,16 +58,22 @@ export default function GalleryPage() {
 
   return (
     <>
-      {/* HERO (same structure as other pages) */}
-      <header className="header">
+      {/* HERO */}
+      <header
+        className="header"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,.6), rgba(0,0,0,.35)), url('/hero.jpg') center/cover no-repeat",
+          color: "#fff",
+        }}
+      >
         <TopNav />
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Ahmed Said Dizman</span>
           <h1 className="hero-title">Gallery</h1>
           <p className="hero-subtitle">Photos and videos of NEST ULASLI</p>
 
-          {/* Filter pills shown on the hero for a premium look */}
-          <div className="segmented" role="tablist" aria-label="Filter gallery" style={{ marginTop: 16 }}>
+          <div className="segmented" role="tablist" aria-label="Filter gallery" style={{ marginTop: 24 }}>
             <button
               role="tab"
               aria-selected={filter === "all"}
@@ -100,13 +106,15 @@ export default function GalleryPage() {
       <main className="container">
         <section className="shell stack">
           <div className="gallery-grid">
-            {items.map(item => (
+            {items.map((item) => (
               <article
                 key={item.id}
                 className="media-card"
                 onClick={() => open(item.id)}
                 tabIndex={0}
-                onKeyDown={(e) => { if (e.key === "Enter") open(item.id); }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") open(item.id);
+                }}
                 aria-label={`${item.type === "image" ? "Image" : "Video"}: ${item.alt}`}
               >
                 {item.type === "image" ? (
@@ -114,7 +122,9 @@ export default function GalleryPage() {
                 ) : (
                   <div className="video-thumb" aria-label={`${item.alt} (tap to play)`}>
                     <img src={item.poster || "/hero.jpg"} alt={item.alt} loading="lazy" />
-                    <span className="play-badge" aria-hidden>▶</span>
+                    <span className="play-badge" aria-hidden>
+                      ▶
+                    </span>
                   </div>
                 )}
               </article>
@@ -126,13 +136,37 @@ export default function GalleryPage() {
       {/* LIGHTBOX */}
       {activeIndex >= 0 && (
         <div className="lightbox" role="dialog" aria-modal="true" onClick={close}>
-          <button className="lightbox-close" aria-label="Close" onClick={close}>×</button>
-          <button className="lightbox-nav prev" aria-label="Previous" onClick={e => { e.stopPropagation(); go(-1); }}>‹</button>
-          <button className="lightbox-nav next" aria-label="Next" onClick={e => { e.stopPropagation(); go(1); }}>›</button>
+          <button className="lightbox-close" aria-label="Close" onClick={close}>
+            ×
+          </button>
+          <button
+            className="lightbox-nav prev"
+            aria-label="Previous"
+            onClick={(e) => {
+              e.stopPropagation();
+              go(-1);
+            }}
+          >
+            ‹
+          </button>
+          <button
+            className="lightbox-nav next"
+            aria-label="Next"
+            onClick={(e) => {
+              e.stopPropagation();
+              go(1);
+            }}
+          >
+            ›
+          </button>
 
-          <div className="lightbox-inner" onClick={e => e.stopPropagation()}>
+          <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
             {items[activeIndex].type === "image" ? (
-              <img className="lightbox-media" src={(items[activeIndex] as any).src} alt={(items[activeIndex] as any).alt} />
+              <img
+                className="lightbox-media"
+                src={(items[activeIndex] as any).src}
+                alt={(items[activeIndex] as any).alt}
+              />
             ) : (
               <video
                 className="lightbox-media"
