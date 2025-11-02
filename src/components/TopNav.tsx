@@ -6,6 +6,7 @@ export default function TopNav() {
     <div className="nav-buttons" role="navigation" aria-label="Primary">
       <a href="/" className="nav-btn dark" aria-label="Go to Home">Home</a>
       <a href="/planner" className="nav-btn dark" aria-label="Go to Planner">Planner</a>
+      <a href="/gallery" className="nav-btn dark">Gallery</a>
       <a href="/book" className="nav-btn primary" aria-label="Go to Booking">
         Booking
       </a>
