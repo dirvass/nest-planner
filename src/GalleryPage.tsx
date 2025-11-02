@@ -6,16 +6,19 @@ type Media =
   | { id: string; type: "video"; src: string; poster?: string; alt: string };
 
 const MEDIA: Media[] = [
-  // ---- IMAGES ----
   { id: "img-1", type: "image", src: "/media/villa-01.jpg", alt: "Infinity pool with sea view" },
   { id: "img-2", type: "image", src: "/media/villa-02.jpg", alt: "Master bedroom with balcony" },
   { id: "img-3", type: "image", src: "/media/villa-03.jpg", alt: "Sunset over the valley" },
-  { id: "img-4", type: "image", src: "/media/villa-04.jpg", alt: "Modern kitchen and island" },
-  // ---- VIDEOS ----
-  { id: "vid-1", type: "video", src: "/media/tour-01.mp4", poster: "/media/tour-01-poster.jpg", alt: "Property tour video 1" },
-  { id: "vid-2", type: "video", src: "/media/tour-02.mp4", poster: "/media/tour-02-poster.jpg", alt: "Property tour video 2" },
+  
+  // ✅ VIDEO ENTRY
+  { 
+    id: "vid-1", 
+    type: "video", 
+    src: "/media/tour-01.mp4", 
+    poster: "/media/tour-01-poster.jpg", 
+    alt: "Property tour video 1" 
+  },
 ];
-
 type Filter = "all" | "photos" | "videos";
 
 export default function GalleryPage() {
