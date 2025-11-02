@@ -45,7 +45,6 @@ export default function GalleryPage() {
     [activeIndex, items]
   );
 
-  // Keyboard navigation in lightbox
   useEffect(() => {
     if (!activeId) return;
     const onKey = (e: KeyboardEvent) => {
@@ -59,17 +58,16 @@ export default function GalleryPage() {
 
   return (
     <>
-      {/* HERO */}
+      {/* HERO (same structure as other pages) */}
       <header className="header">
         <TopNav />
-        {/* Fluid, responsive header text */}
-        <div className="page-header">
-          <span className="page-by">by Ahmed Said Dizman</span>
-          <h1 className="page-title">Gallery</h1>
-          <p className="page-subtitle">Photos and videos of NEST ULASLI</p>
+        <div className="header-inner" style={{ textAlign: "center" }}>
+          <span className="badge">by Ahmed Said Dizman</span>
+          <h1 className="hero-title">Gallery</h1>
+          <p className="hero-subtitle">Photos and videos of NEST ULASLI</p>
 
-          {/* Segmented filter pills */}
-          <div className="segmented" role="tablist" aria-label="Filter gallery">
+          {/* Filter pills shown on the hero for a premium look */}
+          <div className="segmented" role="tablist" aria-label="Filter gallery" style={{ marginTop: 16 }}>
             <button
               role="tab"
               aria-selected={filter === "all"}
@@ -101,7 +99,6 @@ export default function GalleryPage() {
       {/* CONTENT */}
       <main className="container">
         <section className="shell stack">
-          {/* Grid */}
           <div className="gallery-grid">
             {items.map(item => (
               <article
@@ -113,19 +110,10 @@ export default function GalleryPage() {
                 aria-label={`${item.type === "image" ? "Image" : "Video"}: ${item.alt}`}
               >
                 {item.type === "image" ? (
-                  <img
-                    className="media-thumb"
-                    src={item.thumb || item.src}
-                    alt={item.alt}
-                    loading="lazy"
-                  />
+                  <img className="media-thumb" src={item.thumb || item.src} alt={item.alt} loading="lazy" />
                 ) : (
                   <div className="video-thumb" aria-label={`${item.alt} (tap to play)`}>
-                    <img
-                      src={item.poster || "/hero.jpg"}
-                      alt={item.alt}
-                      loading="lazy"
-                    />
+                    <img src={item.poster || "/hero.jpg"} alt={item.alt} loading="lazy" />
                     <span className="play-badge" aria-hidden>▶</span>
                   </div>
                 )}
@@ -144,11 +132,7 @@ export default function GalleryPage() {
 
           <div className="lightbox-inner" onClick={e => e.stopPropagation()}>
             {items[activeIndex].type === "image" ? (
-              <img
-                className="lightbox-media"
-                src={(items[activeIndex] as any).src}
-                alt={(items[activeIndex] as any).alt}
-              />
+              <img className="lightbox-media" src={(items[activeIndex] as any).src} alt={(items[activeIndex] as any).alt} />
             ) : (
               <video
                 className="lightbox-media"
