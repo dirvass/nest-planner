@@ -1,9 +1,16 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import TopNav from "./components/TopNav";
 
-type Media =
-  | { id: string; type: "image"; src: string; alt: string; category: string }
-  | { id: string; type: "video"; src: string; poster?: string; alt: string; category: string };
+type MediaBase = {
+  id: string;
+  src: string;
+  alt: string;
+  category: string;
+};
+
+type ImageMedia = MediaBase & { type: "image" };
+type VideoMedia = MediaBase & { type: "video"; poster?: string };
+type Media = ImageMedia | VideoMedia;
 
 const MEDIA: Media[] = [
   // ----------- MAIN VILLA IMAGES -----------
@@ -14,6 +21,13 @@ const MEDIA: Media[] = [
   { id: "villa-master-bedroom", type: "image", src: "/media/villa-master-bedroom.jpg", alt: "Master bedroom", category: "Main Villa" },
   { id: "home-view", type: "image", src: "/media/home-view.jpg", alt: "Home view panorama", category: "Main Villa" },
   { id: "tour-01", type: "video", src: "/media/tour-01.mp4", poster: "/media/tour-01-poster.jpg", alt: "Property tour 01", category: "Main Villa" },
+
+  // ----------- VILLA RENDER -----------
+  // Buraya, public/media/villa-render içine yüklediğin dosyaları ekle.
+  // Örnek isimler: render-01.jpg, render-02.jpg ... gibi
+  { id: "villa-render-01", type: "image", src: "/media/villa-render/render-01.jpg", alt: "Villa render 01", category: "Villa Render" },
+  { id: "villa-render-02", type: "image", src: "/media/villa-render/render-02.jpg", alt: "Villa render 02", category: "Villa Render" },
+  // { id: "villa-render-03", type: "image", src: "/media/villa-render/render-03.jpg", alt: "Villa render 03", category: "Villa Render" },
 
   // ----------- INŞAAT SÜRECİ (construction process) -----------
   { id: "bati-bahce", type: "image", src: "/media/inşaat süreci/bati_bahce.jpg", alt: "Batı bahçe (west garden)", category: "inşaat süreci" },
@@ -32,10 +46,7 @@ export default function GalleryPage() {
   const [category, setCategory] = useState<string>("All");
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const categories = useMemo(
-    () => ["All", ...Array.from(new Set(MEDIA.map((m) => m.category)))],
-    []
-  );
+  const categories = useMemo(() => ["All", ...Array.from(new Set(MEDIA.map((m) => m.category)))], []);
 
   const items = useMemo(() => {
     let result = MEDIA;
@@ -45,10 +56,7 @@ export default function GalleryPage() {
     return result;
   }, [category, filter]);
 
-  const activeIndex = useMemo(
-    () => (activeId ? items.findIndex((i) => i.id === activeId) : -1),
-    [activeId, items]
-  );
+  const activeIndex = useMemo(() => (activeId ? items.findIndex((i) => i.id === activeId) : -1), [activeId, items]);
 
   const open = (id: string) => setActiveId(id);
   const close = () => setActiveId(null);
@@ -73,6 +81,8 @@ export default function GalleryPage() {
     return () => window.removeEventListener("keydown", onKey);
   }, [activeId, go]);
 
+  const activeItem = activeIndex >= 0 ? items[activeIndex] : null;
+
   return (
     <>
       {/* HEADER */}
@@ -81,7 +91,7 @@ export default function GalleryPage() {
         <div className="header-inner" style={{ textAlign: "center" }}>
           <span className="badge">by Ahmed Said Dizman</span>
           <h1 className="hero-title">Gallery</h1>
-          <p className="hero-subtitle">Photos and videos of NEST ULASLI</p>
+          <p className="hero-subtitle">Photos and videos of Nest Ulasli</p>
 
           {/* CATEGORY FILTER */}
           <div className="segmented" role="tablist" aria-label="Filter categories" style={{ marginTop: 16 }}>
@@ -100,22 +110,13 @@ export default function GalleryPage() {
 
           {/* PHOTO/VIDEO FILTER */}
           <div className="segmented" role="tablist" aria-label="Filter gallery type" style={{ marginTop: 10 }}>
-            <button
-              className={`seg-btn ${filter === "all" ? "active" : ""}`}
-              onClick={() => setFilter("all")}
-            >
+            <button className={`seg-btn ${filter === "all" ? "active" : ""}`} onClick={() => setFilter("all")}>
               All
             </button>
-            <button
-              className={`seg-btn ${filter === "photos" ? "active" : ""}`}
-              onClick={() => setFilter("photos")}
-            >
+            <button className={`seg-btn ${filter === "photos" ? "active" : ""}`} onClick={() => setFilter("photos")}>
               Photos
             </button>
-            <button
-              className={`seg-btn ${filter === "videos" ? "active" : ""}`}
-              onClick={() => setFilter("videos")}
-            >
+            <button className={`seg-btn ${filter === "videos" ? "active" : ""}`} onClick={() => setFilter("videos")}>
               Videos
             </button>
           </div>
@@ -154,11 +155,12 @@ export default function GalleryPage() {
       </main>
 
       {/* LIGHTBOX */}
-      {activeIndex >= 0 && (
+      {activeItem && (
         <div className="lightbox" role="dialog" aria-modal="true" onClick={close}>
           <button className="lightbox-close" aria-label="Close" onClick={close}>
             ×
           </button>
+
           <button
             className="lightbox-nav prev"
             aria-label="Previous"
@@ -169,6 +171,7 @@ export default function GalleryPage() {
           >
             ‹
           </button>
+
           <button
             className="lightbox-nav next"
             aria-label="Next"
@@ -181,23 +184,12 @@ export default function GalleryPage() {
           </button>
 
           <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
-            {items[activeIndex].type === "image" ? (
-              <img
-                className="lightbox-media"
-                src={(items[activeIndex] as any).src}
-                alt={(items[activeIndex] as any).alt}
-              />
+            {activeItem.type === "image" ? (
+              <img className="lightbox-media" src={activeItem.src} alt={activeItem.alt} />
             ) : (
-              <video
-                className="lightbox-media"
-                src={(items[activeIndex] as any).src}
-                poster={(items[activeIndex] as any).poster}
-                controls
-                playsInline
-                preload="metadata"
-              />
+              <video className="lightbox-media" src={activeItem.src} poster={activeItem.poster} controls playsInline preload="metadata" />
             )}
-            <div className="lightbox-caption">{items[activeIndex].alt}</div>
+            <div className="lightbox-caption">{activeItem.alt}</div>
           </div>
         </div>
       )}
