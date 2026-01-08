@@ -1,14 +1,19 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import TopNav from "./components/TopNav";
 
+// If your project complains about JSON imports, ensure tsconfig has:
+// "resolveJsonModule": true, "esModuleInterop": true
+import villaRenderItems from "./data/villaRender.json";
+
 type Media =
   | { id: string; type: "image"; src: string; alt: string; category: string }
   | { id: string; type: "video"; src: string; poster?: string; alt: string; category: string };
 
-// IMPORTANT: file names are CASE-SENSITIVE on Vercel (Linux)
-// These must match public/media/villa-render/* exactly.
-const MEDIA: Media[] = [
-  // ----------- MAIN VILLA IMAGES -----------
+type FilterType = "all" | "photos" | "videos";
+
+// Main + construction media stay manual
+const STATIC_MEDIA: Media[] = [
+  // ----------- MAIN VILLA -----------
   { id: "villa-01", type: "image", src: "/media/villa-01.jpg", alt: "Villa exterior 01", category: "Main Villa" },
   { id: "villa-02", type: "image", src: "/media/villa-02.jpg", alt: "Villa exterior 02", category: "Main Villa" },
   { id: "villa-03", type: "image", src: "/media/villa-03.jpg", alt: "Villa exterior 03", category: "Main Villa" },
@@ -17,19 +22,9 @@ const MEDIA: Media[] = [
   { id: "home-view", type: "image", src: "/media/home-view.jpg", alt: "Home view panorama", category: "Main Villa" },
   { id: "tour-01", type: "video", src: "/media/tour-01.mp4", poster: "/media/tour-01-poster.jpg", alt: "Property tour 01", category: "Main Villa" },
 
-  // ----------- VILLA RENDER -----------
-  { id: "vr-ana-yol", type: "image", src: "/media/villa-render/ANA-YOL.jpg", alt: "Ana yol", category: "Villa Render" },
-  { id: "vr-arka-gorunum", type: "image", src: "/media/villa-render/ARKA-GORUNUM.jpg", alt: "Arka görünüm", category: "Villa Render" },
-  { id: "vr-ates-cukuru", type: "image", src: "/media/villa-render/ATES-CUKURU.jpg", alt: "Ateş çukuru", category: "Villa Render" },
-  { id: "vr-kus-bakisi", type: "image", src: "/media/villa-render/KUS-BAKISI.jpg", alt: "Kuş bakışı", category: "Villa Render" },
-  { id: "vr-satranc-2", type: "image", src: "/media/villa-render/SATRANC-2.jpg", alt: "Satranç 2", category: "Villa Render" },
-  { id: "vr-satranc", type: "image", src: "/media/villa-render/SATRANC.jpg", alt: "Satranç", category: "Villa Render" },
-  { id: "vr-yan-aci", type: "image", src: "/media/villa-render/YAN-ACI.jpg", alt: "Yan açı", category: "Villa Render" },
-  { id: "vr-yan-aci2", type: "image", src: "/media/villa-render/YAN-ACI2.jpg", alt: "Yan açı 2", category: "Villa Render" },
-
-  // ----------- İNŞAAT SÜRECİ -----------
-  // Eğer bu klasör adı (inşaat süreci) URL'de sorun çıkarıyorsa,
-  // bu blok sayfayı beyaz yapabilir. Sorun yaşarsan geçici olarak yorum satırı yap.
+  // ----------- INŞAAT SÜRECİ -----------
+  // Note: folder name contains Turkish chars and a space. If you ever get a blank page,
+  // rename the folder to insaat-sureci and update these paths accordingly.
   { id: "bati-bahce", type: "image", src: "/media/inşaat süreci/bati_bahce.jpg", alt: "Batı bahçe", category: "inşaat süreci" },
   { id: "bati-cephe", type: "image", src: "/media/inşaat süreci/bati_cephe.jpg", alt: "Batı cephe", category: "inşaat süreci" },
   { id: "dogu-cephe", type: "image", src: "/media/inşaat süreci/dogu_cephe.jpg", alt: "Doğu cephe", category: "inşaat süreci" },
@@ -39,7 +34,16 @@ const MEDIA: Media[] = [
   { id: "izolasyon-2", type: "video", src: "/media/inşaat süreci/izolasyon_2.mp4", poster: "/media/inşaat süreci/izolasyon_sonrasi.jpg", alt: "İzolasyon çalışması 2", category: "inşaat süreci" },
 ];
 
-type FilterType = "all" | "photos" | "videos";
+// From manifest JSON (auto-generated on build)
+const VILLA_RENDER_MEDIA: Media[] = (villaRenderItems as any[]).map((x) => ({
+  id: String(x.id),
+  type: "image",
+  src: String(x.src),
+  alt: String(x.alt ?? x.id),
+  category: "Villa Render",
+}));
+
+const MEDIA: Media[] = [...STATIC_MEDIA, ...VILLA_RENDER_MEDIA];
 
 export default function GalleryPage() {
   const [filter, setFilter] = useState<FilterType>("all");
