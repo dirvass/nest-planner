@@ -16,6 +16,13 @@ const MEDIA: Media[] = [
   { id: "tour-01", type: "video", src: "/media/tour-01.mp4", poster: "/media/tour-01-poster.jpg", alt: "Property tour 01", category: "Main Villa" },
 
   // ----------- VILLA RENDER -----------
+  // New uploads (case-sensitive)
+  { id: "vr-ai-render2", type: "image", src: "/media/villa-render/AI-RENDER2.jpg", alt: "AI Render 2", category: "Villa Render" },
+  { id: "vr-ai-render3", type: "image", src: "/media/villa-render/AI-RENDER3.jpg", alt: "AI Render 3", category: "Villa Render" },
+  { id: "vr-ai-render5", type: "image", src: "/media/villa-render/AI-RENDER5.jpg", alt: "AI Render 5", category: "Villa Render" },
+  { id: "vr-ai-render4", type: "image", src: "/media/villa-render/AI-Render4.jpg", alt: "AI Render 4", category: "Villa Render" },
+
+  // Existing renders
   { id: "vr-ana-yol", type: "image", src: "/media/villa-render/ANA-YOL.jpg", alt: "Ana yol", category: "Villa Render" },
   { id: "vr-arka-gorunum", type: "image", src: "/media/villa-render/ARKA-GORUNUM.jpg", alt: "Arka görünüm", category: "Villa Render" },
   { id: "vr-ates-cukuru", type: "image", src: "/media/villa-render/ATES-CUKURU.jpg", alt: "Ateş çukuru", category: "Villa Render" },
