@@ -1,250 +1,274 @@
 import React, { useEffect, useMemo, useState } from "react";
 import TopNav from "./components/TopNav";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
 
-type Villa = {
-  id: string;
-  name: string;
-  dailyFee: number; // EUR
-  occupancy: number; // 0..1
-  costPct: number;   // 0..1
-};
+type Villa = { id: string; name: string; dailyFee: number; occupancy: number; costPct: number };
 type Scenario = "pessimistic" | "base" | "optimistic";
 type Currency = "EUR" | "USD" | "GBP";
+
+const SCN_LABELS: Record<Scenario, string> = { pessimistic: "Pessimistic", base: "Base", optimistic: "Optimistic" };
+const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#c0392b", base: "#2c5e3f", optimistic: "#1abc9c" };
 
 export default function PlannerPage() {
   const [villas, setVillas] = useState<Villa[]>([
     { id: crypto.randomUUID(), name: "ALYA",  dailyFee: 700, occupancy: 0.60, costPct: 0.35 },
     { id: crypto.randomUUID(), name: "ZEHRA", dailyFee: 550, occupancy: 0.60, costPct: 0.35 },
   ]);
-
   const [currency, setCurrency] = useState<Currency>("EUR");
-  const symbols: Record<Currency, string> = { EUR: "€", USD: "$", GBP: "£" };
+  const [activeScn, setActiveScn] = useState<Scenario>("base");
+  const [heroVis, setHeroVis] = useState(false);
+
+  const sym: Record<Currency, string> = { EUR: "€", USD: "$", GBP: "£" };
   const [rates, setRates] = useState<Record<Currency, number>>({ EUR: 1, USD: 1.08, GBP: 0.86 });
 
+  useEffect(() => { const t = setTimeout(() => setHeroVis(true), 100); return () => clearTimeout(t); }, []);
   useEffect(() => {
     fetch("https://api.exchangerate.host/latest?base=EUR&symbols=USD,GBP")
       .then(r => r.json())
-      .then(d => d?.rates && setRates(prev => ({
-        ...prev,
-        USD: d.rates.USD ?? prev.USD,
-        GBP: d.rates.GBP ?? prev.GBP
-      })))
+      .then(d => d?.rates && setRates(p => ({ ...p, USD: d.rates.USD ?? p.USD, GBP: d.rates.GBP ?? p.GBP })))
       .catch(() => {});
   }, []);
 
-  const fx = (nEUR: number) => nEUR * (rates[currency] ?? 1);
-  const fmt2 = (n: number) => new Intl.NumberFormat("de-DE", { maximumFractionDigits: 2 }).format(n);
+  const fx = (n: number) => n * (rates[currency] ?? 1);
   const fmt0 = (n: number) => new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(n);
+  const fmt2 = (n: number) => new Intl.NumberFormat("de-DE", { maximumFractionDigits: 2 }).format(n);
+  const fmtC = (n: number) => `${sym[currency]}\u00A0${fmt0(fx(n))}`;
+  const fmtC2 = (n: number) => `${sym[currency]}\u00A0${fmt2(fx(n))}`;
 
   const rows = useMemo(() => villas.map(v => {
-    const ebitdaEUR = v.dailyFee * 365 * v.occupancy;
-    const netEUR = ebitdaEUR * (1 - v.costPct);
-    return { ...v, ebitdaEUR, netEUR };
+    const ebitda = v.dailyFee * 365 * v.occupancy;
+    const net = ebitda * (1 - v.costPct);
+    return { ...v, ebitda, net };
   }), [villas]);
 
   const totals = useMemo(() => ({
-    ebitdaEUR: rows.reduce((a, r) => a + r.ebitdaEUR, 0),
-    netEUR:    rows.reduce((a, r) => a + r.netEUR,   0),
+    ebitda: rows.reduce((a, r) => a + r.ebitda, 0),
+    net: rows.reduce((a, r) => a + r.net, 0),
   }), [rows]);
 
-  function update(id: string, patch: Partial<Villa>) {
-    setVillas(prev => prev.map(v => v.id === id ? { ...v, ...patch } : v));
-  }
-  function addVilla() {
-    const idx = villas.length + 1;
-    setVillas(prev => [...prev, { id: crypto.randomUUID(), name: `Villa ${idx}`, dailyFee: 600, occupancy: 0.6, costPct: 0.35 }]);
-  }
-  function removeVilla(id: string) { setVillas(prev => prev.filter(v => v.id !== id)); }
+  function update(id: string, p: Partial<Villa>) { setVillas(prev => prev.map(v => v.id === id ? { ...v, ...p } : v)); }
+  function addVilla() { setVillas(p => [...p, { id: crypto.randomUUID(), name: `Villa ${p.length + 1}`, dailyFee: 600, occupancy: 0.6, costPct: 0.35 }]); }
+  function removeVilla(id: string) { setVillas(p => p.filter(v => v.id !== id)); }
 
-  function applyScenario(scn: Scenario) {
-    const fees: Record<Scenario, [number, number]> = {
-      pessimistic: [400, 350],
-      base:        [700, 550],
-      optimistic:  [1000, 800],
-    };
-    const cost: Record<Scenario, number> = {
-      pessimistic: 0.40,
-      base:        0.35,
-      optimistic:  0.30,
-    };
+  function applyScenario(s: Scenario) {
+    setActiveScn(s);
+    const fees: Record<Scenario, [number, number]> = { pessimistic: [400, 350], base: [700, 550], optimistic: [1000, 800] };
+    const cost: Record<Scenario, number> = { pessimistic: 0.40, base: 0.35, optimistic: 0.30 };
     setVillas(prev => prev.map((v, i) => ({
-      ...v,
-      name: i === 0 ? "ALYA" : i === 1 ? "ZEHRA" : v.name,
-      dailyFee: fees[scn][i] ?? v.dailyFee,
-      occupancy: 0.60,
-      costPct: cost[scn],
+      ...v, name: i === 0 ? "ALYA" : i === 1 ? "ZEHRA" : v.name,
+      dailyFee: fees[s][i] ?? v.dailyFee, occupancy: 0.60, costPct: cost[s],
     })));
   }
 
-  // İlk 2 yıl pazarlama giderleri → ROI 0
-  const effectiveYears = (y: number) => Math.max(0, y - 2);
+  const eff = (y: number) => Math.max(0, y - 2);
 
-  function getScenarioAnnualNetProfitEUR(scn: Scenario) {
+  function scnNet(s: Scenario) {
     const feeMap = { pessimistic: [400, 350], base: [700, 550], optimistic: [1000, 800] } as const;
     const costMap = { pessimistic: 0.40, base: 0.35, optimistic: 0.30 } as const;
-    const occ = 0.60;
-    let totalNet = 0;
-    villas.forEach((_, i) => {
-      const daily = feeMap[scn][i] ?? feeMap[scn][0];
-      const ebitda = daily * 365 * occ;
-      const net = ebitda * (1 - costMap[scn]);
-      totalNet += net;
-    });
-    return totalNet;
+    let tot = 0;
+    villas.forEach((_, i) => { const d = feeMap[s][i] ?? feeMap[s][0]; tot += d * 365 * 0.6 * (1 - costMap[s]); });
+    return tot;
   }
 
-  const roiEUR = [
-    { year: 5,  P: getScenarioAnnualNetProfitEUR("pessimistic") * effectiveYears(5),
-               M: getScenarioAnnualNetProfitEUR("base")        * effectiveYears(5),
-               O: getScenarioAnnualNetProfitEUR("optimistic")  * effectiveYears(5) },
-    { year: 10, P: getScenarioAnnualNetProfitEUR("pessimistic") * effectiveYears(10),
-               M: getScenarioAnnualNetProfitEUR("base")        * effectiveYears(10),
-               O: getScenarioAnnualNetProfitEUR("optimistic")  * effectiveYears(10) },
-    { year: 15, P: getScenarioAnnualNetProfitEUR("pessimistic") * effectiveYears(15),
-               M: getScenarioAnnualNetProfitEUR("base")        * effectiveYears(15),
-               O: getScenarioAnnualNetProfitEUR("optimistic")  * effectiveYears(15) },
-  ];
-  const roiDisplay = roiEUR.map(d => ({ year: d.year, Pesimistik: fx(d.P), Muhtemel: fx(d.M), Optimistik: fx(d.O) }));
+  // Year-by-year data for smooth area chart (years 1-15)
+  const chartData = useMemo(() =>
+    Array.from({ length: 15 }, (_, i) => {
+      const y = i + 1;
+      return {
+        year: y,
+        pessimistic: fx(scnNet("pessimistic") * eff(y)),
+        base: fx(scnNet("base") * eff(y)),
+        optimistic: fx(scnNet("optimistic") * eff(y)),
+      };
+    }), [villas, currency, rates]
+  );
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (!active || !payload?.length) return null;
+    return (
+      <div className="pl-tooltip">
+        <div className="pl-tooltip__label">Year {label}</div>
+        {payload.map((p: any) => (
+          <div key={p.dataKey} className="pl-tooltip__row">
+            <span className="pl-tooltip__dot" style={{ background: p.color }} />
+            <span>{SCN_LABELS[p.dataKey as Scenario]}</span>
+            <strong>{sym[currency]}&nbsp;{fmt0(p.value)}</strong>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <>
-      {/* HERO */}
-      <header className="hero">
+      {/* ═══ HERO ═══ */}
+      <header className={`pl-hero ${heroVis ? "pl-hero--vis" : ""}`}>
+        <div className="pl-hero__bg" aria-hidden="true" />
+        <div className="pl-hero__ov" aria-hidden="true" />
         <TopNav />
-        <div className="hero__inner" style={{ textAlign: "center" }}>
-          <span className="badge">by Ahmed Said Dizman</span>
-          <h1 className="hero__title">NEST ULAŞLI</h1>
-          <p className="hero__subtitle">Annual Profit Planner - villa gelir–gider ve ROI senaryoları</p>
+        <div className="pl-hero__ct">
+          <span className="pl-hero__badge">Investment Overview</span>
+          <h1 className="pl-hero__title">Profit Planner</h1>
+          <div className="pl-hero__line" />
+          <p className="pl-hero__sub">Revenue, cost and ROI scenario analysis for NEST Ulaşlı</p>
         </div>
       </header>
 
-      {/* CONTENT */}
-      <main className="planner">
-        <section className="card stack-lg">
-          {/* Controls */}
-          <div className="toolbar">
-            <div title="All values are stored in Euro. Display currency applies conversion.">
-              <label style={{ marginRight: 6 }}>Currency (display)</label>
-              <select value={currency} onChange={e => setCurrency(e.target.value as Currency)}>
-                <option value="EUR">€ Euro</option>
-                <option value="USD">$ USD</option>
-                <option value="GBP">£ GBP</option>
-              </select>
-            </div>
-
-            <span style={{ marginLeft: 8 }}>Scenario presets:</span>
-            <button className="btn ghost" onClick={() => applyScenario("pessimistic")}>Pesimistik</button>
-            <button className="btn ghost" onClick={() => applyScenario("base")}>Muhtemel</button>
-            <button className="btn ghost" onClick={() => applyScenario("optimistic")}>Optimistik</button>
-
-            <button className="btn primary" onClick={addVilla} style={{ marginLeft: "auto" }}>+ Villa ekle</button>
+      <main className="pl">
+        {/* ═══ KPI CARDS ═══ */}
+        <section className="pl-kpis">
+          <div className="pl-kpi">
+            <span className="pl-kpi__label">Annual EBITDA</span>
+            <span className="pl-kpi__value">{fmtC(totals.ebitda)}</span>
           </div>
+          <div className="pl-kpi">
+            <span className="pl-kpi__label">Annual Net Profit</span>
+            <span className="pl-kpi__value">{fmtC(totals.net)}</span>
+          </div>
+          <div className="pl-kpi">
+            <span className="pl-kpi__label">5Y Cumulative ROI</span>
+            <span className="pl-kpi__value">{fmtC(totals.net * eff(5))}</span>
+          </div>
+          <div className="pl-kpi pl-kpi--accent">
+            <span className="pl-kpi__label">15Y Cumulative ROI</span>
+            <span className="pl-kpi__value">{fmtC(totals.net * eff(15))}</span>
+          </div>
+        </section>
 
-          {/* Table */}
-          <div className="table-wrap card">
-            <table>
+        {/* ═══ CONTROLS ═══ */}
+        <section className="pl-controls">
+          <div className="pl-controls__left">
+            <div className="pl-scenarios">
+              {(["pessimistic", "base", "optimistic"] as Scenario[]).map(s => (
+                <button
+                  key={s}
+                  className={`pl-scn ${activeScn === s ? "pl-scn--active" : ""}`}
+                  style={{ "--scn-color": SCN_COLORS[s] } as React.CSSProperties}
+                  onClick={() => applyScenario(s)}
+                >
+                  <span className="pl-scn__dot" />
+                  {SCN_LABELS[s]}
+                </button>
+              ))}
+            </div>
+            <select className="pl-currency" value={currency} onChange={e => setCurrency(e.target.value as Currency)}>
+              <option value="EUR">€ EUR</option>
+              <option value="USD">$ USD</option>
+              <option value="GBP">£ GBP</option>
+            </select>
+          </div>
+          <button className="pl-add" onClick={addVilla}>+ Add Villa</button>
+        </section>
+
+        {/* ═══ CHART ═══ */}
+        <section className="pl-chart-wrap">
+          <h2 className="pl-section-title">Cumulative ROI by Scenario</h2>
+          <p className="pl-section-desc">Net profit accumulation over 15 years. First 2 years assumed zero ROI (marketing investment).</p>
+          <div className="pl-chart">
+            <ResponsiveContainer width="100%" height={420}>
+              <AreaChart data={chartData} margin={{ top: 12, right: 20, left: 10, bottom: 8 }}>
+                <defs>
+                  <linearGradient id="gPess" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={SCN_COLORS.pessimistic} stopOpacity={0.2} />
+                    <stop offset="100%" stopColor={SCN_COLORS.pessimistic} stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="gBase" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={SCN_COLORS.base} stopOpacity={0.25} />
+                    <stop offset="100%" stopColor={SCN_COLORS.base} stopOpacity={0.02} />
+                  </linearGradient>
+                  <linearGradient id="gOpt" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={SCN_COLORS.optimistic} stopOpacity={0.2} />
+                    <stop offset="100%" stopColor={SCN_COLORS.optimistic} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke="rgba(148,163,140,.15)" strokeDasharray="4 4" vertical={false} />
+                <XAxis dataKey="year" tickFormatter={y => `${y}Y`} tick={{ fill: "var(--muted)", fontSize: 12 }} axisLine={false} tickLine={false} />
+                <YAxis tickFormatter={v => `${sym[currency]} ${fmt0(v)}`} tick={{ fill: "var(--muted)", fontSize: 12 }} width={95} axisLine={false} tickLine={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Area type="monotone" dataKey="pessimistic" stroke={SCN_COLORS.pessimistic} strokeWidth={2.5} fill="url(#gPess)" dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: "#fff" }} />
+                <Area type="monotone" dataKey="base" stroke={SCN_COLORS.base} strokeWidth={3} fill="url(#gBase)" dot={false} activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }} />
+                <Area type="monotone" dataKey="optimistic" stroke={SCN_COLORS.optimistic} strokeWidth={2.5} fill="url(#gOpt)" dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: "#fff" }} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="pl-chart__legend">
+            {(["pessimistic", "base", "optimistic"] as Scenario[]).map(s => (
+              <span key={s}><span className="pl-chart__ldot" style={{ background: SCN_COLORS[s] }} />{SCN_LABELS[s]}</span>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ TABLE ═══ */}
+        <section className="pl-table-wrap">
+          <h2 className="pl-section-title">Villa Breakdown</h2>
+          <div className="pl-table-scroll">
+            <table className="pl-table">
               <thead>
                 <tr>
                   <th>Villa</th>
-                  <th>Günlük Ücret (EUR)</th>
-                  <th>Doluluk</th>
-                  <th>Maliyet %</th>
+                  <th>Daily Rate (EUR)</th>
+                  <th>Occupancy</th>
+                  <th>Cost %</th>
                   <th>EBITDA</th>
-                  <th>Yıllık Net Kâr</th>
-                  <th>5Y ROI*</th>
-                  <th>10Y ROI*</th>
-                  <th>15Y ROI*</th>
+                  <th>Net Profit</th>
+                  <th>5Y ROI</th>
+                  <th>10Y ROI</th>
+                  <th>15Y ROI</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map(r => (
                   <tr key={r.id}>
+                    <td><input className="pl-input pl-input--name" value={r.name} onChange={e => update(r.id, { name: e.target.value })} /></td>
                     <td>
-                      <input value={r.name} onChange={e => update(r.id, { name: e.target.value })} style={{ width: 120 }} />
+                      <div className="pl-input-group">
+                        <span>€</span>
+                        <input className="pl-input" type="number" value={r.dailyFee} onChange={e => update(r.id, { dailyFee: Number(e.target.value || 0) })} />
+                      </div>
                     </td>
                     <td>
-                      <span>€ </span>
-                      <input
-                        type="number"
-                        value={r.dailyFee}
-                        onChange={e => update(r.id, { dailyFee: Number(e.target.value || 0) })}
-                        style={{ width: 90 }}
-                      />
-                      <span>/gece</span>
+                      <div className="pl-input-group">
+                        <input className="pl-input pl-input--sm" type="number" min={0} max={100} value={Math.round(r.occupancy * 100)} onChange={e => update(r.id, { occupancy: Math.min(100, Math.max(0, +e.target.value)) / 100 })} />
+                        <span>%</span>
+                      </div>
                     </td>
                     <td>
-                      <input
-                        type="number" min={0} max={100}
-                        value={Math.round(r.occupancy * 100)}
-                        onChange={e => update(r.id, { occupancy: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })}
-                        style={{ width: 60 }}
-                      />%
+                      <div className="pl-input-group">
+                        <input className="pl-input pl-input--sm" type="number" min={0} max={100} value={Math.round(r.costPct * 100)} onChange={e => update(r.id, { costPct: Math.min(100, Math.max(0, +e.target.value)) / 100 })} />
+                        <span>%</span>
+                      </div>
                     </td>
-                    <td>
-                      <input
-                        type="number" min={0} max={100}
-                        value={Math.round(r.costPct * 100)}
-                        onChange={e => update(r.id, { costPct: Math.min(100, Math.max(0, Number(e.target.value))) / 100 })}
-                        style={{ width: 60 }}
-                      />%
-                    </td>
-                    <td>{symbols[currency]} {fmt2(fx(r.ebitdaEUR))}</td>
-                    <td>{symbols[currency]} {fmt2(fx(r.netEUR))}</td>
-                    <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(5)))}</td>
-                    <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(10)))}</td>
-                    <td>{symbols[currency]} {fmt2(fx(r.netEUR * effectiveYears(15)))}</td>
-                    <td><button className="btn ghost" onClick={() => removeVilla(r.id)}>Sil</button></td>
+                    <td className="pl-td--num">{fmtC2(r.ebitda)}</td>
+                    <td className="pl-td--num">{fmtC2(r.net)}</td>
+                    <td className="pl-td--num">{fmtC2(r.net * eff(5))}</td>
+                    <td className="pl-td--num">{fmtC2(r.net * eff(10))}</td>
+                    <td className="pl-td--num">{fmtC2(r.net * eff(15))}</td>
+                    <td><button className="pl-del" onClick={() => removeVilla(r.id)}>&#10005;</button></td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr>
-                  <td>Toplam</td><td></td><td></td><td></td>
-                  <td>{symbols[currency]} {fmt2(fx(totals.ebitdaEUR))}</td>
-                  <td>{symbols[currency]} {fmt2(fx(totals.netEUR))}</td>
-                  <td>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(5)))}</td>
-                  <td>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(10)))}</td>
-                  <td>{symbols[currency]} {fmt2(fx(totals.netEUR * effectiveYears(15)))}</td>
+                  <td><strong>Total</strong></td><td></td><td></td><td></td>
+                  <td className="pl-td--num"><strong>{fmtC2(totals.ebitda)}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC2(totals.net)}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC2(totals.net * eff(5))}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC2(totals.net * eff(10))}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC2(totals.net * eff(15))}</strong></td>
                   <td></td>
                 </tr>
               </tfoot>
             </table>
           </div>
-
-          {/* Chart */}
-          <section className="card chart-card">
-            <h3 style={{ margin: "0 0 12px 0" }}>Senaryolara göre toplam ROI (5/10/15 yıl) *</h3>
-            <div style={{ width: "100%", height: 420 }}>
-              <ResponsiveContainer>
-                <LineChart data={roiDisplay} margin={{ top: 8, right: 24, left: 8, bottom: 8 }}>
-                  <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
-                  <XAxis dataKey="year" tickFormatter={(y) => `${y}Y`} />
-                  <YAxis tickFormatter={(v) => `${symbols[currency]} ${fmt0(v as number)}`} width={90} />
-                  <ReferenceLine x={10} stroke="#e5e7eb" />
-                  <Tooltip
-                    contentStyle={{ background: "#0f172a", color: "#fff", borderRadius: 12, border: "none" }}
-                    labelFormatter={(y) => `${y} Yıl`}
-                    formatter={(val: any) => [`${symbols[currency]} ${fmt0(val as number)}`, ""]}
-                  />
-                  <Legend />
-                  <Line type="monotone" dataKey="Pesimistik" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, strokeWidth: 1, stroke: "#fff" }} />
-                  <Line type="monotone" dataKey="Muhtemel"   stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, strokeWidth: 1, stroke: "#fff" }} />
-                  <Line type="monotone" dataKey="Optimistik" stroke="#10b981" strokeWidth={3} dot={{ r: 4, strokeWidth: 1, stroke: "#fff" }} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-            <div style={{ fontSize: 12, color: "#64748b", marginTop: 8 }}>
-              * İlk 2 yıl pazarlama giderleri nedeniyle ROI = 0 kabul edilmiştir. Tüm hesaplamalar EUR bazlıdır, görüntüleme seçilen kur ile yapılır.
-            </div>
-            <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
-              **EBITDA = faiz, vergi, yıpranma payı ve amortisman öncesi kâr
-            </div>
-          </section>
         </section>
+
+        <footer className="pl-foot">
+          <p>* First 2 years assumed ROI = 0 due to marketing ramp-up. All calculations are EUR-based; display currency applies conversion.</p>
+          <p>** EBITDA = Earnings before interest, taxes, depreciation and amortisation</p>
+        </footer>
       </main>
     </>
   );
