@@ -431,10 +431,10 @@ header.hero .badge{
 }
 
 /* Top-right nav bubbles (shared look; keep as-is if TopNav expects these) */
-.nav-buttons{ position:fixed; top:22px; right:22px; display:flex; gap:12px; z-index:100; pointer-events:auto; align-items:center }
+.nav-buttons{ position:fixed; top:22px; right:22px; display:flex; gap:10px; z-index:100; pointer-events:auto; align-items:center; flex-wrap:wrap; justify-content:flex-end; max-width:calc(100vw - 44px) }
 .nav-btn{
-  display:inline-flex; align-items:center; justify-content:center; padding:10px 18px; border-radius:999px;
-  text-decoration:none; font-weight:600; color:#fff; background:rgba(15,23,42,.55);
+  display:inline-flex; align-items:center; justify-content:center; padding:9px 16px; border-radius:999px;
+  text-decoration:none; font-size:.85rem; font-weight:600; color:#fff; background:rgba(15,23,42,.55);
   border:1px solid rgba(255,255,255,.5); backdrop-filter:blur(6px);
   transition:transform .2s ease, background .2s ease;
 }
