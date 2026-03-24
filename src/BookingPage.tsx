@@ -53,6 +53,12 @@ export default function BookingPage() {
   const [infants02, setInfants02] = useState(0);
   const [note, setNote] = useState("");
   const [showValidation, setShowValidation] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setHeroVisible(true), 100);
+    return () => clearTimeout(t);
+  }, []);
 
   // Extras
   const [chef, setChef] = useState(false);
@@ -271,13 +277,16 @@ export default function BookingPage() {
 
   return (
     <>
-      <header className="hero">
+      <header className={`booking-hero ${heroVisible ? "booking-hero--visible" : ""}`}>
+        <div className="booking-hero__bg" aria-hidden="true" />
+        <div className="booking-hero__overlay" aria-hidden="true" />
         <TopNav />
-        <div className="hero__inner">
-          <span className="badge">by Dizman</span>
-          <h1 className="hero__title">NEST ULASLI – Booking Only</h1>
-          <p className="hero__subtitle">
-            Curate your stay, secure your preferred villa and tailor enhancements before confirming with our concierge team.
+        <div className="booking-hero__content">
+          <span className="booking-hero__badge">Kocaeli, Ulasli</span>
+          <h1 className="booking-hero__title">Book Your Stay</h1>
+          <div className="booking-hero__line" />
+          <p className="booking-hero__subtitle">
+            Curate your escape, choose your villa and tailor every detail before confirming with our concierge team.
           </p>
         </div>
       </header>
@@ -286,7 +295,7 @@ export default function BookingPage() {
         <section className="booking__intro" aria-label="Booking concierge steps">
           <div className="intro-card">
             <div className="intro-copy">
-              <span className="badge">Tailor your escape</span>
+              <span className="booking-badge">Tailor your escape</span>
               <h2>Booking concierge</h2>
               <p>
                 Follow the steps to design your stay, explore enhancements, then send the details directly to our concierge team.

@@ -26,7 +26,7 @@ h1,h2,h3,h4,h5,h6,p{ margin:0 }
 button,select,textarea{ font-family:inherit }
 
 /* =========================================================
-   Hero (scoped to the booking header only)
+   Shared hero (legacy — kept for planner page)
    =======================================================*/
 header.hero{
   position:relative; min-height:78vh; display:flex; align-items:flex-end; justify-content:center;
@@ -37,14 +37,84 @@ header.hero{
   color:#fff; overflow:hidden;
 }
 header.hero .hero__inner{ max-width:960px; text-align:center }
-header.hero .hero__title{ font-size:clamp(2.5rem,6vw,4rem); font-weight:900; letter-spacing:-.6px; margin:20px 0 12px }
+header.hero .hero__title{ font-family:var(--serif); font-size:clamp(2.5rem,6vw,4rem); font-weight:400; letter-spacing:.08em; margin:20px 0 12px }
 header.hero .hero__subtitle{ max-width:680px; margin:0 auto; color:rgba(226,232,240,.95); font-size:1rem }
-/* Badge style restricted to hero + booking pages only */
-header.hero .badge,
-.booking .badge{
+header.hero .badge{
   display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:999px;
   font-size:13px; font-weight:600; color:#fff; background:rgba(15,23,42,.45);
   border:1px solid rgba(255,255,255,.45); backdrop-filter:blur(8px);
+}
+
+/* =========================================================
+   Booking hero (luxury style matching Home)
+   =======================================================*/
+.booking-hero{
+  position:relative;
+  min-height:60vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; color:#fff;
+}
+.booking-hero__bg{
+  position:absolute; inset:0; z-index:0;
+  background:url("/hero.jpg") center/cover no-repeat;
+  transform:scale(1.06);
+  transition:transform 10s cubic-bezier(.25,.46,.45,.94);
+}
+.booking-hero--visible .booking-hero__bg{ transform:scale(1) }
+.booking-hero__overlay{
+  position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(180deg,
+      rgba(15,23,42,.7) 0%,
+      rgba(15,23,42,.4) 50%,
+      rgba(15,23,42,.6) 100%
+    );
+}
+.booking-hero__content{
+  position:relative; z-index:2;
+  text-align:center; max-width:720px; padding:0 24px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.booking-hero__badge{
+  display:inline-flex; padding:8px 20px; border-radius:999px;
+  font-size:11px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
+  color:rgba(255,255,255,.85);
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(12px);
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .2s, transform .7s ease .2s;
+}
+.booking-hero--visible .booking-hero__badge{ opacity:1; transform:translateY(0) }
+.booking-hero__title{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem, 7vw, 4.5rem);
+  font-weight:400; letter-spacing:.1em; line-height:1.1;
+  margin-top:20px;
+  opacity:0; transform:translateY(24px);
+  transition:opacity .8s ease .4s, transform .8s ease .4s;
+}
+.booking-hero--visible .booking-hero__title{ opacity:1; transform:translateY(0) }
+.booking-hero__line{
+  width:50px; height:1px; background:rgba(255,255,255,.35); margin:20px 0;
+  opacity:0; transform:scaleX(0);
+  transition:opacity .6s ease .7s, transform .7s ease .7s;
+}
+.booking-hero--visible .booking-hero__line{ opacity:1; transform:scaleX(1) }
+.booking-hero__subtitle{
+  font-size:clamp(.9rem,1.4vw,1.05rem); font-weight:300;
+  color:rgba(226,232,240,.8); letter-spacing:.03em; max-width:520px;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .9s, transform .7s ease .9s;
+}
+.booking-hero--visible .booking-hero__subtitle{ opacity:1; transform:translateY(0) }
+
+/* Booking badge (inside main content) */
+.booking-badge{
+  display:inline-flex; align-items:center; gap:6px; padding:8px 18px; border-radius:999px;
+  font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+  color:var(--brand); background:rgba(14,165,183,.08);
+  border:1px solid rgba(14,165,183,.25);
 }
 /* Top-right nav bubbles (shared look; keep as-is if TopNav expects these) */
 .nav-buttons{ position:fixed; top:22px; right:22px; display:flex; gap:12px; z-index:100 }
@@ -81,6 +151,7 @@ header.hero .badge,
   display: flex;
   flex-direction: column;
   gap: 24px;
+  animation:booking-card-in .6s ease both;
 }
 
 .booking .intro-card {
@@ -91,7 +162,7 @@ header.hero .badge,
   flex-wrap: wrap;
 }
 
-.booking .intro-copy h2 { font-size: clamp(2rem, 4vw, 2.8rem) }
+.booking .intro-copy h2 { font-family:var(--serif); font-size: clamp(2rem, 4vw, 2.8rem); font-weight:400; letter-spacing:.03em }
 .booking .intro-copy p { margin-top: 12px; color: var(--muted); max-width: 560px }
 
 .booking .intro-meta{
@@ -123,6 +194,7 @@ header.hero .badge,
   background:var(--card); border-radius:26px; border:1px solid var(--border);
   padding:28px; box-shadow: var(--shadow);
   display:flex; flex-direction:column; gap:24px;
+  animation:booking-card-in .6s ease .15s both;
 }
 .booking .summary-card__header{
   display:flex; align-items:flex-start; justify-content:space-between; gap:18px;
@@ -131,7 +203,8 @@ header.hero .badge,
   font-size:11px; font-weight:700; letter-spacing:.7px; text-transform:uppercase; color:var(--muted);
 }
 .booking .summary-total{
-  font-size:clamp(2.2rem,5vw,3.1rem); font-weight:900; letter-spacing:-.4px; margin-top:6px;
+  font-family:var(--serif);
+  font-size:clamp(2.2rem,5vw,3.1rem); font-weight:600; letter-spacing:.01em; margin-top:6px;
 }
 .booking .summary-sub{ margin-top:8px; color:var(--muted); font-size:.95rem }
 
@@ -159,7 +232,7 @@ header.hero .badge,
 .booking .summary-meta dt{
   font-size:.75rem; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); font-weight:700;
 }
-.booking .summary-meta dd{ margin:0; font-size:1.15rem; font-weight:800 }
+.booking .summary-meta dd{ margin:0; font-family:var(--serif); font-size:1.15rem; font-weight:600 }
 
 .booking .summary-actions{ display:flex; flex-wrap:wrap; gap:12px }
 
@@ -198,8 +271,18 @@ header.hero .badge,
 .booking .card{
   background:var(--card); border:1px solid var(--border); border-radius:26px; padding:26px;
   box-shadow:var(--shadow); display:flex; flex-direction:column; gap:22px;
+  animation:booking-card-in .6s ease both;
+}
+.booking .card:nth-child(1){ animation-delay:.1s }
+.booking .card:nth-child(2){ animation-delay:.2s }
+.booking .card:nth-child(3){ animation-delay:.3s }
+.booking .card:nth-child(4){ animation-delay:.4s }
+@keyframes booking-card-in{
+  from{ opacity:0; transform:translateY(20px) }
+  to{ opacity:1; transform:translateY(0) }
 }
 .booking .card-header{ display:flex; align-items:center; justify-content:space-between; gap:16px }
+.booking .card-header h3{ font-family:var(--serif); font-weight:400; font-size:1.4rem; letter-spacing:.02em }
 
 .booking .status-band{
   display:grid; gap:12px; grid-template-columns:repeat(4,minmax(0,1fr));
@@ -412,6 +495,7 @@ header.hero .badge,
 }
 @media (max-width:640px){
   header.hero{ min-height:70vh; padding-bottom:100px }
+  .booking-hero{ min-height:50vh }
   .nav-buttons{ left:16px; right:16px; justify-content:center }
   .booking .booking__intro{ padding:20px }
   .booking .field-grid{ grid-template-columns:1fr }
