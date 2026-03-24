@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import TopNav from "./components/TopNav";
+import { useLanguage } from "./i18n/LanguageContext";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
@@ -8,7 +9,7 @@ type Villa = { id: string; name: string; dailyFee: number; occupancy: number; co
 type Scenario = "pessimistic" | "base" | "optimistic";
 type Currency = "EUR" | "USD" | "GBP";
 
-const SCN_LABELS: Record<Scenario, string> = { pessimistic: "Pessimistic", base: "Base", optimistic: "Optimistic" };
+const SCN_LABEL_KEYS: Record<Scenario, string> = { pessimistic: "planner.pessimistic", base: "planner.base", optimistic: "planner.optimistic" };
 const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#c0392b", base: "#2c5e3f", optimistic: "#1abc9c" };
 
 export default function PlannerPage() {
@@ -19,6 +20,7 @@ export default function PlannerPage() {
   const [currency, setCurrency] = useState<Currency>("EUR");
   const [activeScn, setActiveScn] = useState<Scenario>("base");
   const [heroVis, setHeroVis] = useState(false);
+  const { t } = useLanguage();
 
   const sym: Record<Currency, string> = { EUR: "€", USD: "$", GBP: "£" };
   const [rates, setRates] = useState<Record<Currency, number>>({ EUR: 1, USD: 1.08, GBP: 0.86 });
@@ -89,11 +91,11 @@ export default function PlannerPage() {
     if (!active || !payload?.length) return null;
     return (
       <div className="pl-tooltip">
-        <div className="pl-tooltip__label">Year {label}</div>
+        <div className="pl-tooltip__label">{t("planner.year", { n: label })}</div>
         {payload.map((p: any) => (
           <div key={p.dataKey} className="pl-tooltip__row">
             <span className="pl-tooltip__dot" style={{ background: p.color }} />
-            <span>{SCN_LABELS[p.dataKey as Scenario]}</span>
+            <span>{t(SCN_LABEL_KEYS[p.dataKey as Scenario])}</span>
             <strong>{sym[currency]}&nbsp;{fmt0(p.value)}</strong>
           </div>
         ))}
@@ -109,10 +111,10 @@ export default function PlannerPage() {
         <div className="pl-hero__ov" aria-hidden="true" />
         <TopNav />
         <div className="pl-hero__ct">
-          <span className="pl-hero__badge">Investment Overview</span>
-          <h1 className="pl-hero__title">Profit Planner</h1>
+          <span className="pl-hero__badge">{t("planner.heroBadge")}</span>
+          <h1 className="pl-hero__title">{t("planner.heroTitle")}</h1>
           <div className="pl-hero__line" />
-          <p className="pl-hero__sub">Revenue, cost and ROI scenario analysis for NEST Ulaşlı</p>
+          <p className="pl-hero__sub">{t("planner.heroSub")}</p>
         </div>
       </header>
 
@@ -120,19 +122,19 @@ export default function PlannerPage() {
         {/* ═══ KPI CARDS ═══ */}
         <section className="pl-kpis">
           <div className="pl-kpi">
-            <span className="pl-kpi__label">Annual EBITDA</span>
+            <span className="pl-kpi__label">{t("planner.kpiEbitda")}</span>
             <span className="pl-kpi__value">{fmtC(totals.ebitda)}</span>
           </div>
           <div className="pl-kpi">
-            <span className="pl-kpi__label">Annual Net Profit</span>
+            <span className="pl-kpi__label">{t("planner.kpiNet")}</span>
             <span className="pl-kpi__value">{fmtC(totals.net)}</span>
           </div>
           <div className="pl-kpi">
-            <span className="pl-kpi__label">5Y Cumulative ROI</span>
+            <span className="pl-kpi__label">{t("planner.kpi5y")}</span>
             <span className="pl-kpi__value">{fmtC(totals.net * eff(5))}</span>
           </div>
           <div className="pl-kpi pl-kpi--accent">
-            <span className="pl-kpi__label">15Y Cumulative ROI</span>
+            <span className="pl-kpi__label">{t("planner.kpi15y")}</span>
             <span className="pl-kpi__value">{fmtC(totals.net * eff(15))}</span>
           </div>
         </section>
@@ -149,7 +151,7 @@ export default function PlannerPage() {
                   onClick={() => applyScenario(s)}
                 >
                   <span className="pl-scn__dot" />
-                  {SCN_LABELS[s]}
+                  {t(SCN_LABEL_KEYS[s])}
                 </button>
               ))}
             </div>
@@ -159,13 +161,13 @@ export default function PlannerPage() {
               <option value="GBP">£ GBP</option>
             </select>
           </div>
-          <button className="pl-add" onClick={addVilla}>+ Add Villa</button>
+          <button className="pl-add" onClick={addVilla}>{t("planner.addVilla")}</button>
         </section>
 
         {/* ═══ CHART ═══ */}
         <section className="pl-chart-wrap">
-          <h2 className="pl-section-title">Cumulative ROI by Scenario</h2>
-          <p className="pl-section-desc">Net profit accumulation over 15 years. First 2 years assumed zero ROI (marketing investment).</p>
+          <h2 className="pl-section-title">{t("planner.chartTitle")}</h2>
+          <p className="pl-section-desc">{t("planner.chartDesc")}</p>
           <div className="pl-chart">
             <ResponsiveContainer width="100%" height={420}>
               <AreaChart data={chartData} margin={{ top: 12, right: 20, left: 10, bottom: 8 }}>
@@ -195,27 +197,27 @@ export default function PlannerPage() {
           </div>
           <div className="pl-chart__legend">
             {(["pessimistic", "base", "optimistic"] as Scenario[]).map(s => (
-              <span key={s}><span className="pl-chart__ldot" style={{ background: SCN_COLORS[s] }} />{SCN_LABELS[s]}</span>
+              <span key={s}><span className="pl-chart__ldot" style={{ background: SCN_COLORS[s] }} />{t(SCN_LABEL_KEYS[s])}</span>
             ))}
           </div>
         </section>
 
         {/* ═══ TABLE ═══ */}
         <section className="pl-table-wrap">
-          <h2 className="pl-section-title">Villa Breakdown</h2>
+          <h2 className="pl-section-title">{t("planner.tableTitle")}</h2>
           <div className="pl-table-scroll">
             <table className="pl-table">
               <thead>
                 <tr>
-                  <th>Villa</th>
-                  <th>Daily Rate (EUR)</th>
-                  <th>Occupancy</th>
-                  <th>Cost %</th>
-                  <th>EBITDA</th>
-                  <th>Net Profit</th>
-                  <th>5Y ROI</th>
-                  <th>10Y ROI</th>
-                  <th>15Y ROI</th>
+                  <th>{t("planner.thVilla")}</th>
+                  <th>{t("planner.thRate")}</th>
+                  <th>{t("planner.thOcc")}</th>
+                  <th>{t("planner.thCost")}</th>
+                  <th>{t("planner.thEbitda")}</th>
+                  <th>{t("planner.thNet")}</th>
+                  <th>{t("planner.th5y")}</th>
+                  <th>{t("planner.th10y")}</th>
+                  <th>{t("planner.th15y")}</th>
                   <th></th>
                 </tr>
               </thead>
@@ -252,7 +254,7 @@ export default function PlannerPage() {
               </tbody>
               <tfoot>
                 <tr>
-                  <td><strong>Total</strong></td><td></td><td></td><td></td>
+                  <td><strong>{t("planner.total")}</strong></td><td></td><td></td><td></td>
                   <td className="pl-td--num"><strong>{fmtC2(totals.ebitda)}</strong></td>
                   <td className="pl-td--num"><strong>{fmtC2(totals.net)}</strong></td>
                   <td className="pl-td--num"><strong>{fmtC2(totals.net * eff(5))}</strong></td>
@@ -266,8 +268,8 @@ export default function PlannerPage() {
         </section>
 
         <footer className="pl-foot">
-          <p>* First 2 years assumed ROI = 0 due to marketing ramp-up. All calculations are EUR-based; display currency applies conversion.</p>
-          <p>** EBITDA = Earnings before interest, taxes, depreciation and amortisation</p>
+          <p>{t("planner.foot1")}</p>
+          <p>{t("planner.foot2")}</p>
         </footer>
       </main>
     </>
