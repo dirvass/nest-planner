@@ -1,5 +1,5 @@
 {
-  "nav": { "home": "Ana Sayfa", "planner": "Planlama", "gallery": "Galeri", "booking": "Rezervasyon" },
+  "nav": { "home": "Ana Sayfa", "planner": "Yatırım", "gallery": "Galeri", "booking": "Rezervasyon" },
   "home": {
     "badge": "Kocaeli, Ulaşlı",
     "title": "NEST",

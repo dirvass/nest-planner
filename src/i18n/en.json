@@ -1,5 +1,5 @@
 {
-  "nav": { "home": "Home", "planner": "Planner", "gallery": "Gallery", "booking": "Booking" },
+  "nav": { "home": "Home", "planner": "Investment", "gallery": "Gallery", "booking": "Booking" },
   "home": {
     "badge": "Kocaeli, Ulasli",
     "title": "NEST",

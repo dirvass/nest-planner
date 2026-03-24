@@ -458,7 +458,7 @@ header.hero .badge{
 }
 .pl-hero__bg{
   position:absolute; inset:0; z-index:0;
-  background:url("/media/dis-mekan/drone-genel-gorunum-render.jpg") center/cover no-repeat;
+  background:url("/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg") center/cover no-repeat;
   transform:scale(1.06);
   transition:transform 10s cubic-bezier(.25,.46,.45,.94);
 }
