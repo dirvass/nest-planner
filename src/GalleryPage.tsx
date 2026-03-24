@@ -44,13 +44,48 @@ const MEDIA: Media[] = [
   { id: "int-yatak-yesil", type: "image", src: "/media/ic-mekan/yatak-odasi-yesil-dus-render.png", alt: "Bedroom with walk-in shower", category: "interior" },
 
   // ─── CONSTRUCTION PROCESS (insaat-sureci) ───
+  { id: "con-foto3", type: "image", src: "/media/insaat-sureci/insaat-fotograf-3.jpg", alt: "Foundation formwork with sea panorama", category: "construction", featured: true },
   { id: "con-arazi", type: "image", src: "/media/insaat-sureci/arazi-hazirligi-genel-gorunum.jpg", alt: "Site preparation — overview", category: "construction" },
+  { id: "con-foto1", type: "image", src: "/media/insaat-sureci/insaat-fotograf-1.jpg", alt: "Grading and retaining wall — sea view", category: "construction" },
+  { id: "con-foto2", type: "image", src: "/media/insaat-sureci/insaat-fotograf-2.jpg", alt: "Retaining wall and earthworks", category: "construction" },
+  { id: "con-foto4", type: "image", src: "/media/insaat-sureci/insaat-fotograf-4.jpg", alt: "Winter view — site under snow", category: "construction" },
   { id: "con-bati-bahce", type: "image", src: "/media/insaat-sureci/bati_bahce.jpg", alt: "West garden progress", category: "construction" },
   { id: "con-bati-cephe", type: "image", src: "/media/insaat-sureci/bati_cephe.jpg", alt: "West facade structure", category: "construction" },
   { id: "con-dogu-cephe", type: "image", src: "/media/insaat-sureci/dogu_cephe.jpg", alt: "East facade structure", category: "construction" },
   { id: "con-izolasyon-once", type: "image", src: "/media/insaat-sureci/izolasyon_oncesi.jpg", alt: "Before insulation", category: "construction" },
   { id: "con-izolasyon-sonra", type: "image", src: "/media/insaat-sureci/izolasyon_sonrasi.jpg", alt: "After insulation", category: "construction" },
+
+  // ─── VIDEOS ───
+  { id: "vid-1", type: "video", src: "/media/videolar/villa-video-1.mp4", alt: "Villa site tour 1", category: "construction" },
+  { id: "vid-2", type: "video", src: "/media/videolar/villa-video-2.mp4", alt: "Villa site tour 2", category: "construction" },
+  { id: "vid-3", type: "video", src: "/media/videolar/villa-video-3.mp4", alt: "Villa site overview", category: "construction" },
+  { id: "vid-4", type: "video", src: "/media/videolar/villa-video-4.mp4", alt: "Construction progress walkthrough", category: "construction" },
 ];
+
+function GalleryCard({ item, idx, onOpen }: { item: Media; idx: number; onOpen: (id: string) => void }) {
+  const isFeatured = item.type === "image" && "featured" in item && item.featured;
+  return (
+    <article
+      className={`gallery-card ${isFeatured ? "gallery-card--featured" : ""}`}
+      onClick={() => onOpen(item.id)}
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") onOpen(item.id); }}
+      style={{ animationDelay: `${idx * 0.06}s` }}
+    >
+      {item.type === "image" ? (
+        <img className="gallery-card__img" src={item.src} alt={item.alt} loading="lazy" />
+      ) : (
+        <video className="gallery-card__img" src={item.src} muted preload="metadata" playsInline />
+      )}
+      <div className="gallery-card__overlay">
+        <span className="gallery-card__alt">
+          {item.type === "video" && <span className="gallery-card__play">&#9654;</span>}
+          {item.alt}
+        </span>
+      </div>
+    </article>
+  );
+}
 
 type FilterTab = "all" | Category;
 
@@ -158,24 +193,7 @@ export default function GalleryPage() {
                 </div>
                 <div className={`gallery-grid ${cat === "construction" ? "gallery-grid--compact" : ""}`}>
                   {items.map((item, idx) => (
-                    <article
-                      key={item.id}
-                      className={`gallery-card ${item.type === "image" && "featured" in item && item.featured ? "gallery-card--featured" : ""}`}
-                      onClick={() => open(item.id)}
-                      tabIndex={0}
-                      onKeyDown={(e) => { if (e.key === "Enter") open(item.id); }}
-                      style={{ animationDelay: `${idx * 0.06}s` }}
-                    >
-                      <img
-                        className="gallery-card__img"
-                        src={item.src}
-                        alt={item.alt}
-                        loading="lazy"
-                      />
-                      <div className="gallery-card__overlay">
-                        <span className="gallery-card__alt">{item.alt}</span>
-                      </div>
-                    </article>
+                    <GalleryCard key={item.id} item={item} idx={idx} onOpen={open} />
                   ))}
                 </div>
               </section>
@@ -192,24 +210,7 @@ export default function GalleryPage() {
             </div>
             <div className={`gallery-grid ${activeTab === "construction" ? "gallery-grid--compact" : ""}`}>
               {filteredItems.map((item, idx) => (
-                <article
-                  key={item.id}
-                  className={`gallery-card ${item.type === "image" && "featured" in item && item.featured ? "gallery-card--featured" : ""}`}
-                  onClick={() => open(item.id)}
-                  tabIndex={0}
-                  onKeyDown={(e) => { if (e.key === "Enter") open(item.id); }}
-                  style={{ animationDelay: `${idx * 0.06}s` }}
-                >
-                  <img
-                    className="gallery-card__img"
-                    src={item.src}
-                    alt={item.alt}
-                    loading="lazy"
-                  />
-                  <div className="gallery-card__overlay">
-                    <span className="gallery-card__alt">{item.alt}</span>
-                  </div>
-                </article>
+                <GalleryCard key={item.id} item={item} idx={idx} onOpen={open} />
               ))}
             </div>
           </section>
@@ -238,11 +239,22 @@ export default function GalleryPage() {
           </button>
 
           <div className="gal-lightbox__inner" onClick={(e) => e.stopPropagation()}>
-            <img
-              className="gal-lightbox__media"
-              src={filteredItems[activeIndex].src}
-              alt={filteredItems[activeIndex].alt}
-            />
+            {filteredItems[activeIndex].type === "image" ? (
+              <img
+                className="gal-lightbox__media"
+                src={filteredItems[activeIndex].src}
+                alt={filteredItems[activeIndex].alt}
+              />
+            ) : (
+              <video
+                className="gal-lightbox__media"
+                src={filteredItems[activeIndex].src}
+                controls
+                autoPlay
+                playsInline
+                preload="metadata"
+              />
+            )}
             <div className="gal-lightbox__caption">
               <span className="gal-lightbox__caption-cat">
                 {CATEGORY_LABELS[filteredItems[activeIndex].category]}
