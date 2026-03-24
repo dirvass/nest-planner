@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import TopNav from "./components/TopNav";
+import { useLanguage } from "./i18n/LanguageContext";
 
 type Media =
   | { id: string; type: "image"; src: string; alt: string; category: Category; featured?: boolean }
@@ -7,16 +8,15 @@ type Media =
 
 type Category = "exterior" | "interior" | "construction";
 
-const CATEGORY_LABELS: Record<Category, string> = {
-  exterior: "Exterior",
-  interior: "Interior",
-  construction: "Construction",
+const CAT_LABEL_KEYS: Record<Category, string> = {
+  exterior: "gallery.exterior",
+  interior: "gallery.interior",
+  construction: "gallery.construction",
 };
-
-const CATEGORY_DESCRIPTIONS: Record<Category, string> = {
-  exterior: "Architectural renders of the villa grounds, pool and panoramic surroundings",
-  interior: "Living spaces designed for comfort, light and unobstructed sea views",
-  construction: "Progress snapshots from the build site",
+const CAT_DESC_KEYS: Record<Category, string> = {
+  exterior: "gallery.extDesc",
+  interior: "gallery.intDesc",
+  construction: "gallery.conDesc",
 };
 
 const MEDIA: Media[] = [
@@ -90,13 +90,14 @@ function GalleryCard({ item, idx, onOpen }: { item: Media; idx: number; onOpen: 
 type FilterTab = "all" | Category;
 
 export default function GalleryPage() {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
   const [activeId, setActiveId] = useState<string | null>(null);
   const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setHeroVisible(true), 100);
-    return () => clearTimeout(t);
+    const tm = setTimeout(() => setHeroVisible(true), 100);
+    return () => clearTimeout(tm);
   }, []);
 
   const filteredItems = useMemo(() => {
@@ -143,12 +144,10 @@ export default function GalleryPage() {
         <div className="gallery-hero__overlay" aria-hidden="true" />
         <TopNav />
         <div className="gallery-hero__content">
-          <span className="gallery-hero__badge">Visual Journey</span>
-          <h1 className="gallery-hero__title">Gallery</h1>
+          <span className="gallery-hero__badge">{t("gallery.badge")}</span>
+          <h1 className="gallery-hero__title">{t("gallery.title")}</h1>
           <div className="gallery-hero__line" />
-          <p className="gallery-hero__subtitle">
-            Explore our villa through architectural renders, interiors and live construction updates
-          </p>
+          <p className="gallery-hero__subtitle">{t("gallery.subtitle")}</p>
         </div>
       </header>
 
@@ -161,7 +160,7 @@ export default function GalleryPage() {
               className={`gallery-tab ${activeTab === tab ? "gallery-tab--active" : ""}`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab === "all" ? "All" : CATEGORY_LABELS[tab]}
+              {tab === "all" ? t("gallery.all") : t(CAT_LABEL_KEYS[tab])}
               <span className="gallery-tab__count">
                 {tab === "all" ? MEDIA.length : MEDIA.filter((m) => m.category === tab).length}
               </span>
@@ -181,14 +180,14 @@ export default function GalleryPage() {
               <section key={cat} className="gallery-section">
                 <div className="gallery-section__header">
                   <div>
-                    <h2 className="gallery-section__title">{CATEGORY_LABELS[cat]}</h2>
-                    <p className="gallery-section__desc">{CATEGORY_DESCRIPTIONS[cat]}</p>
+                    <h2 className="gallery-section__title">{t(CAT_LABEL_KEYS[cat])}</h2>
+                    <p className="gallery-section__desc">{t(CAT_DESC_KEYS[cat])}</p>
                   </div>
                   <button
                     className="gallery-section__link"
                     onClick={() => setActiveTab(cat)}
                   >
-                    View all {items.length}
+                    {t("gallery.viewAll", { n: items.length })}
                   </button>
                 </div>
                 <div className={`gallery-grid ${cat === "construction" ? "gallery-grid--compact" : ""}`}>
@@ -204,8 +203,8 @@ export default function GalleryPage() {
           <section className="gallery-section">
             <div className="gallery-section__header">
               <div>
-                <h2 className="gallery-section__title">{CATEGORY_LABELS[activeTab]}</h2>
-                <p className="gallery-section__desc">{CATEGORY_DESCRIPTIONS[activeTab]}</p>
+                <h2 className="gallery-section__title">{t(CAT_LABEL_KEYS[activeTab])}</h2>
+                <p className="gallery-section__desc">{t(CAT_DESC_KEYS[activeTab])}</p>
               </div>
             </div>
             <div className={`gallery-grid ${activeTab === "construction" ? "gallery-grid--compact" : ""}`}>
@@ -257,7 +256,7 @@ export default function GalleryPage() {
             )}
             <div className="gal-lightbox__caption">
               <span className="gal-lightbox__caption-cat">
-                {CATEGORY_LABELS[filteredItems[activeIndex].category]}
+                {t(CAT_LABEL_KEYS[filteredItems[activeIndex].category])}
               </span>
               <span>{filteredItems[activeIndex].alt}</span>
             </div>

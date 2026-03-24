@@ -19,7 +19,7 @@
 html,body,#root{ height:100% }
 body{
   margin:0;
-  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family:Inter, "Noto Sans Arabic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   background:var(--bg);
   color:var(--ink);
   line-height:1.5;
@@ -1048,4 +1048,39 @@ header.hero .badge{
 }
 @media (max-width:380px){
   .home-hero__title{ letter-spacing:.08em }
+}
+
+/* =========================================================
+   Language Selector
+   =======================================================*/
+.lang-sel{
+  display:inline-flex; gap:2px; padding:3px;
+  border-radius:999px; background:rgba(15,23,42,.4);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(6px);
+}
+.lang-btn{
+  padding:6px 12px; border-radius:999px; border:none;
+  font-size:12px; font-weight:700; letter-spacing:.5px;
+  color:rgba(255,255,255,.7); background:transparent;
+  cursor:pointer; transition:all .2s ease;
+}
+.lang-btn:hover{ color:#fff }
+.lang-btn--active{
+  background:#fff; color:var(--ink);
+}
+
+/* =========================================================
+   RTL Support
+   =======================================================*/
+[dir="rtl"] .nav-buttons{ right:auto; left:22px }
+[dir="rtl"] .bk-dates__arrow{ transform:scaleX(-1) }
+[dir="rtl"] .bk__reset{ margin-left:0; margin-right:auto }
+[dir="rtl"] .bk-summary__row strong{ text-align:left }
+[dir="rtl"] .bk-enh__switch::after{ left:auto; right:4px }
+[dir="rtl"] .bk-enh__toggle input:checked + .bk-enh__switch::after{ transform:translateX(-18px) }
+[dir="rtl"] .gal-lightbox__nav--prev{ left:auto; right:20px }
+[dir="rtl"] .gal-lightbox__nav--next{ right:auto; left:20px }
+@media (max-width:640px){
+  [dir="rtl"] .nav-buttons{ left:16px; right:16px }
 }
