@@ -4,6 +4,7 @@ import { DayPicker, DateRange } from "react-day-picker";
 import { differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
 import "react-day-picker/dist/style.css";
 import { useLanguage } from "./i18n/LanguageContext";
+import { getBooked, toDateRanges } from "./availability";
 
 /* ── constants ── */
 type VillaKey = "ALYA" | "ZEHRA";
@@ -21,14 +22,6 @@ const VILLAS: Record<VillaKey, VillaData> = {
   ZEHRA: { name: "ZEHRA", nightlyEUR: 550, sleeps: 6, taglineKey: "booking.zehraTag", img: "/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg" },
 };
 const VILLA_KEYS: VillaKey[] = ["ALYA", "ZEHRA"];
-
-const BOOKED: Record<VillaKey, { from: Date; to: Date }[]> = {
-  ALYA: [
-    { from: new Date(new Date().getFullYear(), 6, 12), to: new Date(new Date().getFullYear(), 6, 18) },
-    { from: new Date(new Date().getFullYear(), 7, 3),  to: new Date(new Date().getFullYear(), 7, 7) },
-  ],
-  ZEHRA: [{ from: new Date(new Date().getFullYear(), 7, 14), to: new Date(new Date().getFullYear(), 7, 21) }],
-};
 
 const CLEANING_FEE = 150;
 const SERVICE_FEE_PCT = 0.05;
@@ -94,7 +87,8 @@ export default function BookingPage() {
   const total = sub + svc;
 
   const today = startOfToday();
-  const disabled = [{ before: today }, ...BOOKED[villa]];
+  const bookedData = getBooked();
+  const disabled = [{ before: today }, ...toDateRanges(bookedData[villa])];
   const ok = nights >= MIN_NIGHTS && !overCap;
 
   const waText = encodeURIComponent([

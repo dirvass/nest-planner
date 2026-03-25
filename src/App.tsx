@@ -5,6 +5,7 @@ import Home from "./Home";
 import PlannerPage from "./PlannerPage";
 import BookingPage from "./BookingPage";
 import GalleryPage from "./GalleryPage";
+import AdminPage from "./AdminPage";
 import "./styles.css";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/planner" element={<PlannerPage />} />
           <Route path="/book" element={<BookingPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
     </LanguageProvider>
