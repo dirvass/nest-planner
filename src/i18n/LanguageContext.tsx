@@ -6,7 +6,7 @@ import ar from "./ar.json";
 export type Locale = "en" | "tr" | "ar";
 
 const TRANSLATIONS: Record<Locale, Record<string, any>> = { en, tr, ar };
-const STORAGE_KEY = "nest-lang";
+const STORAGE_KEY = "verde-lang";
 
 type Ctx = {
   locale: Locale;

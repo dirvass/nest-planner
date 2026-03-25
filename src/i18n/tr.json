@@ -2,7 +2,7 @@
   "nav": { "home": "Ana Sayfa", "planner": "Yatırım", "gallery": "Galeri", "booking": "Rezervasyon" },
   "home": {
     "badge": "Kocaeli, Ulaşlı",
-    "title": "NEST",
+    "title": "VERDE",
     "tagline": "Doğanın lüksle buluştuğu yer",
     "subtitle": "Infinity havuz, sauna ve panoramik manzaralı özel villalar",
     "ctaReserve": "Rezervasyon Yap",
@@ -85,7 +85,7 @@
     "contact": "Bizi arayın: {{phone}} — her gün 09:00–22:00",
     "mobileAdd": "Tarih ekle",
     "mobileRes": "Rezervasyon",
-    "waMsg": "Merhaba NEST ULASLI, konaklama rezervasyonu yapmak istiyorum."
+    "waMsg": "Merhaba VERDE ULASLI, konaklama rezervasyonu yapmak istiyorum."
   },
   "gallery": {
     "badge": "Görsel Yolculuk",
@@ -103,7 +103,7 @@
   "planner": {
     "heroBadge": "Yatırım Özeti",
     "heroTitle": "Kâr Planlama",
-    "heroSub": "NEST Ulaşlı için gelir, gider ve ROI senaryo analizi",
+    "heroSub": "VERDE Ulaşlı için gelir, gider ve ROI senaryo analizi",
     "kpiEbitda": "Yıllık EBITDA",
     "kpiNet": "Yıllık Net Kâr",
     "kpi5y": "5 Yıllık Toplam ROI",

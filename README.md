@@ -1,8 +1,8 @@
-# NEST Ulasli — Private Luxury Villas
+# VERDE Ulasli — Private Luxury Villas
 
-Live: **https://nest-ulasli.vercel.app**
+Live: **https://verde-ulasli.vercel.app**
 
-Luxury villa rental website for NEST Ulasli — a twin-villa estate in Kocaeli, Turkey, opening September 2026.
+Luxury villa rental website for VERDE Ulasli — a twin-villa estate in Kocaeli, Turkey, opening September 2026.
 
 ## Pages
 
@@ -71,5 +71,5 @@ npm run build    # production build (vite)
 
 These pages are not shown in the navigation but accessible via direct URL:
 
-- **Investment Planner**: https://nest-ulasli.vercel.app/planner
-- **Admin Extranet**: https://nest-ulasli.vercel.app/admin
+- **Investment Planner**: https://verde-ulasli.vercel.app/planner
+- **Admin Extranet**: https://verde-ulasli.vercel.app/admin

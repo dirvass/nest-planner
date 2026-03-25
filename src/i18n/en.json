@@ -2,7 +2,7 @@
   "nav": { "home": "Home", "planner": "Investment", "gallery": "Gallery", "booking": "Booking" },
   "home": {
     "badge": "Kocaeli, Ulasli",
-    "title": "NEST",
+    "title": "VERDE",
     "tagline": "Where nature meets luxury",
     "subtitle": "Private villas with infinity pool, sauna & panoramic views",
     "ctaReserve": "Reserve Your Stay",
@@ -85,7 +85,7 @@
     "contact": "Or call us directly: {{phone}} — everyday 09:00–22:00",
     "mobileAdd": "Add dates",
     "mobileRes": "Reserve",
-    "waMsg": "Hello NEST ULASLI, I'd like to book a stay."
+    "waMsg": "Hello VERDE ULASLI, I'd like to book a stay."
   },
   "gallery": {
     "badge": "Visual Journey",
@@ -103,7 +103,7 @@
   "planner": {
     "heroBadge": "Investment Overview",
     "heroTitle": "Profit Planner",
-    "heroSub": "Revenue, cost and ROI scenario analysis for NEST Ulaşlı",
+    "heroSub": "Revenue, cost and ROI scenario analysis for VERDE Ulaşlı",
     "kpiEbitda": "Annual EBITDA",
     "kpiNet": "Annual Net Profit",
     "kpi5y": "5Y Cumulative ROI",

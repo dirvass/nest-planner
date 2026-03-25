@@ -4,7 +4,7 @@
 export type VillaKey = "ALYA" | "ZEHRA";
 export type BookedRange = { from: string; to: string }; // ISO date strings
 
-const STORAGE_KEY = "nest-booked";
+const STORAGE_KEY = "verde-booked";
 
 const DEFAULTS: Record<VillaKey, BookedRange[]> = {
   ALYA: [

@@ -37,7 +37,7 @@ const DEPOSIT = 500;
 const CONTACT = {
   whatsappNumber: "905370123285",
   whatsappDisplay: "+90 537 012 32 85",
-  email: "reservations@nest-ulasli.com",
+  email: "reservations@verde-ulasli.com",
 } as const;
 
 /* ── helpers ── */
