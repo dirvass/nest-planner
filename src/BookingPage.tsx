@@ -332,6 +332,20 @@ export default function BookingPage() {
               )}
             </div>
           </div>
+
+          {/* ── Included experiences ── */}
+          <div className="bk-included">
+            <h3 className="bk-included__title">{t("booking.s4IncTitle")}</h3>
+            <p className="bk-included__desc">{t("booking.s4IncDesc")}</p>
+            <div className="bk-included__grid">
+              {(["Farm", "Fire", "Sauna", "Trail", "Chess", "Kids"] as const).map((k) => (
+                <div className="bk-included__item" key={k}>
+                  <strong>{t(`booking.inc${k}`)}</strong>
+                  <span>{t(`booking.inc${k}D`)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* ═══ 5 · SPECIAL REQUESTS ═══ */}

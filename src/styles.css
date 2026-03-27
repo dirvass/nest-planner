@@ -325,6 +325,33 @@ header.hero .badge{
   padding:10px 14px; font-weight:600; color:var(--ink); background:#fff;
 }
 
+/* ── Included experiences ── */
+.bk-included{
+  margin-top:40px; padding-top:32px;
+  border-top:1px solid rgba(226,232,240,.5);
+}
+.bk-included__title{
+  font-family:var(--serif); font-size:1.2rem; font-weight:400;
+  letter-spacing:.02em; color:var(--ink); margin-bottom:4px;
+}
+.bk-included__desc{
+  font-size:.85rem; color:var(--muted); margin-bottom:20px;
+}
+.bk-included__grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;
+}
+.bk-included__item{
+  padding:16px 18px; border-radius:14px;
+  background:rgba(45,80,64,.04); border:1px solid rgba(45,80,64,.12);
+}
+.bk-included__item strong{
+  display:block; font-family:var(--serif); font-size:.95rem; font-weight:400;
+  color:var(--ink); margin-bottom:2px;
+}
+.bk-included__item span{
+  font-size:.8rem; color:var(--muted); line-height:1.5;
+}
+
 /* ── Textarea ── */
 .bk-textarea{
   width:100%; min-height:120px; resize:vertical;
