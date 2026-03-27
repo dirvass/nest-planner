@@ -50,6 +50,26 @@ export default function StoryPage() {
           </section>
         ))}
 
+        {/* ═══ CINEMATIC VIDEO — Kuzu Yayla ═══ */}
+        <section className="story__video-section">
+          <div className="story__video-wrap">
+            <video
+              className="story__video"
+              src="/media/videolar/kuzu-yayla.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/media/dis-mekan/yan-cephe-genel-gorunum-render.jpg"
+            />
+            <div className="story__video-overlay" />
+            <div className="story__video-content">
+              <span className="story__video-label">{t("story.s9Title")}</span>
+              <p className="story__video-quote">{t("story.heroSub")}</p>
+            </div>
+          </div>
+        </section>
+
         {/* ═══ LOCATION — with radial map ═══ */}
         <section className="story__section">
           <div className="story__text">

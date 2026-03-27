@@ -1692,6 +1692,45 @@ header.hero .badge{
 .story__body{
   font-size:.95rem; line-height:1.8; color:var(--muted); max-width:460px;
 }
+
+/* ── Story cinematic video ── */
+.story__video-section{
+  margin:40px -24px; /* bleed outside story max-width */
+}
+.story__video-wrap{
+  position:relative; width:100vw; margin-left:calc(-50vw + 50%);
+  height:60vh; min-height:360px; overflow:hidden;
+}
+.story__video{
+  position:absolute; inset:0;
+  width:100%; height:100%; object-fit:cover;
+}
+.story__video-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(14,26,22,.5) 0%,
+    rgba(14,26,22,.15) 40%,
+    rgba(14,26,22,.15) 60%,
+    rgba(14,26,22,.6) 100%
+  );
+}
+.story__video-content{
+  position:absolute; inset:0; z-index:1;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:24px;
+}
+.story__video-label{
+  font-size:.7rem; font-weight:700; letter-spacing:4px;
+  text-transform:uppercase; color:var(--gold, #C3A564);
+  margin-bottom:12px;
+}
+.story__video-quote{
+  font-family:var(--serif); font-size:clamp(1.4rem,4vw,2.2rem);
+  font-weight:400; font-style:italic; color:#fff;
+  max-width:500px; line-height:1.5; letter-spacing:.02em;
+}
 @media(max-width:768px){
   .story__section{ grid-template-columns:1fr; gap:24px }
   .story__section--reverse .story__img-wrap{ order:0 }
