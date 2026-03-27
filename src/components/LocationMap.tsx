@@ -43,8 +43,8 @@ export default function LocationMap() {
             <stop offset="100%" stopColor="#C3A564" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="water-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0a2a3a" />
-            <stop offset="100%" stopColor="#0d1f2d" />
+            <stop offset="0%" stopColor="#3a7ca5" />
+            <stop offset="100%" stopColor="#2a6a8e" />
           </linearGradient>
           <filter id="glow">
             <feGaussianBlur stdDeviation="3" result="blur" />
@@ -53,35 +53,35 @@ export default function LocationMap() {
         </defs>
 
         {/* Background — land */}
-        <rect width="900" height="650" fill="#0E1A16" rx="16" />
+        <rect width="900" height="650" fill="#1a3028" rx="16" />
 
         {/* ── Water bodies ── */}
 
         {/* Black Sea — top strip hint */}
-        <path d="M0,0 L900,0 L900,55 Q750,75 600,50 Q400,30 200,60 Q100,70 0,45 Z" fill="url(#water-grad)" opacity="0.6" />
-        <text x="450" y="30" textAnchor="middle" fill="rgba(195,165,100,0.2)" fontSize="9" fontFamily="Inter,sans-serif" letterSpacing="4" textTransform="uppercase">BLACK SEA</text>
+        <path d="M0,0 L900,0 L900,55 Q750,75 600,50 Q400,30 200,60 Q100,70 0,45 Z" fill="url(#water-grad)" opacity="0.85" />
+        <text x="450" y="30" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="Inter,sans-serif" letterSpacing="4">BLACK SEA</text>
 
         {/* Marmara Sea — left/west */}
-        <path d="M0,200 Q60,180 120,210 Q200,240 280,250 L300,280 Q250,310 200,340 Q150,360 100,370 Q50,380 0,360 Z" fill="url(#water-grad)" opacity="0.7" />
-        <text x="100" y="300" textAnchor="middle" fill="rgba(195,165,100,0.18)" fontSize="10" fontFamily="Inter,sans-serif" letterSpacing="3">MARMARA</text>
+        <path d="M0,200 Q60,180 120,210 Q200,240 280,250 L300,280 Q250,310 200,340 Q150,360 100,370 Q50,380 0,360 Z" fill="url(#water-grad)" opacity="0.9" />
+        <text x="100" y="300" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="10" fontFamily="Inter,sans-serif" letterSpacing="3">MARMARA</text>
 
         {/* İzmit Gulf — narrow body east-west */}
-        <path d="M280,250 Q320,242 380,248 Q440,252 500,258 Q560,262 620,260 Q660,258 700,262 L700,278 Q660,282 620,280 Q560,284 500,282 Q440,278 380,275 Q320,272 280,278 Z" fill="url(#water-grad)" opacity="0.8" />
-        <text x="490" y="272" textAnchor="middle" fill="rgba(195,165,100,0.15)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="4">İZMİT GULF</text>
+        <path d="M280,250 Q320,242 380,248 Q440,252 500,258 Q560,262 620,260 Q660,258 700,262 L700,278 Q660,282 620,280 Q560,284 500,282 Q440,278 380,275 Q320,272 280,278 Z" fill="url(#water-grad)" opacity="0.95" />
+        <text x="490" y="272" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="4">İZMİT GULF</text>
 
         {/* İznik Lake */}
-        <ellipse cx="530" cy="495" rx="80" ry="35" fill="url(#water-grad)" opacity="0.6" />
-        <text x="530" y="500" textAnchor="middle" fill="rgba(195,165,100,0.15)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="2">İZNİK LAKE</text>
+        <ellipse cx="530" cy="495" rx="80" ry="35" fill="url(#water-grad)" opacity="0.8" />
+        <text x="530" y="500" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="2">İZNİK LAKE</text>
 
         {/* Sapanca Lake hint */}
-        <ellipse cx="720" cy="300" rx="30" ry="12" fill="url(#water-grad)" opacity="0.5" />
+        <ellipse cx="720" cy="300" rx="30" ry="12" fill="url(#water-grad)" opacity="0.7" />
 
         {/* ── Connection lines from Verde to destinations ── */}
         {DESTINATIONS.map((d) => (
           <line
             key={d.labelKey + "-line"}
             x1={VX} y1={VY} x2={d.x} y2={d.y}
-            stroke="rgba(195,165,100,0.12)"
+            stroke="rgba(195,165,100,0.22)"
             strokeWidth="1"
             strokeDasharray="4 4"
           />
