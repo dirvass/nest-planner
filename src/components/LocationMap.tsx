@@ -2,142 +2,179 @@ import React from "react";
 import { useLanguage } from "../i18n/LanguageContext";
 
 /**
- * Geographic map of the Marmara / İzmit Gulf region.
- * Verde Ulaşlı at center, destinations with travel times.
- * Stylized SVG — VERDE brand palette, luxury aesthetic.
+ * Professional geographic map — Marmara region.
+ * Topographic style, VERDE palette, luxury aesthetic.
+ * Based on actual coordinates of the region.
  */
 
-interface Dest {
+interface Place {
   labelKey: string;
   time: string;
   x: number;
   y: number;
-  align?: "left" | "right";
+  align: "l" | "r" | "t" | "b";
+  size?: "lg" | "sm";
 }
 
-const DESTINATIONS: Dest[] = [
-  { labelKey: "map.istanbul",  time: "70'",  x: 115, y: 128, align: "left" },
-  { labelKey: "map.airport",   time: "50'",  x: 270, y: 140, align: "left" },
-  { labelKey: "map.izmit",     time: "30'",  x: 620, y: 248, align: "right" },
-  { labelKey: "map.dining",    time: "20'",  x: 555, y: 275, align: "right" },
-  { labelKey: "map.kartepe",   time: "1h",   x: 735, y: 255, align: "right" },
-  { labelKey: "map.marmara",   time: "30'",  x: 320, y: 340, align: "left" },
-  { labelKey: "map.iznik",     time: "45'",  x: 530, y: 490, align: "right" },
-  { labelKey: "map.bursa",     time: "70'",  x: 185, y: 510, align: "left" },
-  { labelKey: "map.uludag",    time: "2h",   x: 260, y: 560, align: "left" },
-  { labelKey: "map.blacksea",  time: "1h",   x: 680, y: 68,  align: "right" },
+const PLACES: Place[] = [
+  { labelKey: "map.istanbul",  time: "70 min",  x: 115, y: 130, align: "l", size: "lg" },
+  { labelKey: "map.airport",   time: "50 min",  x: 275, y: 148, align: "t" },
+  { labelKey: "map.izmit",     time: "30 min",  x: 628, y: 242, align: "r" },
+  { labelKey: "map.dining",    time: "20 min",  x: 548, y: 288, align: "r" },
+  { labelKey: "map.kartepe",   time: "1 hr",    x: 740, y: 258, align: "r" },
+  { labelKey: "map.marmara",   time: "30 min",  x: 315, y: 348, align: "l" },
+  { labelKey: "map.iznik",     time: "45 min",  x: 535, y: 488, align: "r", size: "lg" },
+  { labelKey: "map.bursa",     time: "70 min",  x: 180, y: 515, align: "l", size: "lg" },
+  { labelKey: "map.uludag",    time: "2 hr",    x: 265, y: 562, align: "l" },
+  { labelKey: "map.blacksea",  time: "1 hr",    x: 650, y: 58,  align: "r" },
 ];
 
-// Verde location
-const VX = 500, VY = 320;
+const VX = 498, VY = 322;
 
 export default function LocationMap() {
   const { t } = useLanguage();
 
   return (
     <div className="loc-map">
-      <svg viewBox="0 0 900 650" className="loc-map__svg" aria-label="Verde Ulaşlı location map">
+      <svg viewBox="0 0 900 650" className="loc-map__svg" role="img" aria-label="Verde Ulaşlı regional map">
         <defs>
-          <radialGradient id="verde-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#C3A564" stopOpacity="0.4" />
+          {/* Gradients */}
+          <linearGradient id="sea" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#4a90b8" />
+            <stop offset="100%" stopColor="#3a7ca5" />
+          </linearGradient>
+          <linearGradient id="land" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2a4a3a" />
+            <stop offset="100%" stopColor="#1e3a2c" />
+          </linearGradient>
+          <radialGradient id="vglow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#C3A564" stopOpacity="0.5" />
+            <stop offset="60%" stopColor="#C3A564" stopOpacity="0.08" />
             <stop offset="100%" stopColor="#C3A564" stopOpacity="0" />
           </radialGradient>
-          <linearGradient id="water-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3a7ca5" />
-            <stop offset="100%" stopColor="#2a6a8e" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          <filter id="soft"><feGaussianBlur stdDeviation="2" /></filter>
+          <filter id="txt-shadow">
+            <feDropShadow dx="0" dy="1" stdDeviation="2" floodColor="#000" floodOpacity="0.5" />
           </filter>
+
+          {/* Topo pattern */}
+          <pattern id="topo" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M0,30 Q15,25 30,30 Q45,35 60,30" fill="none" stroke="rgba(195,165,100,0.04)" strokeWidth="0.5" />
+            <path d="M0,50 Q15,45 30,50 Q45,55 60,50" fill="none" stroke="rgba(195,165,100,0.03)" strokeWidth="0.5" />
+            <path d="M0,10 Q15,5 30,10 Q45,15 60,10" fill="none" stroke="rgba(195,165,100,0.03)" strokeWidth="0.5" />
+          </pattern>
         </defs>
 
-        {/* Background — land */}
-        <rect width="900" height="650" fill="#1a3028" rx="16" />
+        {/* ── Land base ── */}
+        <rect width="900" height="650" fill="url(#land)" rx="16" />
+        <rect width="900" height="650" fill="url(#topo)" rx="16" />
+
+        {/* ── Mountain ridges (subtle) ── */}
+        <path d="M350,160 Q400,120 450,150 Q500,130 550,160 Q600,140 650,165 Q700,150 750,170"
+          fill="none" stroke="rgba(195,165,100,0.06)" strokeWidth="12" />
+        <path d="M100,400 Q200,370 300,395 Q400,375 500,400 Q600,380 700,405"
+          fill="none" stroke="rgba(195,165,100,0.05)" strokeWidth="10" />
 
         {/* ── Water bodies ── */}
 
-        {/* Black Sea — top strip hint */}
-        <path d="M0,0 L900,0 L900,55 Q750,75 600,50 Q400,30 200,60 Q100,70 0,45 Z" fill="url(#water-grad)" opacity="0.85" />
-        <text x="450" y="30" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="9" fontFamily="Inter,sans-serif" letterSpacing="4">BLACK SEA</text>
+        {/* Black Sea */}
+        <path d="M0,0 L900,0 L900,52 Q780,72 650,48 Q500,28 350,55 Q200,68 100,60 Q50,55 0,42 Z" fill="url(#sea)" />
+        <text x="450" y="28" textAnchor="middle" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="Inter,sans-serif" letterSpacing="6" fontWeight="300">KARADENIZ</text>
 
-        {/* Marmara Sea — left/west */}
-        <path d="M0,200 Q60,180 120,210 Q200,240 280,250 L300,280 Q250,310 200,340 Q150,360 100,370 Q50,380 0,360 Z" fill="url(#water-grad)" opacity="0.9" />
-        <text x="100" y="300" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="10" fontFamily="Inter,sans-serif" letterSpacing="3">MARMARA</text>
+        {/* Marmara Sea */}
+        <path d="M0,195 Q40,180 90,195 Q140,210 190,225 Q240,240 280,250 L298,278 Q260,300 220,325 Q180,345 140,358 Q100,368 60,372 Q30,375 0,365 Z" fill="url(#sea)" />
+        <text x="95" y="295" textAnchor="middle" fill="rgba(255,255,255,0.3)" fontSize="9" fontFamily="Inter,sans-serif" letterSpacing="4" fontWeight="300">MARMARA</text>
 
-        {/* İzmit Gulf — narrow body east-west */}
-        <path d="M280,250 Q320,242 380,248 Q440,252 500,258 Q560,262 620,260 Q660,258 700,262 L700,278 Q660,282 620,280 Q560,284 500,282 Q440,278 380,275 Q320,272 280,278 Z" fill="url(#water-grad)" opacity="0.95" />
-        <text x="490" y="272" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="4">İZMİT GULF</text>
+        {/* İzmit Gulf */}
+        <path d="M278,248 Q310,240 360,245 Q420,250 480,255 Q540,258 600,256 Q640,255 680,258 Q700,260 710,262
+               L710,278 Q700,280 680,278 Q640,280 600,278 Q540,280 480,278 Q420,275 360,272 Q310,268 278,275 Z"
+          fill="url(#sea)" />
+        <text x="480" y="270" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="5" fontWeight="300">KÖRFEZİ</text>
 
         {/* İznik Lake */}
-        <ellipse cx="530" cy="495" rx="80" ry="35" fill="url(#water-grad)" opacity="0.8" />
-        <text x="530" y="500" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="2">İZNİK LAKE</text>
+        <ellipse cx="532" cy="492" rx="82" ry="32" fill="url(#sea)" opacity="0.85" />
+        <text x="532" y="497" textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="3" fontWeight="300">İZNİK GÖLÜ</text>
 
-        {/* Sapanca Lake hint */}
-        <ellipse cx="720" cy="300" rx="30" ry="12" fill="url(#water-grad)" opacity="0.7" />
+        {/* Sapanca Lake */}
+        <ellipse cx="722" cy="298" rx="28" ry="10" fill="url(#sea)" opacity="0.75" />
+        <text x="722" y="318" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="6" fontFamily="Inter,sans-serif" letterSpacing="2">SAPANCA</text>
 
-        {/* ── Connection lines from Verde to destinations ── */}
-        {DESTINATIONS.map((d) => (
-          <line
-            key={d.labelKey + "-line"}
-            x1={VX} y1={VY} x2={d.x} y2={d.y}
-            stroke="rgba(195,165,100,0.22)"
-            strokeWidth="1"
-            strokeDasharray="4 4"
-          />
+        {/* ── Osmangazi Bridge ── */}
+        <line x1="286" y1="256" x2="286" y2="272" stroke="#C3A564" strokeWidth="2" opacity="0.5" />
+        <circle cx="286" cy="256" r="2" fill="#C3A564" opacity="0.5" />
+        <circle cx="286" cy="272" r="2" fill="#C3A564" opacity="0.5" />
+        <text x="268" y="250" textAnchor="end" fill="rgba(195,165,100,0.4)" fontSize="6" fontFamily="Inter,sans-serif" letterSpacing="1">OSMANGAZI</text>
+
+        {/* ── Route lines ── */}
+        {PLACES.map((p) => (
+          <line key={p.labelKey + "-r"} x1={VX} y1={VY} x2={p.x} y2={p.y}
+            stroke="rgba(195,165,100,0.18)" strokeWidth="0.8" strokeDasharray="3 5" />
         ))}
 
         {/* ── Destination markers ── */}
-        {DESTINATIONS.map((d) => {
-          const isLeft = d.align === "left";
-          const tx = isLeft ? d.x - 12 : d.x + 12;
-          const anchor = isLeft ? "end" : "start";
+        {PLACES.map((p) => {
+          const isLg = p.size === "lg";
+          const r = isLg ? 4 : 3;
+          let tx = p.x, ty = p.y;
+          let anchor: string = "start";
+          let dy1 = 0, dy2 = 13;
+
+          if (p.align === "l") { tx = p.x - 14; anchor = "end"; }
+          else if (p.align === "r") { tx = p.x + 14; anchor = "start"; }
+          else if (p.align === "t") { tx = p.x; ty = p.y - 16; anchor = "middle"; dy1 = 0; dy2 = 12; }
+          else { tx = p.x; ty = p.y + 18; anchor = "middle"; dy1 = 0; dy2 = 12; }
+
           return (
-            <g key={d.labelKey}>
-              {/* Dot */}
-              <circle cx={d.x} cy={d.y} r="3.5" fill="#EBE8E1" opacity="0.7" />
-              <circle cx={d.x} cy={d.y} r="6" fill="none" stroke="rgba(235,232,225,0.2)" strokeWidth="0.8" />
-              {/* Label */}
-              <text x={tx} y={d.y - 3} textAnchor={anchor} fill="#EBE8E1" fontSize="10" fontFamily="Inter,sans-serif" fontWeight="500" opacity="0.85">
-                {t(d.labelKey)}
+            <g key={p.labelKey}>
+              <circle cx={p.x} cy={p.y} r={r + 4} fill="rgba(235,232,225,0.06)" />
+              <circle cx={p.x} cy={p.y} r={r} fill="#EBE8E1" />
+              <text x={tx} y={ty + dy1} textAnchor={anchor} filter="url(#txt-shadow)"
+                fill="#EBE8E1" fontSize={isLg ? "11" : "9.5"} fontFamily="Inter,sans-serif"
+                fontWeight={isLg ? "600" : "500"} letterSpacing="0.3">
+                {t(p.labelKey)}
               </text>
-              {/* Time */}
-              <text x={tx} y={d.y + 10} textAnchor={anchor} fill="#C3A564" fontSize="9" fontFamily="Inter,sans-serif" fontWeight="700" letterSpacing="0.5">
-                {d.time}
+              <text x={tx} y={ty + dy2} textAnchor={anchor}
+                fill="#C3A564" fontSize="8.5" fontFamily="Inter,sans-serif" fontWeight="600" letterSpacing="0.8">
+                {p.time}
               </text>
             </g>
           );
         })}
 
-        {/* ── VERDE marker — the star ── */}
-        <circle cx={VX} cy={VY} r="50" fill="url(#verde-glow)" />
-        <circle cx={VX} cy={VY} r="16" fill="#2D5040" filter="url(#glow)" />
-        <circle cx={VX} cy={VY} r="19" fill="none" stroke="#C3A564" strokeWidth="1.2" />
-        <circle cx={VX} cy={VY} r="24" fill="none" stroke="rgba(195,165,100,0.15)" strokeWidth="0.8" strokeDasharray="2 3" />
-        <text x={VX} y={VY + 38} textAnchor="middle" fill="#C3A564" fontSize="11" fontFamily="Playfair Display,Georgia,serif" fontWeight="600" letterSpacing="3">
-          VERDE
-        </text>
-        <text x={VX} y={VY + 50} textAnchor="middle" fill="rgba(195,165,100,0.5)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="2">
-          ULAŞLI
-        </text>
+        {/* ── VERDE marker ── */}
+        <circle cx={VX} cy={VY} r="60" fill="url(#vglow)" />
+        <circle cx={VX} cy={VY} r="18" fill="#2D5040" />
+        <circle cx={VX} cy={VY} r="22" fill="none" stroke="#C3A564" strokeWidth="1.5" />
+        <circle cx={VX} cy={VY} r="28" fill="none" stroke="rgba(195,165,100,0.12)" strokeWidth="0.8" strokeDasharray="2 4" />
+        {/* Pin */}
+        <path d={`M${VX},${VY - 6} L${VX - 3},${VY + 2} L${VX + 3},${VY + 2} Z`} fill="#C3A564" />
+        <circle cx={VX} cy={VY - 8} r="3" fill="#C3A564" />
 
-        {/* ── Osmangazi Bridge indicator ── */}
-        <line x1="290" y1="270" x2="290" y2="290" stroke="#C3A564" strokeWidth="1.5" opacity="0.4" />
-        <text x="290" y="303" textAnchor="middle" fill="rgba(195,165,100,0.3)" fontSize="6" fontFamily="Inter,sans-serif" letterSpacing="1">OSMANGAZI</text>
-        <text x="290" y="312" textAnchor="middle" fill="rgba(195,165,100,0.3)" fontSize="6" fontFamily="Inter,sans-serif" letterSpacing="1">BRIDGE</text>
+        <text x={VX} y={VY + 42} textAnchor="middle" filter="url(#txt-shadow)"
+          fill="#C3A564" fontSize="13" fontFamily="Playfair Display,Georgia,serif"
+          fontWeight="600" letterSpacing="4">VERDE</text>
+        <text x={VX} y={VY + 56} textAnchor="middle"
+          fill="rgba(195,165,100,0.55)" fontSize="8" fontFamily="Inter,sans-serif"
+          letterSpacing="3" fontWeight="300">ULAŞLI</text>
+
+        {/* ── Border frame ── */}
+        <rect x="4" y="4" width="892" height="642" rx="14" fill="none"
+          stroke="rgba(195,165,100,0.1)" strokeWidth="0.8" />
+
+        {/* ── Compass ── */}
+        <g transform="translate(850, 608)">
+          <circle r="16" fill="none" stroke="rgba(195,165,100,0.2)" strokeWidth="0.8" />
+          <text y="-3" textAnchor="middle" fill="rgba(195,165,100,0.5)" fontSize="9"
+            fontFamily="Inter,sans-serif" fontWeight="600">N</text>
+          <line x1="0" y1="3" x2="0" y2="10" stroke="rgba(195,165,100,0.3)" strokeWidth="0.8" />
+        </g>
 
         {/* ── Legend ── */}
-        <text x="30" y="620" fill="rgba(235,232,225,0.25)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1.5">
-          TRAVEL TIMES BY CAR
-        </text>
-        <line x1="30" y1="630" x2="60" y2="630" stroke="rgba(195,165,100,0.3)" strokeWidth="1" strokeDasharray="4 4" />
-        <text x="68" y="633" fill="rgba(235,232,225,0.2)" fontSize="7" fontFamily="Inter,sans-serif">driving route</text>
-
-        {/* Compass */}
-        <g transform="translate(850, 600)">
-          <circle cx="0" cy="0" r="14" fill="none" stroke="rgba(195,165,100,0.2)" strokeWidth="0.8" />
-          <text x="0" y="-4" textAnchor="middle" fill="rgba(195,165,100,0.4)" fontSize="8" fontFamily="Inter,sans-serif" fontWeight="600">N</text>
-          <line x1="0" y1="2" x2="0" y2="8" stroke="rgba(195,165,100,0.2)" strokeWidth="0.8" />
+        <g transform="translate(30, 615)">
+          <line x1="0" y1="0" x2="20" y2="0" stroke="rgba(195,165,100,0.35)" strokeWidth="0.8" strokeDasharray="3 5" />
+          <text x="28" y="3" fill="rgba(235,232,225,0.3)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1">DRIVING TIME</text>
+          <circle cx="120" cy="0" r="3" fill="#EBE8E1" />
+          <text x="130" y="3" fill="rgba(235,232,225,0.3)" fontSize="7" fontFamily="Inter,sans-serif" letterSpacing="1">DESTINATION</text>
         </g>
       </svg>
     </div>
