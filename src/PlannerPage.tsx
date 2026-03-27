@@ -10,7 +10,7 @@ type Scenario = "pessimistic" | "base" | "optimistic";
 type Currency = "EUR" | "USD" | "GBP";
 
 const SCN_LABEL_KEYS: Record<Scenario, string> = { pessimistic: "planner.pessimistic", base: "planner.base", optimistic: "planner.optimistic" };
-const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#c0392b", base: "#2c5e3f", optimistic: "#1abc9c" };
+const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#c0392b", base: "#2D5040", optimistic: "#1abc9c" };
 
 export default function PlannerPage() {
   const [villas, setVillas] = useState<Villa[]>([
