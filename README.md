@@ -1,18 +1,39 @@
-# VERDE Ulasli — Private Luxury Villas
+# VERDE Ulaşlı — Turkey's First Agro-Luxury Villa Estate
 
 Live: **https://verde-ulasli.vercel.app**
 
-Luxury villa rental website for VERDE Ulasli — a twin-villa estate in Kocaeli, Turkey, opening September 2026.
+Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 
 ## Pages
 
 | Route | Visibility | Description |
 |-------|-----------|-------------|
-| `/` | Public | Landing page — hero with Ken Burns effect, feature strip |
-| `/gallery` | Public | Categorised media gallery (Exterior, Interior, Construction) with lightbox |
-| `/book` | Public | 5-step guided booking flow with calendar, pricing, WhatsApp/email CTA |
-| `/planner` | Private link | Investment ROI planner — scenario analysis, area charts, villa breakdown |
-| `/admin` | Private link | Availability manager — add/edit/remove booked dates per villa |
+| `/` | Public | Home — hero, agro-luxury intro, two villas, experiences, location, CTA, footer |
+| `/story` | Public | Our Story — 10-section narrative (history, philosophy, agro-culture, Verde etymology, location) |
+| `/experience` | Public | Experiences — 10 experience cards + 4 seasonal packages |
+| `/gallery` | Public | Gallery — categorised media (Exterior, Interior, Construction) with lightbox |
+| `/book` | Public | Booking — 5-step guided flow, calendar, enquiry-based (no public pricing), WhatsApp/email CTA |
+| `/planner` | Private | Investment ROI planner — scenario analysis, area charts, villa breakdown |
+| `/admin` | Private | Availability manager — add/edit/remove booked dates per villa |
+
+## Brand Identity
+
+**VERDE** = Italian for "green" — the colour of paradise in Islamic tradition, the language of Italian elegance, and the essence of the land.
+
+### Colour Palette
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--verde-deep` | `#0E1A16` | Hero overlays, footer, dark sections |
+| `--brand` | `#2D5040` | Buttons, links, accents |
+| `--sand` | `#C9B99A` | Warm accents |
+| `--gold` | `#C3A564` | Luxury accents, dividers |
+| `--mist` | `#EBE8E1` | Light text on dark backgrounds |
+
+### Typography
+- Headings: Playfair Display (serif)
+- Body: Inter (sans-serif)
+- Arabic: Noto Sans Arabic
 
 ## Tech Stack
 
@@ -21,33 +42,22 @@ Luxury villa rental website for VERDE Ulasli — a twin-villa estate in Kocaeli,
 - **Recharts** (area charts on planner page)
 - **react-day-picker** + **date-fns** (booking calendar)
 - **Vercel** (deployment, auto-deploy on push to main)
-- Custom CSS (no framework) with CSS custom properties
+- Custom CSS with CSS custom properties (no framework)
 
 ## Internationalisation
 
-3 languages supported: **English**, **Turkish**, **Arabic** (RTL).
+3 languages: **English**, **Turkish**, **Arabic** (RTL).
 
 - Translation files: `src/i18n/{en,tr,ar}.json`
-- React Context-based i18n with `t()` function and `{{param}}` interpolation
+- React Context-based i18n with `t()` function
 - Language selector in nav bar (EN / TR / ع)
 - Preference persisted in localStorage
-- Arabic font: Noto Sans Arabic (Google Fonts)
 
-## Colour Palette
+## Feature Flags
 
-Dark forest green luxury theme:
-- Brand: `#2c5e3f`
-- Background: `#f4f5f0`
-- Ink: `#1a1f16`
-- Serif headings: Playfair Display
-
-## Availability System
-
-Booked dates are managed via `/admin` and stored in localStorage. The booking page reads from the same store to show unavailable dates on the calendar.
-
-- Store: `src/availability.ts`
-- Admin: `src/AdminPage.tsx`
-- Consumer: `src/BookingPage.tsx`
+| Flag | File | Default | Purpose |
+|------|------|---------|---------|
+| `SHOW_PRICING` | `BookingPage.tsx` | `false` | Toggle pricing breakdown visibility |
 
 ## Media Structure
 
@@ -64,12 +74,10 @@ public/media/
 ```bash
 npm install
 npm run dev      # local dev server
-npm run build    # production build (vite)
+npm run build    # production build
 ```
 
 ## Private Links
-
-These pages are not shown in the navigation but accessible via direct URL:
 
 - **Investment Planner**: https://verde-ulasli.vercel.app/planner
 - **Admin Extranet**: https://verde-ulasli.vercel.app/admin
