@@ -6,6 +6,9 @@ import "react-day-picker/dist/style.css";
 import { useLanguage } from "./i18n/LanguageContext";
 import { getBooked, toDateRanges } from "./availability";
 
+/* ── Feature flag: set to true to show pricing breakdown publicly ── */
+const SHOW_PRICING = false;
+
 /* ── constants ── */
 type VillaKey = "ALYA" | "ZEHRA";
 
@@ -352,70 +355,86 @@ export default function BookingPage() {
         {/* ═══ SUMMARY & CTA ═══ */}
         <section className="bk-summary" id="bk-summary">
           <div className="bk-summary__inner">
-            <div className="bk-summary__left">
-              <span className="bk-summary__eyebrow">{t("booking.estimate")}</span>
-              <h2 className="bk-summary__total">{euro(total)}</h2>
-              <p className="bk-summary__sub">
-                {nights
-                  ? t("booking.nightsIn", { n: nights, villa: vi.name })
-                  : t("booking.addDates")}
-                {nights > 0 && ` — ${t("booking.exclDeposit", { deposit: euro0(DEPOSIT) })}`}
-              </p>
-            </div>
+            {SHOW_PRICING ? (
+              /* ── Pricing visible: estimate + breakdown + perks ── */
+              <>
+                <div className="bk-summary__left">
+                  <span className="bk-summary__eyebrow">{t("booking.estimate")}</span>
+                  <h2 className="bk-summary__total">{euro(total)}</h2>
+                  <p className="bk-summary__sub">
+                    {nights
+                      ? t("booking.nightsIn", { n: nights, villa: vi.name })
+                      : t("booking.addDates")}
+                    {nights > 0 && ` — ${t("booking.exclDeposit", { deposit: euro0(DEPOSIT) })}`}
+                  </p>
+                </div>
 
-            <div className="bk-summary__breakdown">
-              <div className="bk-summary__row">
-                <span>{t("booking.rowAccom")}</span>
-                <span>{nights ? `${nights} \u00D7 ${euro0(vi.nightlyEUR)}` : "\u2014"}</span>
-                <strong>{nights ? euro(base) : "\u2014"}</strong>
-              </div>
-              {extraFee > 0 && (
-                <div className="bk-summary__row">
-                  <span>{t("booking.rowExtra")}</span>
-                  <span>{nights} \u00D7 {euro0(EXTRA_GUEST_FEE_EUR)} \u00D7 {extraG}</span>
-                  <strong>{euro(extraFee)}</strong>
+                <div className="bk-summary__breakdown">
+                  <div className="bk-summary__row">
+                    <span>{t("booking.rowAccom")}</span>
+                    <span>{nights ? `${nights} \u00D7 ${euro0(vi.nightlyEUR)}` : "\u2014"}</span>
+                    <strong>{nights ? euro(base) : "\u2014"}</strong>
+                  </div>
+                  {extraFee > 0 && (
+                    <div className="bk-summary__row">
+                      <span>{t("booking.rowExtra")}</span>
+                      <span>{nights} \u00D7 {euro0(EXTRA_GUEST_FEE_EUR)} \u00D7 {extraG}</span>
+                      <strong>{euro(extraFee)}</strong>
+                    </div>
+                  )}
+                  {chefTot > 0 && (
+                    <div className="bk-summary__row">
+                      <span>{t("booking.rowChef")}</span>
+                      <span>{nights} \u00D7 {euro0(CHEF_DINNER_PER_NIGHT)}</span>
+                      <strong>{euro(chefTot)}</strong>
+                    </div>
+                  )}
+                  {quadTot > 0 && (
+                    <div className="bk-summary__row">
+                      <span>{t("booking.rowQuad")}</span>
+                      <span>{quadH}h \u00D7 {euro0(QUAD_PER_HOUR)}</span>
+                      <strong>{euro(quadTot)}</strong>
+                    </div>
+                  )}
+                  {xferTot > 0 && (
+                    <div className="bk-summary__row">
+                      <span>{t("booking.rowTransfer")}</span>
+                      <span>{transfers} \u00D7 {euro0(TRANSFER_PER_WAY)}</span>
+                      <strong>{euro(xferTot)}</strong>
+                    </div>
+                  )}
+                  {clean > 0 && (
+                    <div className="bk-summary__row bk-summary__row--light">
+                      <span>{t("booking.rowClean")}</span><span></span><strong>{euro(clean)}</strong>
+                    </div>
+                  )}
+                  {svc > 0 && (
+                    <div className="bk-summary__row bk-summary__row--light">
+                      <span>{t("booking.rowService", { pct: Math.round(SERVICE_FEE_PCT * 100) })}</span><span></span><strong>{euro(svc)}</strong>
+                    </div>
+                  )}
                 </div>
-              )}
-              {chefTot > 0 && (
-                <div className="bk-summary__row">
-                  <span>{t("booking.rowChef")}</span>
-                  <span>{nights} \u00D7 {euro0(CHEF_DINNER_PER_NIGHT)}</span>
-                  <strong>{euro(chefTot)}</strong>
-                </div>
-              )}
-              {quadTot > 0 && (
-                <div className="bk-summary__row">
-                  <span>{t("booking.rowQuad")}</span>
-                  <span>{quadH}h \u00D7 {euro0(QUAD_PER_HOUR)}</span>
-                  <strong>{euro(quadTot)}</strong>
-                </div>
-              )}
-              {xferTot > 0 && (
-                <div className="bk-summary__row">
-                  <span>{t("booking.rowTransfer")}</span>
-                  <span>{transfers} \u00D7 {euro0(TRANSFER_PER_WAY)}</span>
-                  <strong>{euro(xferTot)}</strong>
-                </div>
-              )}
-              {clean > 0 && (
-                <div className="bk-summary__row bk-summary__row--light">
-                  <span>{t("booking.rowClean")}</span><span></span><strong>{euro(clean)}</strong>
-                </div>
-              )}
-              {svc > 0 && (
-                <div className="bk-summary__row bk-summary__row--light">
-                  <span>{t("booking.rowService", { pct: Math.round(SERVICE_FEE_PCT * 100) })}</span><span></span><strong>{euro(svc)}</strong>
-                </div>
-              )}
-            </div>
 
-            {nights > 0 && (
-              <div className="bk-summary__perks">
-                <span>{t("booking.perkBreakfast")}</span>
-                <span>{t("booking.perkBikes")}</span>
-                <span>{t("booking.perkPingPong")}</span>
-                {xferInc && <span>{t("booking.perkTransfers")}</span>}
-                {xferInc && <span>{t("booking.perkFloating")}</span>}
+                {nights > 0 && (
+                  <div className="bk-summary__perks">
+                    <span>{t("booking.perkBreakfast")}</span>
+                    <span>{t("booking.perkBikes")}</span>
+                    <span>{t("booking.perkPingPong")}</span>
+                    {xferInc && <span>{t("booking.perkTransfers")}</span>}
+                    {xferInc && <span>{t("booking.perkFloating")}</span>}
+                  </div>
+                )}
+              </>
+            ) : (
+              /* ── Pricing hidden: enquiry message ── */
+              <div className="bk-summary__left">
+                <span className="bk-summary__eyebrow">{t("booking.summaryLabel")}</span>
+                <h2 className="bk-summary__total" style={{ fontSize: "clamp(1.4rem,3vw,2rem)" }}>{t("booking.summaryTitle")}</h2>
+                <p className="bk-summary__sub">
+                  {nights
+                    ? t("booking.nightsIn", { n: nights, villa: vi.name })
+                    : t("booking.summaryDesc")}
+                </p>
               </div>
             )}
 
@@ -445,7 +464,7 @@ export default function BookingPage() {
       {/* ═══ MOBILE STICKY BAR ═══ */}
       <div className="bk-mobile-bar">
         <div>
-          <strong className="bk-mobile-bar__total">{euro(total)}</strong>
+          <strong className="bk-mobile-bar__total">{SHOW_PRICING ? euro(total) : t("booking.summaryTitle")}</strong>
           <span className="bk-mobile-bar__sub">{nights ? nightLabel(nights) : t("booking.mobileAdd")}</span>
         </div>
         <button className="bk-cta bk-cta--primary bk-cta--sm" onClick={() => send("wa")}>{t("booking.mobileRes")}</button>
