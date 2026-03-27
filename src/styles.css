@@ -35,7 +35,7 @@ header.hero{
   position:relative; min-height:78vh; display:flex; align-items:flex-end; justify-content:center;
   padding:60px 16px 120px;
   background:
-    linear-gradient(180deg, rgba(15,23,42,.75) 0%, rgba(15,23,42,.3) 65%, rgba(15,23,42,.1) 100%),
+    linear-gradient(180deg, rgba(14,26,22,.75) 0%, rgba(14,26,22,.3) 65%, rgba(14,26,22,.1) 100%),
     url("/hero.jpg") center/cover no-repeat;
   color:#fff; overflow:hidden;
 }
@@ -44,7 +44,7 @@ header.hero .hero__title{ font-family:var(--serif); font-size:clamp(2.5rem,6vw,4
 header.hero .hero__subtitle{ max-width:680px; margin:0 auto; color:rgba(226,232,240,.95); font-size:1rem }
 header.hero .badge{
   display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:999px;
-  font-size:13px; font-weight:600; color:#fff; background:rgba(15,23,42,.45);
+  font-size:13px; font-weight:600; color:#fff; background:rgba(14,26,22,.45);
   border:1px solid rgba(255,255,255,.45); backdrop-filter:blur(8px);
 }
 
@@ -67,7 +67,7 @@ header.hero .badge{
 .bk-hero--vis .bk-hero__bg{ transform:scale(1) }
 .bk-hero__ov{
   position:absolute; inset:0; z-index:1;
-  background:linear-gradient(180deg, rgba(15,23,42,.72) 0%, rgba(15,23,42,.38) 50%, rgba(15,23,42,.62) 100%);
+  background:linear-gradient(180deg, rgba(14,26,22,.72) 0%, rgba(14,26,22,.38) 50%, rgba(14,26,22,.62) 100%);
 }
 .bk-hero__ct{
   position:relative; z-index:2; text-align:center; max-width:700px; padding:0 24px;
@@ -146,11 +146,11 @@ header.hero .badge{
   position:relative; display:flex; flex-direction:column;
   border-radius:20px; overflow:hidden; cursor:pointer;
   border:2px solid rgba(226,232,240,.6); background:#fff;
-  box-shadow:0 8px 28px rgba(15,23,42,.06);
+  box-shadow:0 8px 28px rgba(14,26,22,.06);
   transition:border-color .25s ease, box-shadow .25s ease, transform .25s ease;
   text-align:left;
 }
-.bk-villa:hover{ transform:translateY(-2px); box-shadow:0 16px 40px rgba(15,23,42,.1) }
+.bk-villa:hover{ transform:translateY(-2px); box-shadow:0 16px 40px rgba(14,26,22,.1) }
 .bk-villa--active{
   border-color:var(--brand);
   box-shadow:0 16px 40px rgba(44,94,63,.15);
@@ -208,7 +208,7 @@ header.hero .badge{
 .bk-cal{
   border-radius:20px; border:1px solid rgba(226,232,240,.8);
   background:#fff; padding:22px;
-  box-shadow:0 8px 28px rgba(15,23,42,.06);
+  box-shadow:0 8px 28px rgba(14,26,22,.06);
 }
 .bk-cal .rdp{
   --rdp-accent-color:var(--brand);
@@ -310,7 +310,7 @@ header.hero .badge{
 .bk-enh__switch::after{
   content:""; position:absolute; top:3px; left:4px;
   width:22px; height:22px; border-radius:50%;
-  background:#fff; box-shadow:0 2px 6px rgba(15,23,42,.2);
+  background:#fff; box-shadow:0 2px 6px rgba(14,26,22,.2);
   transition:transform .2s ease;
 }
 .bk-enh__toggle input:checked + .bk-enh__switch{ background:var(--brand) }
@@ -336,7 +336,7 @@ header.hero .badge{
 .bk-summary{
   background:#fff; border-radius:24px;
   border:1px solid rgba(226,232,240,.6);
-  box-shadow:0 16px 48px rgba(15,23,42,.08);
+  box-shadow:0 16px 48px rgba(14,26,22,.08);
   margin-top:8px;
   animation:bk-in .6s ease both;
 }
@@ -394,7 +394,7 @@ header.hero .badge{
 .bk-cta--ghost{
   background:transparent; color:var(--ink);
   border:1px solid rgba(226,232,240,.9);
-  box-shadow:0 8px 20px rgba(15,23,42,.06);
+  box-shadow:0 8px 20px rgba(14,26,22,.06);
 }
 .bk-cta--ghost:hover{ transform:translateY(-1px) }
 .bk-cta--sm{ padding:12px 22px; font-size:.85rem }
@@ -410,7 +410,7 @@ header.hero .badge{
   padding:14px 20px; gap:16px;
   background:rgba(255,255,255,.95); backdrop-filter:blur(16px);
   border-top:1px solid rgba(226,232,240,.6);
-  box-shadow:0 -8px 24px rgba(15,23,42,.08);
+  box-shadow:0 -8px 24px rgba(14,26,22,.08);
 }
 .bk-mobile-bar__total{ font-family:var(--serif); font-size:1.2rem; font-weight:600 }
 .bk-mobile-bar__sub{ display:block; font-size:.8rem; color:var(--muted) }
@@ -435,15 +435,15 @@ header.hero .badge{
 .nav-buttons{ position:fixed; top:22px; right:22px; display:flex; gap:10px; z-index:100; pointer-events:auto; align-items:center; flex-wrap:wrap; justify-content:flex-end; max-width:calc(100vw - 44px) }
 .nav-btn{
   display:inline-flex; align-items:center; justify-content:center; padding:9px 16px; border-radius:999px;
-  text-decoration:none; font-size:.85rem; font-weight:600; color:#fff; background:rgba(15,23,42,.55);
+  text-decoration:none; font-size:.85rem; font-weight:600; color:#fff; background:rgba(14,26,22,.55);
   border:1px solid rgba(255,255,255,.5); backdrop-filter:blur(6px);
   transition:transform .2s ease, background .2s ease;
 }
-.nav-btn:hover{ transform:translateY(-1px); background:rgba(15,23,42,.7) }
+.nav-btn:hover{ transform:translateY(-1px); background:rgba(14,26,22,.7) }
 .nav-btn.primary{ background:#fff; color:var(--ink); border-color:transparent }
 .nav-btn.primary:hover{ background:#f8fafc }
-.nav-btn.dark{ background:rgba(15,23,42,.6); border-color:rgba(255,255,255,.4) }
-.nav-btn.dark:hover{ background:rgba(15,23,42,.75) }
+.nav-btn.dark{ background:rgba(14,26,22,.6); border-color:rgba(255,255,255,.4) }
+.nav-btn.dark:hover{ background:rgba(14,26,22,.75) }
 
 /* ── Old .booking styles removed — see .bk prefix above ── */
 
@@ -682,7 +682,7 @@ header.hero .badge{
 .gallery-hero--visible .gallery-hero__bg{ transform:scale(1) }
 .gallery-hero__overlay{
   position:absolute; inset:0; z-index:1;
-  background:linear-gradient(180deg, rgba(15,23,42,.7) 0%, rgba(15,23,42,.45) 50%, rgba(15,23,42,.65) 100%);
+  background:linear-gradient(180deg, rgba(14,26,22,.7) 0%, rgba(14,26,22,.45) 50%, rgba(14,26,22,.65) 100%);
 }
 .gallery-hero__content{
   position:relative; z-index:2; text-align:center; max-width:680px; padding:0 24px;
@@ -795,7 +795,7 @@ header.hero .badge{
   border-radius:16px;
   aspect-ratio:4/3;
   cursor:pointer;
-  box-shadow:0 8px 24px rgba(15,23,42,.08);
+  box-shadow:0 8px 24px rgba(14,26,22,.08);
   border:1px solid rgba(226,232,240,.5);
   animation:gal-card-in .5s ease both;
 }
@@ -818,7 +818,7 @@ header.hero .badge{
 
 .gallery-card__overlay{
   position:absolute; inset:0;
-  background:linear-gradient(180deg, transparent 50%, rgba(15,23,42,.6) 100%);
+  background:linear-gradient(180deg, transparent 50%, rgba(14,26,22,.6) 100%);
   display:flex; align-items:flex-end; padding:16px 18px;
   opacity:0;
   transition:opacity .3s ease;
@@ -941,10 +941,10 @@ header.hero .badge{
   position:absolute; inset:0; z-index:1;
   background:
     linear-gradient(180deg,
-      rgba(15,23,42,.72) 0%,
-      rgba(15,23,42,.35) 40%,
-      rgba(15,23,42,.18) 65%,
-      rgba(15,23,42,.55) 100%
+      rgba(14,26,22,.72) 0%,
+      rgba(14,26,22,.35) 40%,
+      rgba(14,26,22,.18) 65%,
+      rgba(14,26,22,.55) 100%
     );
 }
 
@@ -1152,7 +1152,7 @@ header.hero .badge{
 .lang-sel{
   position:relative; z-index:101;
   display:inline-flex; gap:2px; padding:3px;
-  border-radius:999px; background:rgba(15,23,42,.55);
+  border-radius:999px; background:rgba(14,26,22,.55);
   border:1px solid rgba(255,255,255,.3);
   backdrop-filter:blur(8px);
   pointer-events:auto;
