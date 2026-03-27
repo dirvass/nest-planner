@@ -6,6 +6,8 @@ import LanguageSelector from "./LanguageSelector";
 // Public nav — /planner and /admin accessible via direct link only
 const LINKS = [
   { href: "/", key: "nav.home" },
+  { href: "/story", key: "nav.story" },
+  { href: "/experience", key: "nav.experience" },
   { href: "/gallery", key: "nav.gallery" },
   { href: "/book", key: "nav.booking" },
 ];

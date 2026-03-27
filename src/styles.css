@@ -1554,3 +1554,288 @@ header.hero .badge{
   transform:translateY(-2px);
   box-shadow:0 12px 32px rgba(14,26,22,.3);
 }
+
+/* =========================================================
+   FOOTER
+   =======================================================*/
+.site-footer{
+  background:var(--verde-deep, #0E1A16); color:var(--mist, #EBE8E1);
+}
+.site-footer__inner{
+  max-width:1100px; margin:0 auto; padding:64px 24px 40px;
+  display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px;
+}
+.site-footer__logo{
+  font-family:var(--serif); font-size:1.4rem; font-weight:600;
+  letter-spacing:.08em; color:#fff; display:block; margin-bottom:8px;
+}
+.site-footer__tagline{
+  font-size:.9rem; color:rgba(235,232,225,.5); font-style:italic;
+}
+.site-footer__heading{
+  font-size:.7rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gold, #C3A564); margin-bottom:16px;
+}
+.site-footer__nav{ display:flex; flex-direction:column; gap:8px }
+.site-footer__link{
+  font-size:.85rem; color:rgba(235,232,225,.6); text-decoration:none;
+  display:block; transition:color .2s;
+}
+.site-footer__link:hover{ color:#fff }
+.site-footer__bottom{
+  border-top:1px solid rgba(235,232,225,.1);
+  padding:20px 24px; text-align:center;
+  font-size:.75rem; color:rgba(235,232,225,.3); letter-spacing:.5px;
+}
+@media(max-width:768px){
+  .site-footer__inner{ grid-template-columns:1fr; gap:32px; padding:48px 24px 32px }
+}
+
+/* =========================================================
+   STORY PAGE
+   =======================================================*/
+.story-hero{
+  position:relative; min-height:60vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; color:#fff;
+}
+.story-hero__bg{
+  position:absolute; inset:0; z-index:0;
+  background:url("/media/dis-mekan/giris-avlusu-gece-ai-render.jpg") center/cover no-repeat;
+  transform:scale(1.06);
+  transition:transform 10s cubic-bezier(.25,.46,.45,.94);
+}
+.story-hero--vis .story-hero__bg{ transform:scale(1) }
+.story-hero__ov{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(14,26,22,.75) 0%, rgba(14,26,22,.4) 50%, rgba(14,26,22,.7) 100%);
+}
+.story-hero__ct{
+  position:relative; z-index:2; text-align:center; max-width:700px; padding:0 24px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.story-hero__badge{
+  display:inline-flex; padding:8px 20px; border-radius:999px;
+  font-size:11px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
+  color:rgba(255,255,255,.85); background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2); backdrop-filter:blur(12px);
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .2s, transform .7s ease .2s;
+}
+.story-hero--vis .story-hero__badge{ opacity:1; transform:translateY(0) }
+.story-hero__title{
+  font-family:var(--serif); font-size:clamp(2.4rem,7vw,4.5rem);
+  font-weight:400; letter-spacing:.1em; line-height:1.1; margin-top:20px;
+  opacity:0; transform:translateY(24px);
+  transition:opacity .8s ease .4s, transform .8s ease .4s;
+}
+.story-hero--vis .story-hero__title{ opacity:1; transform:translateY(0) }
+.story-hero__line{
+  width:50px; height:1px; background:rgba(255,255,255,.35); margin:20px 0;
+  opacity:0; transform:scaleX(0);
+  transition:opacity .6s ease .7s, transform .7s ease .7s;
+}
+.story-hero--vis .story-hero__line{ opacity:1; transform:scaleX(1) }
+.story-hero__sub{
+  font-size:clamp(.95rem,1.4vw,1.1rem); font-weight:300;
+  color:rgba(226,232,240,.8); letter-spacing:.03em; max-width:520px;
+  font-style:italic;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .9s, transform .7s ease .9s;
+}
+.story-hero--vis .story-hero__sub{ opacity:1; transform:translateY(0) }
+
+/* Story sections */
+.story{ max-width:1100px; margin:0 auto; padding:0 24px 60px }
+.story__section{
+  display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+  padding:64px 0; border-bottom:1px solid var(--border);
+}
+.story__section--reverse .story__img-wrap{ order:2 }
+.story__section--reverse .story__text{ order:1 }
+.story__section:last-of-type{ border-bottom:none }
+.story__img-wrap{ border-radius:20px; overflow:hidden; box-shadow:0 16px 48px rgba(14,26,22,.1) }
+.story__img{ width:100%; display:block; transition:transform .5s ease }
+.story__img-wrap:hover .story__img{ transform:scale(1.03) }
+.story__title{
+  font-family:var(--serif); font-size:clamp(1.4rem,3vw,2rem);
+  font-weight:400; letter-spacing:.02em; color:var(--ink);
+}
+.story__divider{ width:40px; height:1.5px; background:var(--brand); margin:14px 0 }
+.story__body{
+  font-size:.95rem; line-height:1.8; color:var(--muted); max-width:460px;
+}
+@media(max-width:768px){
+  .story__section{ grid-template-columns:1fr; gap:24px }
+  .story__section--reverse .story__img-wrap{ order:0 }
+  .story__section--reverse .story__text{ order:0 }
+}
+
+/* Story closing */
+.story__closing{
+  text-align:center; padding:80px 24px;
+  background:var(--bg); border-radius:24px; margin-top:20px;
+}
+.story__quote{
+  font-family:var(--serif); font-size:clamp(1.2rem,3vw,1.6rem);
+  font-weight:400; font-style:italic; color:var(--ink);
+  line-height:1.7; max-width:600px; margin:0 auto 32px;
+  border:none; padding:0;
+}
+.story__cta{
+  display:inline-block; padding:16px 40px; border-radius:999px;
+  font-size:.85rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:#fff; background:var(--brand); text-decoration:none;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.story__cta:hover{
+  transform:translateY(-2px); box-shadow:0 12px 32px rgba(45,80,64,.3);
+}
+
+/* =========================================================
+   EXPERIENCE PAGE
+   =======================================================*/
+.exp-hero{
+  position:relative; min-height:60vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; color:#fff;
+}
+.exp-hero__bg{
+  position:absolute; inset:0; z-index:0;
+  background:url("/media/dis-mekan/on-cephe-ates-cukuru-render.jpg") center/cover no-repeat;
+  transform:scale(1.06);
+  transition:transform 10s cubic-bezier(.25,.46,.45,.94);
+}
+.exp-hero--vis .exp-hero__bg{ transform:scale(1) }
+.exp-hero__ov{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(14,26,22,.75) 0%, rgba(14,26,22,.35) 50%, rgba(14,26,22,.7) 100%);
+}
+.exp-hero__ct{
+  position:relative; z-index:2; text-align:center; max-width:700px; padding:0 24px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.exp-hero__badge{
+  display:inline-flex; padding:8px 20px; border-radius:999px;
+  font-size:11px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
+  color:rgba(255,255,255,.85); background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2); backdrop-filter:blur(12px);
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .2s, transform .7s ease .2s;
+}
+.exp-hero--vis .exp-hero__badge{ opacity:1; transform:translateY(0) }
+.exp-hero__title{
+  font-family:var(--serif); font-size:clamp(2.4rem,7vw,4.5rem);
+  font-weight:400; letter-spacing:.1em; line-height:1.1; margin-top:20px;
+  opacity:0; transform:translateY(24px);
+  transition:opacity .8s ease .4s, transform .8s ease .4s;
+}
+.exp-hero--vis .exp-hero__title{ opacity:1; transform:translateY(0) }
+.exp-hero__line{
+  width:50px; height:1px; background:rgba(255,255,255,.35); margin:20px 0;
+  opacity:0; transform:scaleX(0);
+  transition:opacity .6s ease .7s, transform .7s ease .7s;
+}
+.exp-hero--vis .exp-hero__line{ opacity:1; transform:scaleX(1) }
+.exp-hero__sub{
+  font-size:clamp(.95rem,1.4vw,1.1rem); font-weight:300;
+  color:rgba(226,232,240,.8); letter-spacing:.03em; max-width:520px;
+  font-style:italic;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .9s, transform .7s ease .9s;
+}
+.exp-hero--vis .exp-hero__sub{ opacity:1; transform:translateY(0) }
+
+/* Experience grid */
+.exp-page{ max-width:1100px; margin:0 auto; padding:0 24px 60px }
+.exp-page__grid-section{
+  display:grid; grid-template-columns:1fr 1fr; gap:32px;
+  padding:60px 0;
+}
+.exp-card{
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+  border-radius:20px; overflow:hidden;
+  border:1px solid var(--border); background:#fff;
+  box-shadow:0 8px 28px rgba(14,26,22,.06);
+  transition:box-shadow .3s ease, transform .3s ease;
+}
+.exp-card:hover{ transform:translateY(-3px); box-shadow:0 16px 48px rgba(14,26,22,.12) }
+.exp-card__img-wrap{ overflow:hidden; min-height:200px }
+.exp-card__img{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .5s ease;
+}
+.exp-card:hover .exp-card__img{ transform:scale(1.05) }
+.exp-card__body{ padding:28px; display:flex; flex-direction:column; justify-content:center }
+.exp-card__season{
+  font-size:.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:var(--brand); margin-bottom:8px;
+}
+.exp-card__title{
+  font-family:var(--serif); font-size:1.2rem; font-weight:400;
+  letter-spacing:.03em; color:var(--ink); margin-bottom:8px;
+}
+.exp-card__desc{
+  font-size:.85rem; line-height:1.7; color:var(--muted);
+}
+@media(max-width:900px){
+  .exp-page__grid-section{ grid-template-columns:1fr }
+  .exp-card{ grid-template-columns:1fr }
+  .exp-card__img-wrap{ min-height:180px }
+}
+
+/* Seasons */
+.exp-seasons{
+  padding:60px 0; text-align:center;
+  border-top:1px solid var(--border);
+}
+.exp-seasons__title{
+  font-family:var(--serif); font-size:clamp(1.4rem,3vw,2rem);
+  font-weight:400; color:var(--ink); margin-bottom:32px;
+}
+.exp-seasons__grid{
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;
+}
+.exp-season{
+  padding:28px 20px; border-radius:16px;
+  border:1px solid var(--border); background:var(--bg);
+  text-align:center;
+  transition:border-color .2s ease;
+}
+.exp-season:hover{ border-color:var(--brand) }
+.exp-season__name{
+  font-family:var(--serif); font-size:1.2rem; font-style:italic;
+  color:var(--brand); margin-bottom:8px;
+}
+.exp-season__desc{
+  font-size:.8rem; line-height:1.7; color:var(--muted);
+}
+@media(max-width:640px){
+  .exp-seasons__grid{ grid-template-columns:1fr 1fr }
+}
+
+/* Experience CTA */
+.exp-cta-section{
+  text-align:center; padding:80px 24px;
+  background:var(--verde-deep, #0E1A16); color:#fff;
+  border-radius:24px; margin:20px 0 40px;
+}
+.exp-cta__title{
+  font-family:var(--serif); font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:400; letter-spacing:.04em; margin-bottom:12px;
+}
+.exp-cta__body{
+  font-size:1rem; line-height:1.8; color:rgba(235,232,225,.7);
+  max-width:480px; margin:0 auto;
+}
+.exp-cta__btn{
+  display:inline-block; margin-top:28px;
+  padding:16px 40px; border-radius:999px;
+  font-size:.85rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:var(--ink); background:#fff; text-decoration:none;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.exp-cta__btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(14,26,22,.4);
+}

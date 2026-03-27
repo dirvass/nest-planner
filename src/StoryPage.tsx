@@ -1,0 +1,60 @@
+import React, { useEffect, useState } from "react";
+import TopNav from "./components/TopNav";
+import Footer from "./components/Footer";
+import { useLanguage } from "./i18n/LanguageContext";
+
+const SECTIONS = [
+  { key: "s1", img: "/media/dis-mekan/drone-genel-gorunum-render.jpg" },
+  { key: "s2", img: "/media/ic-mekan/salon-somine-kahverengi-koltuk-render.jpg" },
+  { key: "s3", img: "/media/dis-mekan/on-cephe-ates-cukuru-render.jpg" },
+  { key: "s4", img: "/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg" },
+  { key: "s5", img: "/media/dis-mekan/on-cephe-havuz-satranc-render.jpg" },
+];
+
+export default function StoryPage() {
+  const [vis, setVis] = useState(false);
+  const { t } = useLanguage();
+  useEffect(() => { const tm = setTimeout(() => setVis(true), 100); return () => clearTimeout(tm); }, []);
+
+  return (
+    <>
+      {/* ═══ HERO ═══ */}
+      <header className={`story-hero ${vis ? "story-hero--vis" : ""}`}>
+        <div className="story-hero__bg" aria-hidden="true" />
+        <div className="story-hero__ov" aria-hidden="true" />
+        <TopNav />
+        <div className="story-hero__ct">
+          <span className="story-hero__badge">{t("story.badge")}</span>
+          <h1 className="story-hero__title">{t("story.heroTitle")}</h1>
+          <div className="story-hero__line" />
+          <p className="story-hero__sub">{t("story.heroSub")}</p>
+        </div>
+      </header>
+
+      <main className="story">
+        {SECTIONS.map((s, i) => (
+          <section className={`story__section ${i % 2 === 1 ? "story__section--reverse" : ""}`} key={s.key}>
+            <div className="story__img-wrap">
+              <img className="story__img" src={s.img} alt="" loading="lazy" />
+            </div>
+            <div className="story__text">
+              <h2 className="story__title">{t(`story.${s.key}Title`)}</h2>
+              <div className="story__divider" />
+              <p className="story__body">{t(`story.${s.key}Body`)}</p>
+            </div>
+          </section>
+        ))}
+
+        {/* Closing quote */}
+        <section className="story__closing">
+          <blockquote className="story__quote">
+            "{t("story.closingQuote")}"
+          </blockquote>
+          <a href="/book" className="story__cta">{t("home.closingCta")}</a>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  );
+}

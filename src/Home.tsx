@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TopNav from "./components/TopNav";
+import Footer from "./components/Footer";
 import { useLanguage } from "./i18n/LanguageContext";
 
 const EXPERIENCES = [
@@ -171,6 +172,8 @@ export default function Home() {
           <a href="/book" className="home-closing__cta">{t("home.closingCta")}</a>
         </div>
       </section>
+
+      <Footer />
     </>
   );
 }
