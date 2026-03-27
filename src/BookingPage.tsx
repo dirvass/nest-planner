@@ -165,7 +165,7 @@ export default function BookingPage() {
                     <h3 className="bk-villa__name">{v.name}</h3>
                     <p className="bk-villa__tag">{t(v.taglineKey)}</p>
                     <div className="bk-villa__meta">
-                      <span>{euro0(v.nightlyEUR)} {t("booking.perNight")}</span>
+                      <span>{t("booking.priceEnquiry")}</span>
                       <span>{t("booking.sleeps", { n: v.sleeps })}</span>
                     </div>
                   </div>
