@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TopNav from "./components/TopNav";
 import Footer from "./components/Footer";
+import LocationMap from "./components/LocationMap";
 import { useLanguage } from "./i18n/LanguageContext";
 
 const SECTIONS = [
@@ -13,7 +14,6 @@ const SECTIONS = [
   { key: "s5",  img: "/media/dis-mekan/on-cephe-havuz-satranc-render.jpg" },
   { key: "s8",  img: "/media/dis-mekan/on-cephe-satranc-alani-render.jpg" },
   { key: "s9",  img: "/media/dis-mekan/kus-bakisi-gece-ai-render.jpg" },
-  { key: "s10", img: "/media/dis-mekan/yan-cephe-genel-gorunum-render.jpg" },
 ];
 
 export default function StoryPage() {
@@ -49,6 +49,18 @@ export default function StoryPage() {
             </div>
           </section>
         ))}
+
+        {/* ═══ LOCATION — with radial map ═══ */}
+        <section className="story__section">
+          <div className="story__text">
+            <h2 className="story__title">{t("story.s10Title")}</h2>
+            <div className="story__divider" />
+            <p className="story__body">{t("story.s10Body")}</p>
+          </div>
+          <div>
+            <LocationMap />
+          </div>
+        </section>
 
         {/* Closing quote */}
         <section className="story__closing">

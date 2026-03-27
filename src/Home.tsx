@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TopNav from "./components/TopNav";
 import Footer from "./components/Footer";
+import LocationMap from "./components/LocationMap";
 import { useLanguage } from "./i18n/LanguageContext";
 
 const EXPERIENCES = [
@@ -158,6 +159,7 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <LocationMap />
         </div>
       </section>
 

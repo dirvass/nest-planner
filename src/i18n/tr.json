@@ -183,6 +183,18 @@
     "foot1": "* İlk 2 yıl pazarlama giderleri nedeniyle ROI = 0 kabul edilmiştir. Tüm hesaplamalar EUR bazlıdır; görüntüleme seçilen kur ile yapılır.",
     "foot2": "** EBITDA = Faiz, vergi, yıpranma payı ve amortisman öncesi kâr"
   },
+  "map": {
+    "dining": "Lüks Restoranlar",
+    "marmara": "Marmara Koyları",
+    "izmit": "İzmit Merkez",
+    "airport": "Sabiha Gökçen",
+    "iznik": "İznik (Tarihi)",
+    "kartepe": "Kartepe Kayak",
+    "blacksea": "Karadeniz Sahili",
+    "istanbul": "İstanbul",
+    "bursa": "Bursa",
+    "uludag": "Uludağ Kayak"
+  },
   "footer": {
     "tagline": "Sisin ardından görünen.",
     "nav": "Sayfalar",

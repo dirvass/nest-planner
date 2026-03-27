@@ -183,6 +183,18 @@
     "foot1": "* First 2 years assumed ROI = 0 due to marketing ramp-up. All calculations are EUR-based; display currency applies conversion.",
     "foot2": "** EBITDA = Earnings before interest, taxes, depreciation and amortisation"
   },
+  "map": {
+    "dining": "Fine Dining",
+    "marmara": "Marmara Bays",
+    "izmit": "İzmit Centre",
+    "airport": "Sabiha Gökçen",
+    "iznik": "İznik (Historic)",
+    "kartepe": "Kartepe Ski",
+    "blacksea": "Black Sea Coast",
+    "istanbul": "Istanbul",
+    "bursa": "Bursa",
+    "uludag": "Uludağ Ski"
+  },
   "footer": {
     "tagline": "Where the mist reveals.",
     "nav": "Navigate",
