@@ -11,7 +11,43 @@
     "garden": "Private Garden",
     "pool": "Infinity Pool",
     "bedrooms": "En-suite Bedrooms",
-    "guests": "Guests"
+    "guests": "Guests",
+
+    "agroLabel": "Agro-Luxury",
+    "agroTitle": "The land doesn't wait for you — it lives",
+    "agroBody": "5,500 m² of living earth. Organic gardens, a henhouse that greets the morning, fruit trees that mark the seasons. This is not a villa with a garden. This is a garden that happens to have a villa.",
+    "agroDetail": "Turkey's first agro-luxury estate",
+
+    "villasLabel": "Two Villas, One Estate",
+    "villasTitle": "Each with its own character",
+    "alyaName": "ALYA",
+    "alyaDesc": "The horizon belongs to you here",
+    "zehraName": "ZEHRA",
+    "zehraDesc": "Hidden among the olives, open to the sky",
+    "villasCta": "Explore & Reserve",
+
+    "expLabel": "Experiences",
+    "expTitle": "Living, not staying",
+    "expBody": "The menu writes itself from the garden. The fire starts where the sun ends. Every moment here is designed to be felt, not just seen.",
+    "exp1": "Farm Morning",
+    "exp1d": "Collect eggs at dawn, breakfast made from what you gathered",
+    "exp2": "Harvest Table",
+    "exp2d": "Pick from the garden, your chef turns it into dinner",
+    "exp3": "Fire Circle",
+    "exp3d": "Stories around the flames under a canopy of stars",
+    "exp4": "Sauna & Stars",
+    "exp4d": "Night sauna, cold plunge, the Milky Way overhead",
+
+    "locLabel": "Secluded Yet Connected",
+    "locTitle": "Far from the world, close to everything",
+    "locOsmangazi": "Osmangazi Bridge",
+    "locAirport": "Sabiha Gokcen Airport",
+    "locIstanbul": "Istanbul Uskudar",
+    "locBursa": "Bursa City Centre",
+
+    "closingTitle": "The land is ready.",
+    "closingBody": "When the mist lifts, the sea appears. When the sun sets, the fire begins. All that's missing is you.",
+    "closingCta": "Begin Your Stay"
   },
   "booking": {
     "heroBadge": "Private Villa Concierge",

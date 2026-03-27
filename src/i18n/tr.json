@@ -11,7 +11,43 @@
     "garden": "Özel Bahçe",
     "pool": "Infinity Havuz",
     "bedrooms": "Ebeveyn Banyolu Odalar",
-    "guests": "Misafir"
+    "guests": "Misafir",
+
+    "agroLabel": "Agro-Luxury",
+    "agroTitle": "Toprak sizi beklemiyor — yaşıyor",
+    "agroBody": "5.500 m² yaşayan toprak. Organik bahçeler, sabahı karşılayan tavuk kümesi, mevsimleri işaretleyen meyve ağaçları. Bu bahçeli bir villa değil. Bu, içinde villa olan bir bahçe.",
+    "agroDetail": "Türkiye'nin ilk agro-luxury villası",
+
+    "villasLabel": "İki Villa, Bir Arazi",
+    "villasTitle": "Her birinin kendine ait karakteri var",
+    "alyaName": "ALYA",
+    "alyaDesc": "Burada ufuk size ait",
+    "zehraName": "ZEHRA",
+    "zehraDesc": "Zeytinlerin arasına gizlenmiş, gökyüzüne açık",
+    "villasCta": "Keşfet & Rezervasyon",
+
+    "expLabel": "Deneyimler",
+    "expTitle": "Konaklamak değil, yaşamak",
+    "expBody": "Menü kendini bahçeden yazıyor. Ateş, güneşin bittiği yerde başlıyor. Buradaki her an görülmek için değil, hissedilmek için tasarlandı.",
+    "exp1": "Çiftlik Sabahı",
+    "exp1d": "Şafakta yumurta toplayın, topladıklarınızdan kahvaltı hazırlansın",
+    "exp2": "Hasat Sofrası",
+    "exp2d": "Bostandan hasat edin, şefiniz akşam yemeğine dönüştürsün",
+    "exp3": "Ateş Çemberi",
+    "exp3d": "Yıldızların altında, alevlerin etrafında hikâyeler",
+    "exp4": "Sauna & Yıldızlar",
+    "exp4d": "Gece saunası, soğuk dalış, tepede Samanyolu",
+
+    "locLabel": "Dünyadan Uzak, Dünyaya Yakın",
+    "locTitle": "İzole ama erişilebilir",
+    "locOsmangazi": "Osmangazi Köprüsü",
+    "locAirport": "Sabiha Gökçen Havalimanı",
+    "locIstanbul": "İstanbul Üsküdar",
+    "locBursa": "Bursa Şehir Merkezi",
+
+    "closingTitle": "Toprak hazır.",
+    "closingBody": "Sis çekildiğinde, deniz görünür. Güneş battığında, ateş yanar. Eksik olan sadece siz.",
+    "closingCta": "Konaklamanıza Başlayın"
   },
   "booking": {
     "heroBadge": "Özel Villa Concierge",

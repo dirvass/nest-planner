@@ -2,6 +2,20 @@ import React, { useEffect, useState } from "react";
 import TopNav from "./components/TopNav";
 import { useLanguage } from "./i18n/LanguageContext";
 
+const EXPERIENCES = [
+  { key: "1", img: "/media/insaat-sureci/arazi-hazirligi-genel-gorunum.jpg" },
+  { key: "2", img: "/media/dis-mekan/on-cephe-ates-cukuru-render.jpg" },
+  { key: "3", img: "/media/dis-mekan/giris-avlusu-gece-ai-render.jpg" },
+  { key: "4", img: "/media/dis-mekan/kus-bakisi-gece-ai-render.jpg" },
+];
+
+const DISTANCES = [
+  { key: "locOsmangazi", min: "15" },
+  { key: "locAirport", min: "40" },
+  { key: "locIstanbul", min: "50" },
+  { key: "locBursa", min: "50" },
+];
+
 export default function Home() {
   const [visible, setVisible] = useState(false);
   const { t } = useLanguage();
@@ -13,6 +27,7 @@ export default function Home() {
 
   return (
     <>
+      {/* ═══ HERO ═══ */}
       <header className={`home-hero ${visible ? "home-hero--visible" : ""}`}>
         <div className="home-hero__bg" aria-hidden="true" />
         <div className="home-hero__overlay" aria-hidden="true" />
@@ -34,10 +49,11 @@ export default function Home() {
         </div>
       </header>
 
+      {/* ═══ FEATURES STRIP ═══ */}
       <section className={`home-features ${visible ? "home-features--visible" : ""}`}>
         <div className="home-features__grid">
           <div className="home-features__item">
-            <span className="home-features__number">1000m&sup2;</span>
+            <span className="home-features__number">5,500m&sup2;</span>
             <span className="home-features__label">{t("home.garden")}</span>
           </div>
           <div className="home-features__divider" />
@@ -55,6 +71,104 @@ export default function Home() {
             <span className="home-features__number">12</span>
             <span className="home-features__label">{t("home.guests")}</span>
           </div>
+        </div>
+      </section>
+
+      {/* ═══ AGRO-LUXURY ═══ */}
+      <section className="home-agro">
+        <div className="home-agro__inner">
+          <div className="home-agro__img-wrap">
+            <img
+              className="home-agro__img"
+              src="/media/dis-mekan/drone-genel-gorunum-render.jpg"
+              alt="Verde Ulasli estate aerial"
+              loading="lazy"
+            />
+          </div>
+          <div className="home-agro__text">
+            <span className="home-section-label">{t("home.agroLabel")}</span>
+            <h2 className="home-section-title">{t("home.agroTitle")}</h2>
+            <div className="home-section-divider" />
+            <p className="home-section-body">{t("home.agroBody")}</p>
+            <span className="home-section-detail">{t("home.agroDetail")}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ TWO VILLAS ═══ */}
+      <section className="home-villas">
+        <div className="home-villas__head">
+          <span className="home-section-label">{t("home.villasLabel")}</span>
+          <h2 className="home-section-title">{t("home.villasTitle")}</h2>
+        </div>
+        <div className="home-villas__grid">
+          <a href="/book" className="home-villa-card">
+            <img className="home-villa-card__img" src="/media/dis-mekan/kus-bakisi-gunduz-ai-render.jpg" alt="ALYA" loading="lazy" />
+            <div className="home-villa-card__overlay" />
+            <div className="home-villa-card__content">
+              <h3 className="home-villa-card__name">{t("home.alyaName")}</h3>
+              <p className="home-villa-card__desc">{t("home.alyaDesc")}</p>
+            </div>
+          </a>
+          <a href="/book" className="home-villa-card">
+            <img className="home-villa-card__img" src="/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg" alt="ZEHRA" loading="lazy" />
+            <div className="home-villa-card__overlay" />
+            <div className="home-villa-card__content">
+              <h3 className="home-villa-card__name">{t("home.zehraName")}</h3>
+              <p className="home-villa-card__desc">{t("home.zehraDesc")}</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      {/* ═══ EXPERIENCES ═══ */}
+      <section className="home-exp">
+        <div className="home-exp__text">
+          <span className="home-section-label">{t("home.expLabel")}</span>
+          <h2 className="home-section-title">{t("home.expTitle")}</h2>
+          <div className="home-section-divider" />
+          <p className="home-section-body">{t("home.expBody")}</p>
+        </div>
+        <div className="home-exp__grid">
+          {EXPERIENCES.map((e) => (
+            <div className="home-exp-card" key={e.key}>
+              <img className="home-exp-card__img" src={e.img} alt={t(`home.exp${e.key}`)} loading="lazy" />
+              <div className="home-exp-card__overlay" />
+              <div className="home-exp-card__content">
+                <h4 className="home-exp-card__name">{t(`home.exp${e.key}`)}</h4>
+                <p className="home-exp-card__desc">{t(`home.exp${e.key}d`)}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ LOCATION PARADOX ═══ */}
+      <section className="home-loc">
+        <div className="home-loc__inner">
+          <span className="home-section-label">{t("home.locLabel")}</span>
+          <h2 className="home-section-title">{t("home.locTitle")}</h2>
+          <div className="home-section-divider" style={{ margin: "20px auto" }} />
+          <div className="home-loc__grid">
+            {DISTANCES.map((d) => (
+              <div className="home-loc__item" key={d.key}>
+                <span className="home-loc__min">{d.min}<small>min</small></span>
+                <span className="home-loc__place">{t(`home.${d.key}`)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CLOSING CTA ═══ */}
+      <section className="home-closing">
+        <div className="home-closing__bg" aria-hidden="true" />
+        <div className="home-closing__overlay" aria-hidden="true" />
+        <div className="home-closing__content">
+          <h2 className="home-closing__title">{t("home.closingTitle")}</h2>
+          <div className="home-section-divider" style={{ margin: "16px auto", background: "var(--gold,#C3A564)" }} />
+          <p className="home-closing__body">{t("home.closingBody")}</p>
+          <a href="/book" className="home-closing__cta">{t("home.closingCta")}</a>
         </div>
       </section>
     </>
