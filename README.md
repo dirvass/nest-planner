@@ -8,17 +8,17 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 
 | Route | Visibility | Description |
 |-------|-----------|-------------|
-| `/` | Public | Home — hero, agro-luxury intro, two villas, experiences, location, CTA, footer |
-| `/story` | Public | Our Story — 10-section narrative (history, philosophy, agro-culture, Verde etymology, location) |
-| `/experience` | Public | Experiences — 10 experience cards + 4 seasonal packages |
-| `/gallery` | Public | Gallery — categorised media (Exterior, Interior, Construction) with lightbox |
-| `/book` | Public | Booking — 5-step guided flow, calendar, enquiry-based (no public pricing), WhatsApp/email CTA |
-| `/planner` | Private | Investment ROI planner — scenario analysis, area charts, villa breakdown |
+| `/` | Public | Home — hero, agro-luxury intro, two villas, experiences, location map, CTA, footer |
+| `/story` | Public | Our Story — 10-section narrative (medieval history, philosophy, agro-culture, Verde etymology with وردة, location distances) |
+| `/experience` | Public | Experiences — 10 experience cards + 4 seasonal packages (Uyanış, Altın Saat, Hasat, Sığınak) |
+| `/gallery` | Public | Gallery — 34 media items (Exterior, Interior, Construction) with lightbox + Kuzu Yayla video |
+| `/book` | Public | Booking — 5-step guided flow, enquiry-based pricing (no public prices), 6 included experiences, WhatsApp/email CTA |
+| `/planner` | Private | Investment ROI planner — 3 scenarios, area charts, villa breakdown |
 | `/admin` | Private | Availability manager — add/edit/remove booked dates per villa |
 
 ## Brand Identity
 
-**VERDE** = Italian for "green" — the colour of paradise in Islamic tradition, the language of Italian elegance, and the essence of the land.
+**VERDE** = Italian for "green" — the colour of paradise in Islamic tradition (وردة, warda), the language of Italian elegance, and the essence of the land.
 
 ### Colour Palette
 
@@ -41,8 +41,13 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 - **react-router-dom** v6 (SPA routing)
 - **Recharts** (area charts on planner page)
 - **react-day-picker** + **date-fns** (booking calendar)
-- **Vercel** (deployment, auto-deploy on push to main)
+- **Cloudflare Pages** (deployment, auto-deploy on push to main)
 - Custom CSS with CSS custom properties (no framework)
+
+## Navigation
+
+- **Desktop**: centered minimal text links with gold active underline
+- **Mobile** (< 768px): hamburger icon → fullscreen dark overlay with large serif links + language selector
 
 ## Internationalisation
 
@@ -50,7 +55,7 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 
 - Translation files: `src/i18n/{en,tr,ar}.json`
 - React Context-based i18n with `t()` function
-- Language selector in nav bar (EN / TR / ع)
+- Language selector in nav (desktop: inline text, mobile: overlay pill buttons)
 - Preference persisted in localStorage
 
 ## Feature Flags
@@ -59,6 +64,15 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 |------|------|---------|---------|
 | `SHOW_PRICING` | `BookingPage.tsx` | `false` | Toggle pricing breakdown visibility |
 
+## Components
+
+| Component | Path | Description |
+|-----------|------|-------------|
+| `TopNav` | `src/components/TopNav.tsx` | Desktop nav + mobile hamburger/overlay |
+| `Footer` | `src/components/Footer.tsx` | Global footer (dark verde bg, nav links, contact) |
+| `LocationMap` | `src/components/LocationMap.tsx` | SVG geographic map of Marmara region |
+| `LanguageSelector` | `src/components/LanguageSelector.tsx` | EN/TR/AR toggle |
+
 ## Media Structure
 
 ```
@@ -66,15 +80,25 @@ public/media/
   dis-mekan/       # 12 exterior renders
   ic-mekan/        # 7 interior renders
   insaat-sureci/   # 10 construction photos
-  videolar/        # 4 site videos (mp4)
+  videolar/        # 5 videos (4 construction + 1 Kuzu Yayla)
 ```
+
+## Digital Assets
+
+| Asset | Value |
+|-------|-------|
+| Domain | verde-ulasli.com (Cloudflare Registrar) |
+| Hosting | Cloudflare Pages |
+| GitHub | github.com/dirvass/verde-ulasli |
+| Email | info@verde-ulasli.com → verde.ulasli@gmail.com |
+| Instagram | @verde.ulasli |
 
 ## Development
 
 ```bash
 npm install
 npm run dev      # local dev server
-npm run build    # production build
+npm run build    # production build → dist/
 ```
 
 ## Private Links
