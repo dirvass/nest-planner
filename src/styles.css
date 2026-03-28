@@ -463,11 +463,17 @@ header.hero .badge{
   .bk-mobile-bar{ display:flex }
 }
 
-/* Top-right nav bubbles (shared look; keep as-is if TopNav expects these) */
-.nav-buttons{ position:fixed; top:22px; right:22px; display:flex; gap:10px; z-index:100; pointer-events:auto; align-items:center; flex-wrap:wrap; justify-content:flex-end; max-width:calc(100vw - 44px) }
+/* ── Desktop nav ── */
+.nav-desktop{
+  position:fixed; top:22px; right:22px;
+  display:flex; gap:8px; z-index:100;
+  pointer-events:auto; align-items:center;
+}
 .nav-btn{
-  display:inline-flex; align-items:center; justify-content:center; padding:9px 16px; border-radius:999px;
-  text-decoration:none; font-size:.85rem; font-weight:600; color:#fff; background:rgba(14,26,22,.55);
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:8px 16px; border-radius:999px;
+  text-decoration:none; font-size:.8rem; font-weight:600; color:#fff;
+  background:rgba(14,26,22,.55);
   border:1px solid rgba(255,255,255,.5); backdrop-filter:blur(6px);
   transition:transform .2s ease, background .2s ease;
 }
@@ -476,6 +482,76 @@ header.hero .badge{
 .nav-btn.primary:hover{ background:#f8fafc }
 .nav-btn.dark{ background:rgba(14,26,22,.6); border-color:rgba(255,255,255,.4) }
 .nav-btn.dark:hover{ background:rgba(14,26,22,.75) }
+
+/* ── Mobile hamburger ── */
+.nav-hamburger{
+  display:none; /* hidden on desktop */
+  position:fixed; top:20px; right:20px; z-index:1001;
+  width:44px; height:44px; border-radius:50%;
+  background:rgba(14,26,22,.6); backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.3);
+  cursor:pointer; padding:0;
+  flex-direction:column; align-items:center; justify-content:center; gap:5px;
+}
+.nav-hamburger span{
+  display:block; width:18px; height:1.5px;
+  background:#fff; border-radius:2px;
+  transition:transform .3s ease, opacity .3s ease;
+}
+.nav-hamburger--open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg) }
+.nav-hamburger--open span:nth-child(2){ opacity:0 }
+.nav-hamburger--open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg) }
+
+/* ── Mobile overlay ── */
+.nav-mobile{
+  display:none; /* hidden on desktop */
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(14,26,22,.97); backdrop-filter:blur(20px);
+  opacity:0; pointer-events:none;
+  transition:opacity .35s ease;
+}
+.nav-mobile--open{ opacity:1; pointer-events:auto }
+.nav-mobile__inner{
+  height:100%; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:12px;
+  padding:80px 24px 40px;
+}
+.nav-mobile__brand{
+  font-family:var(--serif); font-size:1.2rem; font-weight:600;
+  letter-spacing:.15em; color:rgba(195,165,100,.4);
+  margin-bottom:24px;
+}
+.nav-mobile__links{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.nav-mobile__link{
+  font-family:var(--serif); font-size:1.5rem; font-weight:400;
+  letter-spacing:.06em; color:rgba(235,232,225,.6);
+  text-decoration:none; padding:8px 0;
+  transition:color .2s ease;
+}
+.nav-mobile__link:hover,
+.nav-mobile__link--active{
+  color:#fff;
+}
+.nav-mobile__link--active{
+  border-bottom:1px solid var(--gold, #C3A564);
+  padding-bottom:4px;
+}
+.nav-mobile__lang{
+  margin-top:32px;
+}
+
+/* ── Responsive: show hamburger, hide desktop nav on mobile ── */
+@media(max-width:768px){
+  .nav-desktop{ display:none }
+  .nav-hamburger{ display:flex }
+  .nav-mobile{ display:block }
+}
+
+/* ── RTL ── */
+[dir="rtl"] .nav-desktop{ right:auto; left:22px }
+[dir="rtl"] .nav-hamburger{ right:auto; left:20px }
 
 /* ── Old .booking styles removed — see .bk prefix above ── */
 
@@ -1206,7 +1282,7 @@ header.hero .badge{
 /* =========================================================
    RTL Support
    =======================================================*/
-[dir="rtl"] .nav-buttons{ right:auto; left:22px }
+/* (nav-buttons RTL removed — see nav-desktop RTL above) */
 [dir="rtl"] .bk-dates__arrow{ transform:scaleX(-1) }
 [dir="rtl"] .bk__reset{ margin-left:0; margin-right:auto }
 [dir="rtl"] .bk-summary__row strong{ text-align:left }
@@ -1215,7 +1291,7 @@ header.hero .badge{
 [dir="rtl"] .gal-lightbox__nav--prev{ left:auto; right:20px }
 [dir="rtl"] .gal-lightbox__nav--next{ right:auto; left:20px }
 @media (max-width:640px){
-  [dir="rtl"] .nav-buttons{ left:16px; right:16px }
+  /* (nav-buttons mobile RTL removed) */
 }
 
 /* =========================================================
