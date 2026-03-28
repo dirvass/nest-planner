@@ -463,25 +463,30 @@ header.hero .badge{
   .bk-mobile-bar{ display:flex }
 }
 
-/* ── Desktop nav ── */
+/* ── Desktop nav — minimal luxury style ── */
 .nav-desktop{
-  position:fixed; top:22px; right:22px;
-  display:flex; gap:8px; z-index:100;
-  pointer-events:auto; align-items:center;
+  position:fixed; top:0; left:0; right:0;
+  display:flex; justify-content:center; align-items:center; gap:32px;
+  z-index:100; pointer-events:none;
+  padding:24px 32px;
+}
+.nav-desktop .nav-btn,
+.nav-desktop .lang-sel{
+  pointer-events:auto;
 }
 .nav-btn{
   display:inline-flex; align-items:center; justify-content:center;
-  padding:8px 16px; border-radius:999px;
-  text-decoration:none; font-size:.8rem; font-weight:600; color:#fff;
-  background:rgba(14,26,22,.55);
-  border:1px solid rgba(255,255,255,.5); backdrop-filter:blur(6px);
-  transition:transform .2s ease, background .2s ease;
+  padding:0; border-radius:0;
+  text-decoration:none; font-size:.75rem; font-weight:500; color:rgba(255,255,255,.7);
+  background:none; border:none; backdrop-filter:none;
+  letter-spacing:1.5px; text-transform:uppercase;
+  transition:color .25s ease;
 }
-.nav-btn:hover{ transform:translateY(-1px); background:rgba(14,26,22,.7) }
-.nav-btn.primary{ background:#fff; color:var(--ink); border-color:transparent }
-.nav-btn.primary:hover{ background:#f8fafc }
-.nav-btn.dark{ background:rgba(14,26,22,.6); border-color:rgba(255,255,255,.4) }
-.nav-btn.dark:hover{ background:rgba(14,26,22,.75) }
+.nav-btn:hover{ transform:none; background:none; color:#fff }
+.nav-btn.primary{ background:none; color:#fff; border:none; border-bottom:1px solid rgba(195,165,100,.6); padding-bottom:2px }
+.nav-btn.primary:hover{ background:none; color:#fff }
+.nav-btn.dark{ background:none; border:none; color:rgba(255,255,255,.6) }
+.nav-btn.dark:hover{ background:none; color:#fff }
 
 /* ── Mobile hamburger ── */
 .nav-hamburger{
@@ -1259,23 +1264,41 @@ header.hero .badge{
    =======================================================*/
 .lang-sel{
   position:relative; z-index:101;
-  display:inline-flex; gap:2px; padding:3px;
-  border-radius:999px; background:rgba(14,26,22,.55);
-  border:1px solid rgba(255,255,255,.3);
-  backdrop-filter:blur(8px);
-  pointer-events:auto;
+  display:inline-flex; gap:4px; padding:0;
+  background:none; border:none; backdrop-filter:none;
+  pointer-events:auto; align-items:center;
+}
+.lang-sel::before{
+  content:""; width:1px; height:14px; background:rgba(255,255,255,.2);
+  margin-right:8px;
 }
 .lang-btn{
-  padding:7px 14px; border-radius:999px; border:none;
-  font-size:13px; font-weight:700; letter-spacing:.5px;
-  color:rgba(255,255,255,.75); background:transparent;
-  cursor:pointer; transition:all .2s ease;
+  padding:2px 6px; border-radius:0; border:none;
+  font-size:.7rem; font-weight:500; letter-spacing:1px;
+  color:rgba(255,255,255,.45); background:transparent;
+  cursor:pointer; transition:color .2s ease;
   pointer-events:auto;
   font-family:inherit;
   line-height:1;
 }
-.lang-btn:hover{ color:#fff; background:rgba(255,255,255,.1) }
+.lang-btn:hover{ color:rgba(255,255,255,.85); background:none }
 .lang-btn--active{
+  background:none; color:#fff;
+}
+
+/* Mobile overlay keeps pill style */
+.nav-mobile__lang .lang-sel{
+  gap:2px; padding:3px;
+  border-radius:999px; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+}
+.nav-mobile__lang .lang-sel::before{ display:none }
+.nav-mobile__lang .lang-btn{
+  padding:8px 16px; border-radius:999px;
+  font-size:13px; font-weight:700; letter-spacing:.5px;
+  color:rgba(255,255,255,.6);
+}
+.nav-mobile__lang .lang-btn--active{
   background:#fff; color:var(--ink);
 }
 
