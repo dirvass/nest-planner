@@ -1,6 +1,6 @@
 # VERDE Ulaşlı — Turkey's First Agro-Luxury Villa Estate
 
-Live: **https://verde-ulasli.vercel.app**
+Live: **https://verde-ulasli.com**
 
 Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 
@@ -79,5 +79,5 @@ npm run build    # production build
 
 ## Private Links
 
-- **Investment Planner**: https://verde-ulasli.vercel.app/planner
-- **Admin Extranet**: https://verde-ulasli.vercel.app/admin
+- **Investment Planner**: https://verde-ulasli.com/planner
+- **Admin Extranet**: https://verde-ulasli.com/admin
