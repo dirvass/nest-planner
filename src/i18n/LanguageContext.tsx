@@ -2,10 +2,11 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import en from "./en.json";
 import tr from "./tr.json";
 import ar from "./ar.json";
+import de from "./de.json";
 
-export type Locale = "en" | "tr" | "ar";
+export type Locale = "en" | "tr" | "ar" | "de";
 
-const TRANSLATIONS: Record<Locale, Record<string, any>> = { en, tr, ar };
+const TRANSLATIONS: Record<Locale, Record<string, any>> = { en, tr, ar, de };
 const STORAGE_KEY = "verde-lang";
 
 type Ctx = {
@@ -25,7 +26,7 @@ const LanguageContext = createContext<Ctx>({
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => {
     const saved = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
-    return (saved === "tr" || saved === "ar") ? saved : "en";
+    return (saved === "tr" || saved === "ar" || saved === "de") ? saved : "en";
   });
 
   const dir = locale === "ar" ? "rtl" : "ltr";

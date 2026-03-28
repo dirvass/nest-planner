@@ -4,6 +4,7 @@ import { useLanguage, Locale } from "../i18n/LanguageContext";
 const LANGS: { code: Locale; label: string }[] = [
   { code: "en", label: "EN" },
   { code: "tr", label: "TR" },
+  { code: "de", label: "DE" },
   { code: "ar", label: "ع" },
 ];
 
