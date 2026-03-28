@@ -267,6 +267,131 @@ export default function PlannerPage() {
           </div>
         </section>
 
+        {/* ═══ DETAILED SCENARIO BREAKDOWN ═══ */}
+        <section className="pl-detail">
+          <h2 className="pl-section-title">Scenario Breakdown</h2>
+          <p className="pl-section-desc">Revenue, cost and profitability detail per scenario. All figures EUR, 60% occupancy, 2 villas at equal rate.</p>
+
+          <div className="pl-detail__grid">
+            {/* ── LAUNCH ── */}
+            <div className="pl-detail__card">
+              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.pessimistic}}>Launch &mdash; &euro;500/villa</h3>
+              <table className="pl-detail__table">
+                <tbody>
+                  <tr><td>Accommodation (2 villas)</td><td className="pl-td--num">&euro; 219,000</td></tr>
+                  <tr><td>Cleaning + service + extras</td><td className="pl-td--num">&euro; 32,450</td></tr>
+                  <tr><td><strong>Gross Revenue</strong></td><td className="pl-td--num"><strong>&euro; 251,450</strong></td></tr>
+                  <tr><td colSpan={2} style={{height:8}}></td></tr>
+                  <tr><td>Personnel (1-2)</td><td className="pl-td--num">&euro; 30,000</td></tr>
+                  <tr><td>Utilities + insurance + maintenance</td><td className="pl-td--num">&euro; 29,000</td></tr>
+                  <tr><td>Marketing + platform commission</td><td className="pl-td--num">&euro; 24,710</td></tr>
+                  <tr><td>Cleaning + amenities + accounting</td><td className="pl-td--num">&euro; 12,000</td></tr>
+                  <tr><td><strong>Total OpEx</strong></td><td className="pl-td--num"><strong>&euro; 95,710</strong></td></tr>
+                  <tr><td colSpan={2} style={{height:8}}></td></tr>
+                  <tr><td><strong>EBITDA</strong></td><td className="pl-td--num"><strong>&euro; 155,740</strong></td></tr>
+                  <tr><td>Depreciation + tax (25%)</td><td className="pl-td--num">&euro; (61,060)</td></tr>
+                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>Net Profit (annual)</strong></td><td className="pl-td--num"><strong>&euro; 94,680</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* ── GROWTH ── */}
+            <div className="pl-detail__card">
+              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.base}}>Growth &mdash; &euro;750/villa</h3>
+              <table className="pl-detail__table">
+                <tbody>
+                  <tr><td>Accommodation (2 villas)</td><td className="pl-td--num">&euro; 328,500</td></tr>
+                  <tr><td>Cleaning + service</td><td className="pl-td--num">&euro; 32,925</td></tr>
+                  <tr><td>Chef + ATV + transfer + experiences</td><td className="pl-td--num">&euro; 49,310</td></tr>
+                  <tr><td><strong>Gross Revenue</strong></td><td className="pl-td--num"><strong>&euro; 410,735</strong></td></tr>
+                  <tr><td colSpan={2} style={{height:8}}></td></tr>
+                  <tr><td>Personnel (2)</td><td className="pl-td--num">&euro; 45,000</td></tr>
+                  <tr><td>Utilities + insurance + maintenance</td><td className="pl-td--num">&euro; 34,600</td></tr>
+                  <tr><td>Marketing + platform commission</td><td className="pl-td--num">&euro; 34,638</td></tr>
+                  <tr><td>Operations + farm + supplies</td><td className="pl-td--num">&euro; 40,390</td></tr>
+                  <tr><td><strong>Total OpEx</strong></td><td className="pl-td--num"><strong>&euro; 154,628</strong></td></tr>
+                  <tr><td colSpan={2} style={{height:8}}></td></tr>
+                  <tr><td><strong>EBITDA</strong></td><td className="pl-td--num"><strong>&euro; 256,107</strong></td></tr>
+                  <tr><td>Depreciation + tax (25%)</td><td className="pl-td--num">&euro; (86,152)</td></tr>
+                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>Net Profit (annual)</strong></td><td className="pl-td--num"><strong>&euro; 169,955</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* ── PREMIUM ── */}
+            <div className="pl-detail__card">
+              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.optimistic}}>Premium &mdash; &euro;1,000/villa</h3>
+              <table className="pl-detail__table">
+                <tbody>
+                  <tr><td>Accommodation (2 villas)</td><td className="pl-td--num">&euro; 438,000</td></tr>
+                  <tr><td>Cleaning + service</td><td className="pl-td--num">&euro; 38,400</td></tr>
+                  <tr><td>Chef + ATV + transfer + experiences</td><td className="pl-td--num">&euro; 86,790</td></tr>
+                  <tr><td>Local product sales</td><td className="pl-td--num">&euro; 3,000</td></tr>
+                  <tr><td><strong>Gross Revenue</strong></td><td className="pl-td--num"><strong>&euro; 566,190</strong></td></tr>
+                  <tr><td colSpan={2} style={{height:8}}></td></tr>
+                  <tr><td>Personnel (4)</td><td className="pl-td--num">&euro; 84,240</td></tr>
+                  <tr><td>Utilities + insurance + maintenance</td><td className="pl-td--num">&euro; 45,000</td></tr>
+                  <tr><td>Marketing + influencer + commission</td><td className="pl-td--num">&euro; 51,280</td></tr>
+                  <tr><td>Operations + farm + premium amenities</td><td className="pl-td--num">&euro; 64,229</td></tr>
+                  <tr><td><strong>Total OpEx</strong></td><td className="pl-td--num"><strong>&euro; 244,749</strong></td></tr>
+                  <tr><td colSpan={2} style={{height:8}}></td></tr>
+                  <tr><td><strong>EBITDA</strong></td><td className="pl-td--num"><strong>&euro; 321,441</strong></td></tr>
+                  <tr><td>Depreciation + tax (25%)</td><td className="pl-td--num">&euro; (102,485)</td></tr>
+                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>Net Profit (annual)</strong></td><td className="pl-td--num"><strong>&euro; 218,956</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ COMPARISON & ROI ═══ */}
+        <section className="pl-table-wrap">
+          <h2 className="pl-section-title">Return on Investment</h2>
+          <p className="pl-section-desc">CAPEX: &euro;500,000 | First 2 years: net profit = 0 (marketing investment) | 60% occupancy</p>
+          <div className="pl-table-scroll">
+            <table className="pl-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Launch (&euro;500)</th>
+                  <th>Growth (&euro;750)</th>
+                  <th>Premium (&euro;1,000)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Per villa / night</td><td className="pl-td--num">&euro;500</td><td className="pl-td--num">&euro;750</td><td className="pl-td--num">&euro;1,000</td></tr>
+                <tr><td>2 villas combined / night</td><td className="pl-td--num">&euro;1,000</td><td className="pl-td--num">&euro;1,500</td><td className="pl-td--num">&euro;2,000</td></tr>
+                <tr><td>Personnel</td><td className="pl-td--num">1-2</td><td className="pl-td--num">2</td><td className="pl-td--num">4</td></tr>
+                <tr><td>Gross revenue</td><td className="pl-td--num">&euro;251K</td><td className="pl-td--num">&euro;411K</td><td className="pl-td--num">&euro;566K</td></tr>
+                <tr><td>Net profit (annual)</td><td className="pl-td--num">&euro;95K</td><td className="pl-td--num">&euro;170K</td><td className="pl-td--num">&euro;219K</td></tr>
+                <tr><td>Net margin</td><td className="pl-td--num">37.6%</td><td className="pl-td--num">41.4%</td><td className="pl-td--num">38.7%</td></tr>
+                <tr style={{background:'rgba(195,165,100,0.06)'}}><td>Year 1-2</td><td className="pl-td--num">&euro;0</td><td className="pl-td--num">&euro;0</td><td className="pl-td--num">&euro;0</td></tr>
+                <tr><td>5Y cumulative</td><td className="pl-td--num">&euro;284K</td><td className="pl-td--num">&euro;510K</td><td className="pl-td--num">&euro;657K</td></tr>
+                <tr><td>10Y cumulative</td><td className="pl-td--num">&euro;757K</td><td className="pl-td--num">&euro;1.36M</td><td className="pl-td--num">&euro;1.75M</td></tr>
+                <tr><td>15Y cumulative</td><td className="pl-td--num">&euro;1.23M</td><td className="pl-td--num">&euro;2.21M</td><td className="pl-td--num">&euro;2.85M</td></tr>
+                <tr style={{background:'rgba(45,80,64,0.08)'}}><td><strong>Payback period</strong></td><td className="pl-td--num"><strong>7.3 years</strong></td><td className="pl-td--num"><strong>5.0 years</strong></td><td className="pl-td--num"><strong>4.3 years</strong></td></tr>
+                <tr><td>Break-even occupancy</td><td className="pl-td--num">17.0%</td><td className="pl-td--num">14.1%</td><td className="pl-td--num">18.8%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* ═══ GROWTH STRATEGY ═══ */}
+        <section className="pl-table-wrap">
+          <h2 className="pl-section-title">Growth Strategy</h2>
+          <p className="pl-section-desc">Phased pricing approach. Transition trigger: guest rating 4.8+ AND demand exceeds capacity.</p>
+          <div className="pl-table-scroll">
+            <table className="pl-table">
+              <thead><tr><th>Period</th><th>Pricing</th><th>Team</th><th>Goal</th></tr></thead>
+              <tbody>
+                <tr><td>Month 1–6</td><td>Launch: &euro;500/villa</td><td>1-2 staff</td><td>Build platform ratings, test experiences</td></tr>
+                <tr><td>Month 7–18</td><td>Growth: &euro;750/villa</td><td>2 staff</td><td>Activate all experiences, build brand depth</td></tr>
+                <tr><td>Month 18+</td><td>Premium: &euro;1,000/villa</td><td>3-4 staff</td><td>Full premium, Gulf market expansion</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <footer className="pl-foot">
           <p>{t("planner.foot1")}</p>
           <p>{t("planner.foot2")}</p>
