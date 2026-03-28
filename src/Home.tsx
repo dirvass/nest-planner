@@ -40,10 +40,7 @@ export default function Home() {
           <p className="home-hero__tagline">{t("home.tagline")}</p>
           <div className="home-hero__divider" />
           <p className="home-hero__subtitle">{t("home.subtitle")}</p>
-          <div className="home-hero__actions">
-            <a href="/book" className="home-hero__cta">{t("home.ctaReserve")}</a>
-            <a href="/gallery" className="home-hero__cta home-hero__cta--ghost">{t("home.ctaGallery")}</a>
-          </div>
+          {/* CTA buttons hidden on initial view — reserve available in nav + closing section */}
         </div>
         <div className="home-hero__scroll" aria-hidden="true">
           <span>{t("home.scroll")}</span>
