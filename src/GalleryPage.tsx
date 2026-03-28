@@ -56,7 +56,7 @@ const MEDIA: Media[] = [
   { id: "con-izolasyon-sonra", type: "image", src: "/media/insaat-sureci/izolasyon_sonrasi.jpg", alt: "After insulation", category: "construction" },
 
   // ─── VIDEOS ───
-  { id: "vid-yayla", type: "video", src: "/media/videolar/kuzu-yayla.mp4", alt: "Kuzu Yayla — highland meadows and mountain views", category: "exterior" },
+  { id: "vid-yayla", type: "video", src: "/media/videolar/kuzu-yayla.mp4", poster: "/media/dis-mekan/yan-cephe-genel-gorunum-render.jpg", alt: "Kuzu Yayla — highland meadows and mountain views", category: "exterior" },
   { id: "vid-1", type: "video", src: "/media/videolar/villa-video-1.mp4", alt: "Villa site tour 1", category: "construction" },
   { id: "vid-2", type: "video", src: "/media/videolar/villa-video-2.mp4", alt: "Villa site tour 2", category: "construction" },
   { id: "vid-3", type: "video", src: "/media/videolar/villa-video-3.mp4", alt: "Villa site overview", category: "construction" },
@@ -76,7 +76,7 @@ function GalleryCard({ item, idx, onOpen }: { item: Media; idx: number; onOpen: 
       {item.type === "image" ? (
         <img className="gallery-card__img" src={item.src} alt={item.alt} loading="lazy" />
       ) : (
-        <video className="gallery-card__img" src={item.src} muted preload="metadata" playsInline />
+        <video className="gallery-card__img" src={item.src} poster={item.type === "video" && "poster" in item ? (item as any).poster : undefined} muted preload="metadata" playsInline />
       )}
       <div className="gallery-card__overlay">
         <span className="gallery-card__alt">
