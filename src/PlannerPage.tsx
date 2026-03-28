@@ -14,8 +14,8 @@ const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#c0392b", base: "#2
 
 export default function PlannerPage() {
   const [villas, setVillas] = useState<Villa[]>([
-    { id: crypto.randomUUID(), name: "ALYA",  dailyFee: 700, occupancy: 0.60, costPct: 0.35 },
-    { id: crypto.randomUUID(), name: "ZEHRA", dailyFee: 550, occupancy: 0.60, costPct: 0.35 },
+    { id: crypto.randomUUID(), name: "ALYA",  dailyFee: 750, occupancy: 0.60, costPct: 0.35 },
+    { id: crypto.randomUUID(), name: "ZEHRA", dailyFee: 750, occupancy: 0.60, costPct: 0.35 },
   ]);
   const [currency, setCurrency] = useState<Currency>("EUR");
   const [activeScn, setActiveScn] = useState<Scenario>("base");
@@ -56,8 +56,8 @@ export default function PlannerPage() {
 
   function applyScenario(s: Scenario) {
     setActiveScn(s);
-    const fees: Record<Scenario, [number, number]> = { pessimistic: [400, 350], base: [700, 550], optimistic: [1000, 800] };
-    const cost: Record<Scenario, number> = { pessimistic: 0.40, base: 0.35, optimistic: 0.30 };
+    const fees: Record<Scenario, [number, number]> = { pessimistic: [500, 500], base: [750, 750], optimistic: [1000, 1000] };
+    const cost: Record<Scenario, number> = { pessimistic: 0.38, base: 0.35, optimistic: 0.32 };
     setVillas(prev => prev.map((v, i) => ({
       ...v, name: i === 0 ? "ALYA" : i === 1 ? "ZEHRA" : v.name,
       dailyFee: fees[s][i] ?? v.dailyFee, occupancy: 0.60, costPct: cost[s],
@@ -67,8 +67,8 @@ export default function PlannerPage() {
   const eff = (y: number) => Math.max(0, y - 2);
 
   function scnNet(s: Scenario) {
-    const feeMap = { pessimistic: [400, 350], base: [700, 550], optimistic: [1000, 800] } as const;
-    const costMap = { pessimistic: 0.40, base: 0.35, optimistic: 0.30 } as const;
+    const feeMap = { pessimistic: [500, 500], base: [750, 750], optimistic: [1000, 1000] } as const;
+    const costMap = { pessimistic: 0.38, base: 0.35, optimistic: 0.32 } as const;
     let tot = 0;
     villas.forEach((_, i) => { const d = feeMap[s][i] ?? feeMap[s][0]; tot += d * 365 * 0.6 * (1 - costMap[s]); });
     return tot;
