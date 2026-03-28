@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- Stylized leaf symbol -->
+  <g transform="translate(400, 140)">
+    <!-- Main leaf shape -->
+    <path d="M0,-55 C18,-50 30,-35 32,-15 C34,5 25,25 15,40 C10,48 5,52 0,55 C-5,52 -10,48 -15,40 C-25,25 -34,5 -32,-15 C-30,-35 -18,-50 0,-55 Z"
+      fill="none" stroke="#2D5040" stroke-width="1.5"/>
+    <!-- Central vein -->
+    <line x1="0" y1="-50" x2="0" y2="50" stroke="#2D5040" stroke-width="0.8"/>
+    <!-- Side veins -->
+    <line x1="0" y1="-30" x2="18" y2="-18" stroke="#2D5040" stroke-width="0.5" opacity="0.6"/>
+    <line x1="0" y1="-30" x2="-18" y2="-18" stroke="#2D5040" stroke-width="0.5" opacity="0.6"/>
+    <line x1="0" y1="-10" x2="24" y2="0" stroke="#2D5040" stroke-width="0.5" opacity="0.6"/>
+    <line x1="0" y1="-10" x2="-24" y2="0" stroke="#2D5040" stroke-width="0.5" opacity="0.6"/>
+    <line x1="0" y1="10" x2="20" y2="20" stroke="#2D5040" stroke-width="0.5" opacity="0.6"/>
+    <line x1="0" y1="10" x2="-20" y2="20" stroke="#2D5040" stroke-width="0.5" opacity="0.6"/>
+    <!-- Small stem -->
+    <line x1="0" y1="55" x2="0" y2="65" stroke="#C3A564" stroke-width="1"/>
+  </g>
+
+  <!-- VERDE wordmark -->
+  <text x="400" y="265" text-anchor="middle"
+    font-family="'Playfair Display', 'Georgia', serif"
+    font-size="52" font-weight="400" letter-spacing="14" fill="#EBE8E1">
+    VERDE
+  </text>
+
+  <!-- ULASLI subtitle -->
+  <text x="400" y="300" text-anchor="middle"
+    font-family="'Inter', 'Helvetica Neue', sans-serif"
+    font-size="16" font-weight="300" letter-spacing="10" fill="rgba(235,232,225,0.45)">
+    ULASLI
+  </text>
+
+  <!-- Tagline -->
+  <text x="400" y="355" text-anchor="middle"
+    font-family="'Playfair Display', 'Georgia', serif"
+    font-size="12" font-weight="400" font-style="italic" letter-spacing="1" fill="rgba(195,165,100,0.4)">
+    Turkey's first agro-luxury estate
+  </text>
+
+  <!-- Label -->
+  <text x="400" y="470" text-anchor="middle"
+    font-family="'Inter', sans-serif"
+    font-size="9" font-weight="400" letter-spacing="3" fill="rgba(235,232,225,0.15)">
+    KONSEPT 2 : YAPRAK IZI
+  </text>
+</svg>

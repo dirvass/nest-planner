@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- V Monogram with circle frame -->
+  <g transform="translate(400, 150)">
+    <!-- Outer circle (seal/stamp effect) -->
+    <circle r="62" fill="none" stroke="rgba(195,165,100,0.2)" stroke-width="0.8"/>
+    <!-- Inner circle -->
+    <circle r="55" fill="none" stroke="#C3A564" stroke-width="1"/>
+
+    <!-- Custom V letterform — organic, leaf-inspired -->
+    <path d="M-22,-25 L-5,28 C-3,33 -1,35 0,35 C1,35 3,33 5,28 L22,-25"
+      fill="none" stroke="#EBE8E1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Subtle seed dot at the bottom of V -->
+    <circle cx="0" cy="35" r="2" fill="#C3A564"/>
+
+    <!-- Hidden leaf vein inside V (easter egg) -->
+    <line x1="-12" y1="-5" x2="0" y2="18" stroke="rgba(195,165,100,0.12)" stroke-width="0.5"/>
+    <line x1="12" y1="-5" x2="0" y2="18" stroke="rgba(195,165,100,0.12)" stroke-width="0.5"/>
+  </g>
+
+  <!-- VERDE wordmark -->
+  <text x="400" y="275" text-anchor="middle"
+    font-family="'Playfair Display', 'Georgia', serif"
+    font-size="48" font-weight="400" letter-spacing="14" fill="#EBE8E1">
+    VERDE
+  </text>
+
+  <!-- ULASLI subtitle -->
+  <text x="400" y="308" text-anchor="middle"
+    font-family="'Inter', 'Helvetica Neue', sans-serif"
+    font-size="15" font-weight="300" letter-spacing="10" fill="rgba(235,232,225,0.4)">
+    ULASLI
+  </text>
+
+  <!-- Separator line -->
+  <line x1="365" y1="330" x2="435" y2="330" stroke="#C3A564" stroke-width="0.5"/>
+
+  <!-- Tagline -->
+  <text x="400" y="360" text-anchor="middle"
+    font-family="'Playfair Display', 'Georgia', serif"
+    font-size="12" font-weight="400" font-style="italic" letter-spacing="1" fill="rgba(195,165,100,0.35)">
+    Where the mist reveals
+  </text>
+
+  <!-- Stamp version (small, bottom right) -->
+  <g transform="translate(680, 420) scale(0.45)">
+    <circle r="55" fill="none" stroke="rgba(195,165,100,0.3)" stroke-width="1.2"/>
+    <path d="M-22,-25 L-5,28 C-3,33 -1,35 0,35 C1,35 3,33 5,28 L22,-25"
+      fill="none" stroke="rgba(235,232,225,0.5)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="0" cy="35" r="2.5" fill="rgba(195,165,100,0.4)"/>
+    <!-- Circular text around stamp -->
+    <text font-family="'Inter', sans-serif" font-size="10" letter-spacing="5" fill="rgba(235,232,225,0.25)">
+      <textPath href="#stamp-circle">VERDE ULASLI</textPath>
+    </text>
+  </g>
+  <defs>
+    <circle id="stamp-circle" cx="680" cy="420" r="28"/>
+  </defs>
+
+  <!-- Label -->
+  <text x="400" y="470" text-anchor="middle"
+    font-family="'Inter', sans-serif"
+    font-size="9" font-weight="400" letter-spacing="3" fill="rgba(235,232,225,0.15)">
+    KONSEPT 3 : MONOGRAM
+  </text>
+</svg>
