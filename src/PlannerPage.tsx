@@ -12,7 +12,7 @@ type Currency = "EUR" | "USD" | "GBP";
 const SCN_LABEL_KEYS: Record<Scenario, string> = { pessimistic: "planner.pessimistic", base: "planner.base", optimistic: "planner.optimistic" };
 const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#c0392b", base: "#2D5040", optimistic: "#1abc9c" };
 
-export default function PlannerPage() {
+export default function PlannerPage({ embedded = false }: { embedded?: boolean }) {
   const [villas, setVillas] = useState<Villa[]>([
     { id: crypto.randomUUID(), name: "ALYA",  dailyFee: 750, occupancy: 0.60, costPct: 0.35 },
     { id: crypto.randomUUID(), name: "ZEHRA", dailyFee: 750, occupancy: 0.60, costPct: 0.35 },
@@ -105,18 +105,20 @@ export default function PlannerPage() {
 
   return (
     <>
-      {/* ═══ HERO ═══ */}
-      <header className={`pl-hero ${heroVis ? "pl-hero--vis" : ""}`}>
-        <div className="pl-hero__bg" aria-hidden="true" />
-        <div className="pl-hero__ov" aria-hidden="true" />
-        <TopNav />
-        <div className="pl-hero__ct">
-          <span className="pl-hero__badge">{t("planner.heroBadge")}</span>
-          <h1 className="pl-hero__title">{t("planner.heroTitle")}</h1>
-          <div className="pl-hero__line" />
-          <p className="pl-hero__sub">{t("planner.heroSub")}</p>
-        </div>
-      </header>
+      {/* ═══ HERO (hidden when embedded in investor page) ═══ */}
+      {!embedded && (
+        <header className={`pl-hero ${heroVis ? "pl-hero--vis" : ""}`}>
+          <div className="pl-hero__bg" aria-hidden="true" />
+          <div className="pl-hero__ov" aria-hidden="true" />
+          <TopNav />
+          <div className="pl-hero__ct">
+            <span className="pl-hero__badge">{t("planner.heroBadge")}</span>
+            <h1 className="pl-hero__title">{t("planner.heroTitle")}</h1>
+            <div className="pl-hero__line" />
+            <p className="pl-hero__sub">{t("planner.heroSub")}</p>
+          </div>
+        </header>
+      )}
 
       <main className="pl">
         {/* ═══ KPI CARDS ═══ */}

@@ -8,6 +8,7 @@ import PlannerPage from "./PlannerPage";
 import BookingPage from "./BookingPage";
 import GalleryPage from "./GalleryPage";
 import AdminPage from "./AdminPage";
+import InvestorPage from "./InvestorPage";
 import "./styles.css";
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/planner" element={<PlannerPage />} />
           <Route path="/book" element={<BookingPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/investor" element={<InvestorPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>

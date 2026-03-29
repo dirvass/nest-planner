@@ -2041,3 +2041,129 @@ header.hero .badge{
   box-shadow:0 16px 48px rgba(14,26,22,.25);
   border:1px solid rgba(195,165,100,.1);
 }
+
+/* =========================================================
+   INVESTOR PAGE
+   =======================================================*/
+
+/* Hero */
+.inv-hero{
+  position:relative; min-height:50vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; color:#fff;
+}
+.inv-hero__bg{
+  position:absolute; inset:0; z-index:0;
+  background:url("/media/dis-mekan/kus-bakisi-gunduz-ai-render.jpg") center/cover no-repeat;
+  transform:scale(1.06);
+  transition:transform 10s cubic-bezier(.25,.46,.45,.94);
+}
+.inv-hero--vis .inv-hero__bg{ transform:scale(1) }
+.inv-hero__ov{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(14,26,22,.8) 0%, rgba(14,26,22,.45) 50%, rgba(14,26,22,.75) 100%);
+}
+.inv-hero__ct{
+  position:relative; z-index:2; text-align:center; max-width:700px; padding:0 24px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.inv-hero__badge{
+  display:inline-flex; padding:8px 20px; border-radius:999px;
+  font-size:11px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
+  color:#C3A564; background:rgba(195,165,100,.08);
+  border:1px solid rgba(195,165,100,.25); backdrop-filter:blur(12px);
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .2s, transform .7s ease .2s;
+}
+.inv-hero--vis .inv-hero__badge{ opacity:1; transform:translateY(0) }
+.inv-hero__title{
+  font-family:var(--serif); font-size:clamp(2.4rem,7vw,4.5rem);
+  font-weight:400; letter-spacing:.12em; line-height:1.1; margin-top:20px;
+  opacity:0; transform:translateY(24px);
+  transition:opacity .8s ease .4s, transform .8s ease .4s;
+}
+.inv-hero--vis .inv-hero__title{ opacity:1; transform:translateY(0) }
+.inv-hero__line{
+  width:50px; height:1px; background:rgba(195,165,100,.5); margin:20px 0;
+  opacity:0; transform:scaleX(0);
+  transition:opacity .6s ease .7s, transform .7s ease .7s;
+}
+.inv-hero--vis .inv-hero__line{ opacity:1; transform:scaleX(1) }
+.inv-hero__sub{
+  font-size:clamp(.9rem,1.4vw,1.05rem); font-weight:300;
+  color:rgba(226,232,240,.7); letter-spacing:.03em; font-style:italic;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .9s, transform .7s ease .9s;
+}
+.inv-hero--vis .inv-hero__sub{ opacity:1; transform:translateY(0) }
+
+/* Tabs */
+.inv-tabs{
+  display:flex; justify-content:center; gap:0;
+  background:var(--bg); border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:50;
+}
+.inv-tab{
+  padding:16px 40px; border:none; background:none; cursor:pointer;
+  font-family:var(--serif); font-size:1rem; font-weight:400;
+  letter-spacing:.05em; color:var(--muted);
+  border-bottom:2px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+.inv-tab:hover{ color:var(--ink) }
+.inv-tab--active{
+  color:var(--ink); border-bottom-color:var(--brand);
+}
+
+/* Brand tab content */
+.inv-brand{
+  max-width:900px; margin:0 auto; padding:40px 24px 80px;
+}
+.inv-section{
+  margin-bottom:48px;
+}
+.inv-section__title{
+  font-family:var(--serif); font-size:clamp(1.4rem,3vw,1.8rem);
+  font-weight:400; letter-spacing:.02em; color:var(--ink);
+}
+.inv-section__divider{
+  width:50px; height:1.5px; background:var(--brand); margin:12px 0 16px;
+}
+.inv-section__body{
+  font-size:.92rem; line-height:1.75; color:var(--muted); max-width:700px; margin-bottom:20px;
+}
+.inv-sub{
+  font-family:var(--serif); font-size:1.05rem; font-weight:400;
+  color:var(--ink); margin:24px 0 10px;
+}
+.inv-sub--phase{
+  color:var(--brand); border-left:3px solid #C3A564;
+  padding-left:12px; margin-top:28px;
+}
+
+/* Tables */
+.inv-table{
+  width:100%; border-collapse:collapse; font-size:.85rem; margin-bottom:16px;
+}
+.inv-table th{
+  background:#0E1A16; color:#EBE8E1; font-weight:600;
+  text-transform:uppercase; letter-spacing:.5px; font-size:.75rem;
+  padding:8px 12px; text-align:left;
+}
+.inv-table td{
+  padding:7px 12px; border-bottom:0.5px solid rgba(226,232,240,.5);
+  vertical-align:top;
+}
+.inv-table tr:nth-child(even) td{ background:#faf9f5 }
+.inv-table a{ color:var(--brand); text-decoration:none }
+.inv-table a:hover{ text-decoration:underline }
+
+/* Status badges */
+.inv-done{ color:#2D5040; font-weight:600; font-size:.8rem }
+.inv-pending{ color:#C3A564; font-weight:600; font-size:.8rem }
+.inv-active{ color:#1abc9c; font-weight:600; font-size:.8rem }
+
+@media(max-width:640px){
+  .inv-tab{ padding:12px 20px; font-size:.9rem }
+  .inv-brand{ padding:24px 16px 60px }
+}
