@@ -5,13 +5,14 @@ import { usePageMeta } from "./hooks/usePageMeta";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
+import capexData from "./data/capex.json";
 import "./styles/InvestorPage.css";
 import "./styles/PlannerPage.css";
 
 type Villa = { id: string; name: string; dailyFee: number; occupancy: number; costPct: number };
 type Scenario = "pessimistic" | "base" | "optimistic";
 type Currency = "EUR" | "USD" | "GBP";
-type Tab = "financials" | "brand";
+type Tab = "financials" | "brand" | "capex";
 
 const SCN_LABEL_KEYS: Record<Scenario, string> = { pessimistic: "planner.pessimistic", base: "planner.base", optimistic: "planner.optimistic" };
 const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#C9B99A", base: "#C3A564", optimistic: "#6ECFA0" };
@@ -46,11 +47,15 @@ export default function InvestorPage() {
         <button className={`inv-tab ${tab === "brand" ? "inv-tab--active" : ""}`} onClick={() => setTab("brand")}>
           {t("investor.tabBrand")}
         </button>
+        <button className={`inv-tab ${tab === "capex" ? "inv-tab--active" : ""}`} onClick={() => setTab("capex")}>
+          {t("investor.tabCapex")}
+        </button>
       </nav>
 
       {/* CONTENT */}
       {tab === "financials" && <FinancialsTab />}
       {tab === "brand" && <BrandTab />}
+      {tab === "capex" && <CapexTab />}
     </>
   );
 }
@@ -583,6 +588,202 @@ function BrandTab() {
             <tr><td>{t("investor.folderIG")}</td><td>{t("investor.folderIGDesc")}</td></tr>
             <tr><td>{t("investor.folderLogo")}</td><td>{t("investor.folderLogoDesc")}</td></tr>
           </tbody>
+        </table>
+      </section>
+    </main>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════ */
+/* CAPEX TAB                                                 */
+/* ══════════════════════════════════════════════════════════ */
+function CapexTab() {
+  const { t, locale } = useLanguage();
+
+  const MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const MONTHS_TR = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
+  const MONTHS_DE = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+  const months = locale === "tr" ? MONTHS_TR : locale === "de" ? MONTHS_DE : MONTHS_EN;
+
+  const fmtDate = (iso: string) => {
+    const d = new Date(iso);
+    return `${String(d.getDate()).padStart(2, "0")} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  };
+
+  const fmtEur = (n: number) => `€\u00A0${new Intl.NumberFormat("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n)}`;
+  const fmtEurDec = (n: number) => `€\u00A0${new Intl.NumberFormat("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)}`;
+  const fmtTL = (n: number) => `₺\u00A0${new Intl.NumberFormat("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n)}`;
+  const fmtRate = (n: number) => new Intl.NumberFormat("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 3 }).format(n);
+  const fmtPct = (n: number) => `${n.toFixed(1)}%`;
+
+  const { partners, expenses, forecast, totals } = capexData;
+  const progressPct = (totals.paidEUR / totals.totalEUR) * 100;
+
+  // Calculate each partner's total contribution from expenses
+  const partnerTotals = useMemo(() =>
+    partners.map((_, pi) =>
+      expenses.reduce((sum, e) => sum + (e.partners[pi] ?? 0), 0)
+    ), []
+  );
+
+  // Expected share of grand total EUR for each partner
+  const partnerExpected = useMemo(() =>
+    partners.map(p => (p.share / 100) * totals.totalEUR), []
+  );
+
+  return (
+    <main className="capex">
+      <h2 className="capex__title">{t("investor.capexTitle")}</h2>
+      <div className="capex__divider" />
+
+      {/* KPI CARDS */}
+      <div className="capex-kpis">
+        <div className="capex-kpi">
+          <span className="capex-kpi__label">{t("investor.capexPaid")}</span>
+          <span className="capex-kpi__value">{fmtEur(totals.paidEUR)}</span>
+        </div>
+        <div className="capex-kpi">
+          <span className="capex-kpi__label">{t("investor.capexForecast")}</span>
+          <span className="capex-kpi__value">{fmtEur(totals.forecastEUR)}</span>
+        </div>
+        <div className="capex-kpi">
+          <span className="capex-kpi__label">{t("investor.capexTotal")}</span>
+          <span className="capex-kpi__value">{fmtEur(totals.totalEUR)}</span>
+        </div>
+        <div className="capex-kpi capex-kpi--accent">
+          <span className="capex-kpi__label">{t("investor.capexProgress")}</span>
+          <span className="capex-kpi__value">{fmtPct(progressPct)}</span>
+        </div>
+      </div>
+
+      {/* PROGRESS BAR */}
+      <div className="capex-progress">
+        <div className="capex-progress__bar">
+          <div className="capex-progress__fill" style={{ width: `${progressPct}%` }} />
+        </div>
+        <div className="capex-progress__labels">
+          <span>{t("investor.capexPaid")}: {fmtEur(totals.paidEUR)}</span>
+          <span>{t("investor.capexTotal")}: {fmtEur(totals.totalEUR)}</span>
+        </div>
+      </div>
+
+      {/* PARTNER CONTRIBUTIONS */}
+      <section className="capex-section">
+        <h3 className="capex-section__title">{t("investor.capexPartners")}</h3>
+        <table className="capex-partner-table">
+          <thead>
+            <tr>
+              <th>{t("investor.capexName")}</th>
+              <th>{t("investor.capexShare")}</th>
+              <th style={{textAlign:"right"}}>{t("investor.capexContributed")}</th>
+              <th style={{textAlign:"right"}}>{t("investor.capexRemaining")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {partners.map((p, i) => (
+              <tr key={p.name}>
+                <td>{p.name}</td>
+                <td>{fmtPct(p.share)}</td>
+                <td style={{textAlign:"right"}}>{fmtEurDec(partnerTotals[i])}</td>
+                <td style={{textAlign:"right"}}>{fmtEurDec(Math.max(0, partnerExpected[i] - partnerTotals[i]))}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><strong>{locale === "tr" ? "Toplam" : locale === "de" ? "Gesamt" : "Total"}</strong></td>
+              <td><strong>100%</strong></td>
+              <td style={{textAlign:"right"}}><strong>{fmtEurDec(partnerTotals.reduce((a, b) => a + b, 0))}</strong></td>
+              <td style={{textAlign:"right"}}><strong>{fmtEurDec(Math.max(0, totals.totalEUR - partnerTotals.reduce((a, b) => a + b, 0)))}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+
+      {/* EXPENSE TABLE */}
+      <section className="capex-section">
+        <h3 className="capex-section__title">{t("investor.capexTitle")}</h3>
+        <div className="capex-table-scroll">
+          <table className="capex-table">
+            <thead>
+              <tr>
+                <th>{t("investor.capexDate")}</th>
+                <th>{t("investor.capexItem")}</th>
+                <th style={{textAlign:"right"}}>{t("investor.capexTL")}</th>
+                <th style={{textAlign:"right"}}>{t("investor.capexRate")}</th>
+                <th style={{textAlign:"right"}}>{t("investor.capexEUR")}</th>
+                <th>{t("investor.capexStatus")}</th>
+                {partners.map(p => <th key={p.name} style={{textAlign:"right"}}>{p.name}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {expenses.map((e, i) => (
+                <tr key={i}>
+                  <td>{fmtDate(e.date)}</td>
+                  <td>{e.item}</td>
+                  <td className="capex-td--num">{fmtTL(e.tl)}</td>
+                  <td className="capex-td--num">{fmtRate(e.eurRate)}</td>
+                  <td className="capex-td--num">{fmtEurDec(e.eur)}</td>
+                  <td>
+                    <span className={`capex-badge ${e.status === "paid" ? "capex-badge--paid" : "capex-badge--pending"}`}>
+                      {e.status === "paid" ? t("investor.capexPaidLabel") : t("investor.capexStatus")}
+                    </span>
+                  </td>
+                  {e.partners.map((v, pi) => (
+                    <td key={pi} className="capex-td--num" style={{color: v === 0 ? "rgba(0,0,0,.15)" : undefined}}>
+                      {v === 0 ? "—" : fmtEurDec(v)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td><strong>{locale === "tr" ? "Toplam" : locale === "de" ? "Gesamt" : "Total"}</strong></td>
+                <td className="capex-td--num"><strong>{fmtTL(totals.paidTL)}</strong></td>
+                <td></td>
+                <td className="capex-td--num"><strong>{fmtEurDec(totals.paidEUR)}</strong></td>
+                <td></td>
+                {partnerTotals.map((pt, i) => (
+                  <td key={i} className="capex-td--num"><strong>{fmtEurDec(pt)}</strong></td>
+                ))}
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+
+      {/* FORECAST */}
+      <section className="capex-section capex-forecast">
+        <h3 className="capex-section__title">{t("investor.capexForecastSection")}</h3>
+        <table className="capex-forecast-table">
+          <thead>
+            <tr>
+              <th>{t("investor.capexItem")}</th>
+              <th style={{textAlign:"right"}}>{t("investor.capexTL")}</th>
+              <th style={{textAlign:"right"}}>{t("investor.capexRate")}</th>
+              <th style={{textAlign:"right"}}>{t("investor.capexEUR")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {forecast.map((f, i) => (
+              <tr key={i}>
+                <td>{f.item}</td>
+                <td className="capex-td--num">{fmtTL(f.tl)}</td>
+                <td className="capex-td--num">{fmtRate(f.eurRate)}</td>
+                <td className="capex-td--num">{fmtEurDec(f.eur)}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><strong>{locale === "tr" ? "Toplam" : locale === "de" ? "Gesamt" : "Total"}</strong></td>
+              <td className="capex-td--num"><strong>{fmtTL(totals.forecastTL)}</strong></td>
+              <td></td>
+              <td className="capex-td--num"><strong>{fmtEurDec(totals.forecastEUR)}</strong></td>
+            </tr>
+          </tfoot>
         </table>
       </section>
     </main>
