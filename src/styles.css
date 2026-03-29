@@ -2214,3 +2214,46 @@ header.hero .badge{
   transition:background .25s, transform .2s;
 }
 .nf-cta:hover{ background:var(--brand-dark); transform:translateY(-1px) }
+
+/* =========================================================
+   PASSWORD GATE (.pw prefix)
+   =======================================================*/
+.pw-gate{
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:var(--verde-deep);
+  opacity:0; transition:opacity .6s ease;
+}
+.pw-gate--vis{ opacity:1 }
+.pw-card{
+  display:flex; flex-direction:column; align-items:center;
+  gap:16px; padding:48px 40px; max-width:360px; width:100%;
+}
+.pw-brand{
+  font-family:var(--serif); font-size:1.6rem; font-weight:400;
+  letter-spacing:.12em; color:var(--mist);
+}
+.pw-line{
+  width:40px; height:1px; background:var(--gold); opacity:.5;
+}
+.pw-hint{
+  font-size:.85rem; color:var(--sand); opacity:.6;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.pw-input{
+  width:100%; padding:14px 18px; border:1px solid rgba(235,232,225,.12);
+  border-radius:6px; background:rgba(255,255,255,.04); color:var(--mist);
+  font-size:1rem; text-align:center; letter-spacing:.1em;
+  outline:none; transition:border-color .25s;
+}
+.pw-input::placeholder{ color:rgba(235,232,225,.25) }
+.pw-input:focus{ border-color:var(--gold) }
+.pw-err{
+  font-size:.8rem; color:#c0392b; opacity:.9;
+}
+.pw-btn{
+  width:100%; padding:14px; border:none; border-radius:6px;
+  background:var(--brand); color:#fff;
+  font-size:.95rem; font-weight:600; letter-spacing:.04em;
+  cursor:pointer; transition:background .25s, transform .2s;
+}
+.pw-btn:hover{ background:var(--brand-dark); transform:translateY(-1px) }
