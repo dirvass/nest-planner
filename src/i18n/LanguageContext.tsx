@@ -23,13 +23,45 @@ const LanguageContext = createContext<Ctx>({
   dir: "ltr",
 });
 
+const SUPPORTED: Locale[] = ["en", "tr", "ar", "de"];
+
+function detectLocale(): Locale {
+  // 1. URL param: ?lang=tr
+  if (typeof window !== "undefined") {
+    const param = new URLSearchParams(window.location.search).get("lang");
+    if (param && SUPPORTED.includes(param as Locale)) return param as Locale;
+  }
+
+  // 2. localStorage (returning visitor)
+  if (typeof localStorage !== "undefined") {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && SUPPORTED.includes(saved as Locale)) return saved as Locale;
+  }
+
+  // 3. Browser language
+  if (typeof navigator !== "undefined") {
+    const langs = navigator.languages ?? [navigator.language];
+    for (const lang of langs) {
+      const code = lang.split("-")[0].toLowerCase();
+      if (SUPPORTED.includes(code as Locale)) return code as Locale;
+    }
+  }
+
+  return "en";
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    const saved = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
-    return (saved === "tr" || saved === "ar" || saved === "de") ? saved : "en";
-  });
+  const [locale, setLocaleState] = useState<Locale>(detectLocale);
 
   const dir = locale === "ar" ? "rtl" : "ltr";
+
+  // Sync ?lang= param on navigation
+  useEffect(() => {
+    const param = new URLSearchParams(window.location.search).get("lang");
+    if (param && SUPPORTED.includes(param as Locale) && param !== locale) {
+      setLocaleState(param as Locale);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, locale);
