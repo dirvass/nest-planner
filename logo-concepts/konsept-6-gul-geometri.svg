@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- Geometric rose: 5 overlapping petals forming a rose pattern -->
+  <g transform="translate(400, 140)">
+    <!-- Outer glow -->
+    <circle r="60" fill="none" stroke="rgba(195,165,100,0.05)" stroke-width="15"/>
+
+    <!-- 5 petals rotated (rose from above) -->
+    <ellipse cx="0" cy="-22" rx="14" ry="28" transform="rotate(0)"
+      fill="none" stroke="#C3A564" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="0" cy="-22" rx="14" ry="28" transform="rotate(72)"
+      fill="none" stroke="#C3A564" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="0" cy="-22" rx="14" ry="28" transform="rotate(144)"
+      fill="none" stroke="#C3A564" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="0" cy="-22" rx="14" ry="28" transform="rotate(216)"
+      fill="none" stroke="#C3A564" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="0" cy="-22" rx="14" ry="28" transform="rotate(288)"
+      fill="none" stroke="#C3A564" stroke-width="0.8" opacity="0.7"/>
+
+    <!-- Inner petals (tighter) -->
+    <ellipse cx="0" cy="-12" rx="8" ry="16" transform="rotate(36)"
+      fill="none" stroke="#2D5040" stroke-width="0.6" opacity="0.5"/>
+    <ellipse cx="0" cy="-12" rx="8" ry="16" transform="rotate(108)"
+      fill="none" stroke="#2D5040" stroke-width="0.6" opacity="0.5"/>
+    <ellipse cx="0" cy="-12" rx="8" ry="16" transform="rotate(180)"
+      fill="none" stroke="#2D5040" stroke-width="0.6" opacity="0.5"/>
+    <ellipse cx="0" cy="-12" rx="8" ry="16" transform="rotate(252)"
+      fill="none" stroke="#2D5040" stroke-width="0.6" opacity="0.5"/>
+    <ellipse cx="0" cy="-12" rx="8" ry="16" transform="rotate(324)"
+      fill="none" stroke="#2D5040" stroke-width="0.6" opacity="0.5"/>
+
+    <!-- Center -->
+    <circle r="3" fill="#C3A564"/>
+  </g>
+
+  <!-- VERDE wordmark -->
+  <text x="400" y="268" text-anchor="middle"
+    font-family="'Playfair Display', 'Georgia', serif"
+    font-size="48" font-weight="400" letter-spacing="14" fill="#EBE8E1">
+    VERDE
+  </text>
+
+  <!-- ULASLI subtitle -->
+  <text x="400" y="300" text-anchor="middle"
+    font-family="'Inter', 'Helvetica Neue', sans-serif"
+    font-size="15" font-weight="300" letter-spacing="10" fill="rgba(235,232,225,0.4)">
+    ULASLI
+  </text>
+
+  <!-- وردة small accent -->
+  <text x="400" y="345" text-anchor="middle"
+    font-family="'Noto Sans Arabic', serif"
+    font-size="14" font-weight="300" fill="rgba(195,165,100,0.3)">
+    وردة
+  </text>
+
+  <!-- Label -->
+  <text x="400" y="470" text-anchor="middle"
+    font-family="'Inter', sans-serif"
+    font-size="9" font-weight="400" letter-spacing="3" fill="rgba(235,232,225,0.15)">
+    KONSEPT 6 : GUL GEOMETRI
+  </text>
+</svg>

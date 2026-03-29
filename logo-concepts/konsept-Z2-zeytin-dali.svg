@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- Single olive branch — elegant, curved, with leaves and 3 olives -->
+  <g transform="translate(400, 155)">
+    <!-- Main branch curve -->
+    <path d="M-55,15 C-40,8 -20,-2 0,-5 C20,-8 40,-4 55,5" fill="none" stroke="#C3A564" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Leaves along the branch -->
+    <ellipse cx="-48" cy="10" rx="8" ry="3" transform="rotate(-25,-48,10)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="-42" cy="6" rx="7" ry="2.5" transform="rotate(20,-42,6)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="-32" cy="2" rx="8" ry="3" transform="rotate(-15,-32,2)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="-24" cy="-2" rx="7" ry="2.5" transform="rotate(25,-24,-2)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="-14" cy="-4" rx="8" ry="3" transform="rotate(-20,-14,-4)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="-6" cy="-6" rx="7" ry="2.5" transform="rotate(15,-6,-6)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="6" cy="-7" rx="8" ry="3" transform="rotate(-10,6,-7)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="16" cy="-6" rx="7" ry="2.5" transform="rotate(20,16,-6)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="28" cy="-4" rx="8" ry="3" transform="rotate(-15,28,-4)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="38" cy="-1" rx="7" ry="2.5" transform="rotate(25,38,-1)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="48" cy="2" rx="8" ry="3" transform="rotate(-20,48,2)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+    <ellipse cx="54" cy="5" rx="6" ry="2" transform="rotate(10,54,5)" fill="none" stroke="#C3A564" stroke-width="0.7"/>
+
+    <!-- Olives -->
+    <ellipse cx="-20" cy="2" rx="3" ry="4" fill="#C3A564" opacity="0.45"/>
+    <ellipse cx="10" cy="-2" rx="3" ry="4" fill="#C3A564" opacity="0.45"/>
+    <ellipse cx="40" cy="2" rx="3" ry="4" fill="#C3A564" opacity="0.4"/>
+  </g>
+
+  <text x="400" y="250" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="62" font-weight="400" letter-spacing="18" fill="#EBE8E1">VERDE</text>
+  <line x1="330" y1="272" x2="470" y2="272" stroke="#C3A564" stroke-width="0.6"/>
+  <text x="400" y="302" text-anchor="middle" font-family="'Inter',sans-serif" font-size="16" font-weight="300" letter-spacing="12" fill="rgba(235,232,225,0.4)">ULASLI</text>
+  <text x="400" y="348" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="13" font-style="italic" fill="rgba(195,165,100,0.3)">Where the mist reveals</text>
+
+  <text x="400" y="475" text-anchor="middle" font-family="'Inter',sans-serif" font-size="9" letter-spacing="3" fill="rgba(235,232,225,0.12)">Z2 : ZEYTIN DALI — TEK DAL</text>
+</svg>

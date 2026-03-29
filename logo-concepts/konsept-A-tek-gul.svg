@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- Single rose from above — minimal, elegant, golden lines -->
+  <g transform="translate(400, 135)">
+    <!-- Outermost petals (5) -->
+    <path d="M0,-40 C12,-38 22,-28 20,-15 C18,-5 8,5 0,8 C-8,5 -18,-5 -20,-15 C-22,-28 -12,-38 0,-40Z" transform="rotate(0)" fill="none" stroke="#C3A564" stroke-width="0.9"/>
+    <path d="M0,-40 C12,-38 22,-28 20,-15 C18,-5 8,5 0,8 C-8,5 -18,-5 -20,-15 C-22,-28 -12,-38 0,-40Z" transform="rotate(72)" fill="none" stroke="#C3A564" stroke-width="0.9"/>
+    <path d="M0,-40 C12,-38 22,-28 20,-15 C18,-5 8,5 0,8 C-8,5 -18,-5 -20,-15 C-22,-28 -12,-38 0,-40Z" transform="rotate(144)" fill="none" stroke="#C3A564" stroke-width="0.9"/>
+    <path d="M0,-40 C12,-38 22,-28 20,-15 C18,-5 8,5 0,8 C-8,5 -18,-5 -20,-15 C-22,-28 -12,-38 0,-40Z" transform="rotate(216)" fill="none" stroke="#C3A564" stroke-width="0.9"/>
+    <path d="M0,-40 C12,-38 22,-28 20,-15 C18,-5 8,5 0,8 C-8,5 -18,-5 -20,-15 C-22,-28 -12,-38 0,-40Z" transform="rotate(288)" fill="none" stroke="#C3A564" stroke-width="0.9"/>
+
+    <!-- Inner petals (5, tighter, rotated offset) -->
+    <path d="M0,-22 C7,-20 12,-14 11,-6 C10,0 5,5 0,6 C-5,5 -10,0 -11,-6 C-12,-14 -7,-20 0,-22Z" transform="rotate(36)" fill="none" stroke="#C9B99A" stroke-width="0.6" opacity="0.6"/>
+    <path d="M0,-22 C7,-20 12,-14 11,-6 C10,0 5,5 0,6 C-5,5 -10,0 -11,-6 C-12,-14 -7,-20 0,-22Z" transform="rotate(108)" fill="none" stroke="#C9B99A" stroke-width="0.6" opacity="0.6"/>
+    <path d="M0,-22 C7,-20 12,-14 11,-6 C10,0 5,5 0,6 C-5,5 -10,0 -11,-6 C-12,-14 -7,-20 0,-22Z" transform="rotate(180)" fill="none" stroke="#C9B99A" stroke-width="0.6" opacity="0.6"/>
+    <path d="M0,-22 C7,-20 12,-14 11,-6 C10,0 5,5 0,6 C-5,5 -10,0 -11,-6 C-12,-14 -7,-20 0,-22Z" transform="rotate(252)" fill="none" stroke="#C9B99A" stroke-width="0.6" opacity="0.6"/>
+    <path d="M0,-22 C7,-20 12,-14 11,-6 C10,0 5,5 0,6 C-5,5 -10,0 -11,-6 C-12,-14 -7,-20 0,-22Z" transform="rotate(324)" fill="none" stroke="#C9B99A" stroke-width="0.6" opacity="0.6"/>
+
+    <!-- Center spiral -->
+    <circle r="4" fill="none" stroke="#C3A564" stroke-width="0.5"/>
+    <circle r="1.5" fill="#C3A564"/>
+  </g>
+
+  <text x="400" y="255" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="56" font-weight="400" letter-spacing="16" fill="#EBE8E1">VERDE</text>
+  <line x1="340" y1="273" x2="460" y2="273" stroke="#C3A564" stroke-width="0.6"/>
+  <text x="400" y="300" text-anchor="middle" font-family="'Inter',sans-serif" font-size="15" font-weight="300" letter-spacing="11" fill="rgba(235,232,225,0.4)">ULASLI</text>
+
+  <text x="400" y="470" text-anchor="middle" font-family="'Inter',sans-serif" font-size="9" letter-spacing="3" fill="rgba(235,232,225,0.15)">A : TEK GUL — KUSBAISI GORUNUM</text>
+</svg>

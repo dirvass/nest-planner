@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- V monogram with rose petals emerging from the V shape -->
+  <g transform="translate(400, 145)">
+    <!-- V letterform -->
+    <path d="M-28,-35 L-6,38 C-4,44 -2,46 0,46 C2,46 4,44 6,38 L28,-35"
+      fill="none" stroke="#EBE8E1" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Rose petals growing from inside the V -->
+    <!-- Left petal -->
+    <path d="M-8,10 C-18,0 -22,-15 -15,-25 C-10,-20 -5,-12 -8,10 Z"
+      fill="none" stroke="#C3A564" stroke-width="0.7" opacity="0.6"/>
+    <!-- Right petal -->
+    <path d="M8,10 C18,0 22,-15 15,-25 C10,-20 5,-12 8,10 Z"
+      fill="none" stroke="#C3A564" stroke-width="0.7" opacity="0.6"/>
+    <!-- Center petal (bud) -->
+    <path d="M0,5 C-6,-5 -5,-18 0,-25 C5,-18 6,-5 0,5 Z"
+      fill="none" stroke="#C9B99A" stroke-width="0.6" opacity="0.5"/>
+
+    <!-- Seed at V base -->
+    <circle cx="0" cy="46" r="2" fill="#C3A564"/>
+
+    <!-- Outer subtle circle -->
+    <circle r="55" fill="none" stroke="rgba(195,165,100,0.12)" stroke-width="0.5"/>
+  </g>
+
+  <!-- VERDE wordmark -->
+  <text x="400" y="272" text-anchor="middle"
+    font-family="'Playfair Display', 'Georgia', serif"
+    font-size="48" font-weight="400" letter-spacing="14" fill="#EBE8E1">
+    VERDE
+  </text>
+
+  <!-- Small وردة between VERDE and ULASLI -->
+  <text x="400" y="298" text-anchor="middle"
+    font-family="'Noto Sans Arabic', serif"
+    font-size="11" font-weight="300" fill="#C3A564" opacity="0.45">
+    وردة
+  </text>
+
+  <!-- ULASLI subtitle -->
+  <text x="400" y="322" text-anchor="middle"
+    font-family="'Inter', 'Helvetica Neue', sans-serif"
+    font-size="15" font-weight="300" letter-spacing="10" fill="rgba(235,232,225,0.4)">
+    ULASLI
+  </text>
+
+  <!-- Label -->
+  <text x="400" y="470" text-anchor="middle"
+    font-family="'Inter', sans-serif"
+    font-size="9" font-weight="400" letter-spacing="3" fill="rgba(235,232,225,0.15)">
+    KONSEPT 7 : V + WARDA
+  </text>
+</svg>

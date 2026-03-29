@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- Rose + leaf hybrid: a single form that is both a rose and a leaf -->
+  <g transform="translate(400, 132)">
+    <!-- Outer leaf shape -->
+    <path d="M0,-48 C16,-44 28,-30 28,-10 C28,10 18,30 0,44 C-18,30 -28,10 -28,-10 C-28,-30 -16,-44 0,-48Z"
+      fill="none" stroke="#2D5040" stroke-width="1.2"/>
+
+    <!-- Rose petals inside the leaf (3 layers) -->
+    <!-- Outer petals -->
+    <path d="M0,-28 C10,-24 16,-14 12,-4 C8,4 2,8 0,8 C-2,8 -8,4 -12,-4 C-16,-14 -10,-24 0,-28Z"
+      fill="none" stroke="#C3A564" stroke-width="0.8"/>
+    <path d="M-16,-8 C-12,-18 -4,-22 4,-16 C10,-10 10,0 4,6 C0,10 -10,8 -14,0 C-16,-4 -16,-6 -16,-8Z"
+      fill="none" stroke="#C3A564" stroke-width="0.7" opacity="0.6"/>
+    <path d="M16,-8 C12,-18 4,-22 -4,-16 C-10,-10 -10,0 -4,6 C0,10 10,8 14,0 C16,-4 16,-6 16,-8Z"
+      fill="none" stroke="#C3A564" stroke-width="0.7" opacity="0.6"/>
+
+    <!-- Inner bud -->
+    <path d="M0,-14 C4,-12 6,-6 4,0 C2,4 0,5 0,5 C0,5 -2,4 -4,0 C-6,-6 -4,-12 0,-14Z"
+      fill="none" stroke="#C9B99A" stroke-width="0.5"/>
+
+    <!-- Leaf central vein (also rose stem) -->
+    <line x1="0" y1="-46" x2="0" y2="42" stroke="#2D5040" stroke-width="0.5" opacity="0.4"/>
+
+    <!-- Rose center -->
+    <circle r="1.8" fill="#C3A564"/>
+
+    <!-- Small stem below leaf -->
+    <line x1="0" y1="44" x2="0" y2="56" stroke="#C3A564" stroke-width="0.8"/>
+  </g>
+
+  <text x="400" y="262" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="52" font-weight="400" letter-spacing="14" fill="#EBE8E1">VERDE</text>
+  <line x1="342" y1="280" x2="458" y2="280" stroke="#C3A564" stroke-width="0.6"/>
+  <text x="400" y="306" text-anchor="middle" font-family="'Inter',sans-serif" font-size="15" font-weight="300" letter-spacing="10" fill="rgba(235,232,225,0.4)">ULASLI</text>
+
+  <text x="400" y="470" text-anchor="middle" font-family="'Inter',sans-serif" font-size="9" letter-spacing="3" fill="rgba(235,232,225,0.15)">D : GUL + YAPRAK BIRLESIMI</text>
+</svg>

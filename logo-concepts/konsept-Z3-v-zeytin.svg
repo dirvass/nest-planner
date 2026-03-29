@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0E1A16"/>
+
+  <!-- V monogram formed by two olive branches meeting at the bottom -->
+  <g transform="translate(400, 140)">
+    <!-- Left branch (forms left arm of V) -->
+    <path d="M-30,-40 C-24,-28 -16,-14 -4,10 C-2,15 0,18 0,20" fill="none" stroke="#C3A564" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- Right branch (forms right arm of V) -->
+    <path d="M30,-40 C24,-28 16,-14 4,10 C2,15 0,18 0,20" fill="none" stroke="#C3A564" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- Left branch leaves -->
+    <ellipse cx="-28" cy="-36" rx="6" ry="2.2" transform="rotate(-50,-28,-36)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="-26" cy="-30" rx="6" ry="2.2" transform="rotate(30,-26,-30)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="-22" cy="-24" rx="6" ry="2.2" transform="rotate(-40,-22,-24)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="-18" cy="-16" rx="6" ry="2.2" transform="rotate(25,-18,-16)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="-14" cy="-8" rx="6" ry="2.2" transform="rotate(-35,-14,-8)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="-8" cy="0" rx="5" ry="2" transform="rotate(20,-8,0)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+
+    <!-- Right branch leaves -->
+    <ellipse cx="28" cy="-36" rx="6" ry="2.2" transform="rotate(50,28,-36)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="26" cy="-30" rx="6" ry="2.2" transform="rotate(-30,26,-30)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="22" cy="-24" rx="6" ry="2.2" transform="rotate(40,22,-24)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="18" cy="-16" rx="6" ry="2.2" transform="rotate(-25,18,-16)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="14" cy="-8" rx="6" ry="2.2" transform="rotate(35,14,-8)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+    <ellipse cx="8" cy="0" rx="5" ry="2" transform="rotate(-20,8,0)" fill="none" stroke="#C3A564" stroke-width="0.6"/>
+
+    <!-- Olives at the junction -->
+    <ellipse cx="-3" cy="14" rx="2.5" ry="3.5" fill="#C3A564" opacity="0.4"/>
+    <ellipse cx="3" cy="12" rx="2.5" ry="3.5" fill="#C3A564" opacity="0.35"/>
+  </g>
+
+  <text x="400" y="260" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="56" font-weight="400" letter-spacing="16" fill="#EBE8E1">VERDE</text>
+  <line x1="338" y1="280" x2="462" y2="280" stroke="#C3A564" stroke-width="0.6"/>
+  <text x="400" y="308" text-anchor="middle" font-family="'Inter',sans-serif" font-size="16" font-weight="300" letter-spacing="11" fill="rgba(235,232,225,0.4)">ULASLI</text>
+  <text x="400" y="350" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="13" font-style="italic" fill="rgba(195,165,100,0.3)">Where the mist reveals</text>
+
+  <text x="400" y="475" text-anchor="middle" font-family="'Inter',sans-serif" font-size="9" letter-spacing="3" fill="rgba(235,232,225,0.12)">Z3 : V ZEYTIN — IKI DAL V OLUSTURUYOR</text>
+</svg>
