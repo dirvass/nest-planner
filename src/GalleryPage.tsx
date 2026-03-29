@@ -38,12 +38,12 @@ const MEDIA: Media[] = [
 
   // ─── INTERIOR RENDERS (ic-mekan) ───
   { id: "int-salon-deniz", type: "image", src: "/media/ic-mekan/salon-deniz-manzarasi-render.jpg", alt: "Living room with sea view", category: "interior", featured: true },
-  { id: "int-yatak-banyo", type: "image", src: "/media/ic-mekan/yatak-odasi-banyolu-manzara-render.png", alt: "Master bedroom with en-suite bath", category: "interior", featured: true },
+  { id: "int-yatak-banyo", type: "image", src: "/media/ic-mekan/yatak-odasi-banyolu-manzara-render.jpg", alt: "Master bedroom with en-suite bath", category: "interior", featured: true },
   { id: "int-mutfak", type: "image", src: "/media/ic-mekan/mutfak-ada-tezgah-render.jpg", alt: "Kitchen with island counter", category: "interior" },
   { id: "int-salon-somine", type: "image", src: "/media/ic-mekan/salon-somine-kahverengi-koltuk-render.jpg", alt: "Lounge with fireplace", category: "interior" },
-  { id: "int-salon-manzara", type: "image", src: "/media/ic-mekan/salon-somine-manzara-render.png", alt: "Salon with fireplace and panoramic view", category: "interior" },
-  { id: "int-yatak-minimalist", type: "image", src: "/media/ic-mekan/yatak-odasi-genis-minimalist-render.png", alt: "Minimalist bedroom suite", category: "interior" },
-  { id: "int-yatak-yesil", type: "image", src: "/media/ic-mekan/yatak-odasi-yesil-dus-render.png", alt: "Bedroom with walk-in shower", category: "interior" },
+  { id: "int-salon-manzara", type: "image", src: "/media/ic-mekan/salon-somine-manzara-render.jpg", alt: "Salon with fireplace and panoramic view", category: "interior" },
+  { id: "int-yatak-minimalist", type: "image", src: "/media/ic-mekan/yatak-odasi-genis-minimalist-render.jpg", alt: "Minimalist bedroom suite", category: "interior" },
+  { id: "int-yatak-yesil", type: "image", src: "/media/ic-mekan/yatak-odasi-yesil-dus-render.jpg", alt: "Bedroom with walk-in shower", category: "interior" },
 
   // ─── CONSTRUCTION PROCESS (insaat-sureci) ───
   { id: "con-foto3", type: "image", src: "/media/insaat-sureci/insaat-fotograf-3.jpg", alt: "Foundation formwork with sea panorama", category: "construction", featured: true },
