@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "./components/TopNav";
 import PlannerPage from "./PlannerPage";
+import { useLanguage } from "./i18n/LanguageContext";
 
 type Tab = "financials" | "brand";
 
 export default function InvestorPage() {
+  const { t } = useLanguage();
   const [tab, setTab] = useState<Tab>("financials");
   const [heroVis, setHeroVis] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setHeroVis(true), 100); return () => clearTimeout(t); }, []);
+  useEffect(() => { const tm = setTimeout(() => setHeroVis(true), 100); return () => clearTimeout(tm); }, []);
 
   return (
     <>
@@ -17,20 +19,20 @@ export default function InvestorPage() {
         <div className="inv-hero__ov" aria-hidden="true" />
         <TopNav />
         <div className="inv-hero__ct">
-          <span className="inv-hero__badge">Investor Portal</span>
+          <span className="inv-hero__badge">{t("investor.heroBadge")}</span>
           <h1 className="inv-hero__title">VERDE ULAŞLI</h1>
           <div className="inv-hero__line" />
-          <p className="inv-hero__sub">Turkey's first agro-luxury villa estate</p>
+          <p className="inv-hero__sub">{t("investor.heroSub")}</p>
         </div>
       </header>
 
       {/* ═══ TABS ═══ */}
       <nav className="inv-tabs">
         <button className={`inv-tab ${tab === "financials" ? "inv-tab--active" : ""}`} onClick={() => setTab("financials")}>
-          Financials
+          {t("investor.tabFinancials")}
         </button>
         <button className={`inv-tab ${tab === "brand" ? "inv-tab--active" : ""}`} onClick={() => setTab("brand")}>
-          Brand
+          {t("investor.tabBrand")}
         </button>
       </nav>
 
@@ -52,163 +54,157 @@ function FinancialsTab() {
 /* BRAND TAB — project overview, completed work, roadmap     */
 /* ══════════════════════════════════════════════════════════ */
 function BrandTab() {
+  const { t } = useLanguage();
+
   return (
     <main className="inv-brand">
       {/* ── 1. PROJECT OVERVIEW ── */}
       <section className="inv-section">
-        <h2 className="inv-section__title">Project Overview</h2>
+        <h2 className="inv-section__title">{t("investor.overviewTitle")}</h2>
         <div className="inv-section__divider" />
-        <p className="inv-section__body">
-          VERDE ULAŞLI is Turkey's first agro-luxury villa estate, located in Ulaşlı, Kocaeli.
-          Two twin villas on 5,500 m² of living land — organic gardens, a henhouse, fruit trees,
-          infinity pool, sauna, fire pit, and 10 unique experience programmes.
-        </p>
+        <p className="inv-section__body">{t("investor.overviewBody")}</p>
         <table className="inv-table">
           <tbody>
-            <tr><td>Location</td><td>Ulaşlı, Kocaeli, Turkey</td></tr>
-            <tr><td>Estate</td><td>5,500 m² private gated land</td></tr>
-            <tr><td>Villas</td><td>2 twin villas (ALYA + ZEHRA), 24 guests total</td></tr>
-            <tr><td>Price target</td><td>€500–€1,000 / villa / night</td></tr>
-            <tr><td>CAPEX</td><td>€500,000</td></tr>
-            <tr><td>Opening</td><td>Coming Soon</td></tr>
-            <tr><td>Website</td><td><a href="https://verde-ulasli.com" target="_blank" rel="noopener">verde-ulasli.com</a></td></tr>
-            <tr><td>Instagram</td><td>@verde.ulasli</td></tr>
-            <tr><td>Email</td><td>info@verde-ulasli.com</td></tr>
+            <tr><td>{t("investor.labelLocation")}</td><td>{t("investor.valueLocation")}</td></tr>
+            <tr><td>{t("investor.labelEstate")}</td><td>{t("investor.valueEstate")}</td></tr>
+            <tr><td>{t("investor.labelVillas")}</td><td>{t("investor.valueVillas")}</td></tr>
+            <tr><td>{t("investor.labelPrice")}</td><td>{t("investor.valuePrice")}</td></tr>
+            <tr><td>{t("investor.labelCapex")}</td><td>{t("investor.valueCapex")}</td></tr>
+            <tr><td>{t("investor.labelOpening")}</td><td>{t("investor.valueOpening")}</td></tr>
+            <tr><td>{t("investor.labelWebsite")}</td><td><a href="https://verde-ulasli.com" target="_blank" rel="noopener">verde-ulasli.com</a></td></tr>
+            <tr><td>{t("investor.labelInstagram")}</td><td>@verde.ulasli</td></tr>
+            <tr><td>{t("investor.labelEmail")}</td><td>info@verde-ulasli.com</td></tr>
           </tbody>
         </table>
       </section>
 
       {/* ── 2. BRAND IDENTITY ── */}
       <section className="inv-section">
-        <h2 className="inv-section__title">Brand Identity</h2>
+        <h2 className="inv-section__title">{t("investor.brandTitle")}</h2>
         <div className="inv-section__divider" />
-        <p className="inv-section__body">
-          <strong>VERDE</strong> — Italian for "green". The colour of paradise in Islamic tradition,
-          the language of Italian elegance, and the essence of the land that hosts you.
-          Selected from 47 candidates through a multi-criteria analysis including Gulf customer psychology.
-        </p>
+        <p className="inv-section__body" dangerouslySetInnerHTML={{ __html: t("investor.brandBody") }} />
         <table className="inv-table">
           <tbody>
-            <tr><td>Brand name</td><td>VERDE ULAŞLI</td></tr>
-            <tr><td>Logo</td><td>Golden olive tree + VERDE wordmark</td></tr>
-            <tr><td>Palette</td><td>#0E1A16 (deep green), #2D5040 (forest), #C9B99A (sand), #C3A564 (gold), #EBE8E1 (mist)</td></tr>
-            <tr><td>Typography</td><td>Playfair Display (serif) + Inter (sans-serif)</td></tr>
-            <tr><td>Voice</td><td>Sensory, mysterious, elegant — the place speaks, not "you"</td></tr>
-            <tr><td>5 Pillars</td><td>Land, Design, Experience, Privacy, Personal Touch</td></tr>
-            <tr><td>4 Seasons</td><td>Uyanış (Spring), Altın Saat (Summer), Hasat (Autumn), Sığınak (Winter)</td></tr>
+            <tr><td>{t("investor.labelBrandName")}</td><td>VERDE ULAŞLI</td></tr>
+            <tr><td>{t("investor.labelLogo")}</td><td>{t("investor.valueLogo")}</td></tr>
+            <tr><td>{t("investor.labelPalette")}</td><td>#0E1A16 (deep green), #2D5040 (forest), #C9B99A (sand), #C3A564 (gold), #EBE8E1 (mist)</td></tr>
+            <tr><td>{t("investor.labelTypography")}</td><td>{t("investor.valueTypography")}</td></tr>
+            <tr><td>{t("investor.labelVoice")}</td><td>{t("investor.valueVoice")}</td></tr>
+            <tr><td>{t("investor.labelPillars")}</td><td>{t("investor.valuePillars")}</td></tr>
+            <tr><td>{t("investor.labelSeasons")}</td><td>{t("investor.valueSeasons")}</td></tr>
           </tbody>
         </table>
       </section>
 
       {/* ── 3. COMPLETED WORK ── */}
       <section className="inv-section">
-        <h2 className="inv-section__title">Completed Work</h2>
+        <h2 className="inv-section__title">{t("investor.completedTitle")}</h2>
         <div className="inv-section__divider" />
 
-        <h3 className="inv-sub">Website (verde-ulasli.com)</h3>
+        <h3 className="inv-sub">{t("investor.subWebsite")}</h3>
         <table className="inv-table">
-          <thead><tr><th>Page</th><th>Content</th><th>Status</th></tr></thead>
+          <thead><tr><th>{t("investor.thPage")}</th><th>{t("investor.thContent")}</th><th>{t("investor.thStatus")}</th></tr></thead>
           <tbody>
-            <tr><td>Home</td><td>Hero + agro-luxury intro + 2 villas + experiences + location map + CTA + footer</td><td className="inv-done">Live</td></tr>
-            <tr><td>Our Story</td><td>10 sections: medieval history, philosophy, agro-culture, Verde etymology (وردة), location</td><td className="inv-done">Live</td></tr>
-            <tr><td>Experiences</td><td>10 experience cards + 4 seasonal packages</td><td className="inv-done">Live</td></tr>
-            <tr><td>Gallery</td><td>34 media items (renders + construction + video) with lightbox</td><td className="inv-done">Live</td></tr>
-            <tr><td>Booking</td><td>5-step guided flow, enquiry-based pricing, 6 included experiences</td><td className="inv-done">Live</td></tr>
+            <tr><td>{t("investor.pagHome")}</td><td>{t("investor.pagHomeContent")}</td><td className="inv-done">{t("investor.statusLive")}</td></tr>
+            <tr><td>{t("investor.pagStory")}</td><td>{t("investor.pagStoryContent")}</td><td className="inv-done">{t("investor.statusLive")}</td></tr>
+            <tr><td>{t("investor.pagExperiences")}</td><td>{t("investor.pagExperiencesContent")}</td><td className="inv-done">{t("investor.statusLive")}</td></tr>
+            <tr><td>{t("investor.pagGallery")}</td><td>{t("investor.pagGalleryContent")}</td><td className="inv-done">{t("investor.statusLive")}</td></tr>
+            <tr><td>{t("investor.pagBooking")}</td><td>{t("investor.pagBookingContent")}</td><td className="inv-done">{t("investor.statusLive")}</td></tr>
           </tbody>
         </table>
 
-        <h3 className="inv-sub">Digital Infrastructure</h3>
+        <h3 className="inv-sub">{t("investor.subDigital")}</h3>
         <table className="inv-table">
-          <thead><tr><th>Asset</th><th>Detail</th><th>Status</th></tr></thead>
+          <thead><tr><th>{t("investor.thAsset")}</th><th>{t("investor.thDetail")}</th><th>{t("investor.thStatus")}</th></tr></thead>
           <tbody>
-            <tr><td>Domain</td><td>verde-ulasli.com (Cloudflare)</td><td className="inv-done">Active</td></tr>
-            <tr><td>Hosting</td><td>Cloudflare Pages (auto-deploy)</td><td className="inv-done">Active</td></tr>
-            <tr><td>Email</td><td>info@ + reservations@ → Gmail</td><td className="inv-done">Active</td></tr>
-            <tr><td>Instagram</td><td>@verde.ulasli — 9-post grid + highlights</td><td className="inv-done">Active</td></tr>
-            <tr><td>Languages</td><td>English, Turkish, Arabic (RTL)</td><td className="inv-done">Active</td></tr>
-            <tr><td>Trademark</td><td>Risk assessment complete (2/10). TURKPATENT filing pending.</td><td className="inv-pending">Pending</td></tr>
+            <tr><td>{t("investor.diDomain")}</td><td>{t("investor.diDomainDetail")}</td><td className="inv-done">{t("investor.statusActive")}</td></tr>
+            <tr><td>{t("investor.diHosting")}</td><td>{t("investor.diHostingDetail")}</td><td className="inv-done">{t("investor.statusActive")}</td></tr>
+            <tr><td>{t("investor.diEmail")}</td><td>{t("investor.diEmailDetail")}</td><td className="inv-done">{t("investor.statusActive")}</td></tr>
+            <tr><td>{t("investor.diInstagram")}</td><td>{t("investor.diInstagramDetail")}</td><td className="inv-done">{t("investor.statusActive")}</td></tr>
+            <tr><td>{t("investor.diLanguages")}</td><td>{t("investor.diLanguagesDetail")}</td><td className="inv-done">{t("investor.statusActive")}</td></tr>
+            <tr><td>{t("investor.diTrademark")}</td><td>{t("investor.diTrademarkDetail")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
           </tbody>
         </table>
 
-        <h3 className="inv-sub">Brand Materials</h3>
+        <h3 className="inv-sub">{t("investor.subBrandMat")}</h3>
         <table className="inv-table">
           <tbody>
-            <tr><td>Logo</td><td>Golden olive tree — organic, detailed, on dark green</td><td className="inv-done">Done</td></tr>
-            <tr><td>Brand document v4</td><td>Full brand strategy: vision, pillars, benchmark, financials</td><td className="inv-done">Done</td></tr>
-            <tr><td>Luxury catalogue</td><td>12-page visual brochure (TR + EN), villa interiors + exteriors</td><td className="inv-done">Done</td></tr>
-            <tr><td>Trademark report</td><td>Competitive analysis, 5 existing "Verde" hotels, risk 2/10</td><td className="inv-done">Done</td></tr>
-            <tr><td>IG content plan</td><td>2-week plan: 6 posts + 6 stories + 5 highlight covers</td><td className="inv-done">Done</td></tr>
+            <tr><td>{t("investor.bmLogo")}</td><td>{t("investor.bmLogoDetail")}</td><td className="inv-done">{t("investor.statusDone")}</td></tr>
+            <tr><td>{t("investor.bmBrandDoc")}</td><td>{t("investor.bmBrandDocDetail")}</td><td className="inv-done">{t("investor.statusDone")}</td></tr>
+            <tr><td>{t("investor.bmCatalogue")}</td><td>{t("investor.bmCatalogueDetail")}</td><td className="inv-done">{t("investor.statusDone")}</td></tr>
+            <tr><td>{t("investor.bmTrademark")}</td><td>{t("investor.bmTrademarkDetail")}</td><td className="inv-done">{t("investor.statusDone")}</td></tr>
+            <tr><td>{t("investor.bmIG")}</td><td>{t("investor.bmIGDetail")}</td><td className="inv-done">{t("investor.statusDone")}</td></tr>
           </tbody>
         </table>
       </section>
 
       {/* ── 4. ROADMAP ── */}
       <section className="inv-section">
-        <h2 className="inv-section__title">Roadmap</h2>
+        <h2 className="inv-section__title">{t("investor.roadmapTitle")}</h2>
         <div className="inv-section__divider" />
 
-        <h3 className="inv-sub inv-sub--phase">Immediate — This Week</h3>
+        <h3 className="inv-sub inv-sub--phase">{t("investor.phaseImmediate")}</h3>
         <table className="inv-table">
-          <thead><tr><th>#</th><th>Task</th><th>Owner</th><th>Status</th></tr></thead>
+          <thead><tr><th>{t("investor.thNum")}</th><th>{t("investor.thTask")}</th><th>{t("investor.thOwner")}</th><th>{t("investor.thStatus")}</th></tr></thead>
           <tbody>
-            <tr><td>1</td><td>TURKPATENT class 43 "verde" check</td><td>Founder</td><td className="inv-pending">Pending</td></tr>
-            <tr><td>2</td><td>TURKPATENT filing (word + logo, class 43+35+41)</td><td>Founder</td><td className="inv-pending">Pending</td></tr>
-            <tr><td>3</td><td>Integrate logo into website (favicon + nav + footer)</td><td>Developer</td><td className="inv-pending">Pending</td></tr>
+            <tr><td>1</td><td>{t("investor.task1")}</td><td>{t("investor.ownerFounder")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
+            <tr><td>2</td><td>{t("investor.task2")}</td><td>{t("investor.ownerFounder")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
+            <tr><td>3</td><td>{t("investor.task3")}</td><td>{t("investor.ownerDeveloper")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
           </tbody>
         </table>
 
-        <h3 className="inv-sub inv-sub--phase">Short Term — April 2026</h3>
+        <h3 className="inv-sub inv-sub--phase">{t("investor.phaseShort")}</h3>
         <table className="inv-table">
-          <thead><tr><th>#</th><th>Task</th><th>Owner</th><th>Status</th></tr></thead>
+          <thead><tr><th>{t("investor.thNum")}</th><th>{t("investor.thTask")}</th><th>{t("investor.thOwner")}</th><th>{t("investor.thStatus")}</th></tr></thead>
           <tbody>
-            <tr><td>4</td><td>SEO — structured data, sitemap, hreflang</td><td>Developer</td><td className="inv-pending">Pending</td></tr>
-            <tr><td>5</td><td>Map upgrade (Mapbox)</td><td>Developer</td><td className="inv-pending">Pending</td></tr>
-            <tr><td>6</td><td>Video editing — Kuzu Yayla (CapCut/Runway)</td><td>Founder</td><td className="inv-pending">Pending</td></tr>
-            <tr><td>7</td><td>Planner page password protection</td><td>Developer</td><td className="inv-pending">Pending</td></tr>
-            <tr><td>8</td><td>Google Workspace (real email sending)</td><td>Founder</td><td className="inv-pending">Pending</td></tr>
-            <tr><td>9</td><td>Execute 2-week IG content plan</td><td>Social Media</td><td className="inv-active">Active</td></tr>
+            <tr><td>4</td><td>{t("investor.task4")}</td><td>{t("investor.ownerDeveloper")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
+            <tr><td>5</td><td>{t("investor.task5")}</td><td>{t("investor.ownerDeveloper")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
+            <tr><td>6</td><td>{t("investor.task6")}</td><td>{t("investor.ownerFounder")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
+            <tr><td>7</td><td>{t("investor.task7")}</td><td>{t("investor.ownerDeveloper")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
+            <tr><td>8</td><td>{t("investor.task8")}</td><td>{t("investor.ownerFounder")}</td><td className="inv-pending">{t("investor.statusPending")}</td></tr>
+            <tr><td>9</td><td>{t("investor.task9")}</td><td>{t("investor.ownerSocial")}</td><td className="inv-active">{t("investor.statusActive")}</td></tr>
           </tbody>
         </table>
 
-        <h3 className="inv-sub inv-sub--phase">Medium Term — May–June 2026</h3>
+        <h3 className="inv-sub inv-sub--phase">{t("investor.phaseMedium")}</h3>
         <table className="inv-table">
-          <thead><tr><th>#</th><th>Task</th><th>Owner</th></tr></thead>
+          <thead><tr><th>{t("investor.thNum")}</th><th>{t("investor.thTask")}</th><th>{t("investor.thOwner")}</th></tr></thead>
           <tbody>
-            <tr><td>10</td><td>Email waitlist — lead capture form on website</td><td>Developer</td></tr>
-            <tr><td>11</td><td>Influencer & PR plan</td><td>Founder + Social Media</td></tr>
-            <tr><td>12</td><td>Platform integrations research (Airbnb, Booking)</td><td>Founder</td></tr>
-            <tr><td>13</td><td>Professional photo/video shoot plan</td><td>Founder</td></tr>
-            <tr><td>14</td><td>Social media manager role definition</td><td>Founder</td></tr>
-            <tr><td>15</td><td>Weekly construction progress IG stories</td><td>Social Media</td></tr>
+            <tr><td>10</td><td>{t("investor.task10")}</td><td>{t("investor.ownerDeveloper")}</td></tr>
+            <tr><td>11</td><td>{t("investor.task11")}</td><td>{t("investor.ownerFounderSocial")}</td></tr>
+            <tr><td>12</td><td>{t("investor.task12")}</td><td>{t("investor.ownerFounder")}</td></tr>
+            <tr><td>13</td><td>{t("investor.task13")}</td><td>{t("investor.ownerFounder")}</td></tr>
+            <tr><td>14</td><td>{t("investor.task14")}</td><td>{t("investor.ownerFounder")}</td></tr>
+            <tr><td>15</td><td>{t("investor.task15")}</td><td>{t("investor.ownerSocial")}</td></tr>
           </tbody>
         </table>
 
-        <h3 className="inv-sub inv-sub--phase">Long Term — Until Opening</h3>
+        <h3 className="inv-sub inv-sub--phase">{t("investor.phaseLong")}</h3>
         <table className="inv-table">
-          <thead><tr><th>#</th><th>Task</th><th>Owner</th></tr></thead>
+          <thead><tr><th>{t("investor.thNum")}</th><th>{t("investor.thTask")}</th><th>{t("investor.thOwner")}</th></tr></thead>
           <tbody>
-            <tr><td>16</td><td>Reservation system — real calendar + payment</td><td>Developer</td></tr>
-            <tr><td>17</td><td>Enable public pricing (SHOW_PRICING = true)</td><td>Founder</td></tr>
-            <tr><td>18</td><td>Digital guest concierge guide</td><td>Developer</td></tr>
-            <tr><td>19</td><td>Google Business Profile</td><td>Founder</td></tr>
-            <tr><td>20</td><td>Soft launch — first guests, feedback collection</td><td>All</td></tr>
-            <tr><td>21</td><td>Platform listings (Airbnb, Booking.com)</td><td>Founder</td></tr>
-            <tr><td>22</td><td>Grand opening — PR, influencer, campaign</td><td>All</td></tr>
+            <tr><td>16</td><td>{t("investor.task16")}</td><td>{t("investor.ownerDeveloper")}</td></tr>
+            <tr><td>17</td><td>{t("investor.task17")}</td><td>{t("investor.ownerFounder")}</td></tr>
+            <tr><td>18</td><td>{t("investor.task18")}</td><td>{t("investor.ownerDeveloper")}</td></tr>
+            <tr><td>19</td><td>{t("investor.task19")}</td><td>{t("investor.ownerFounder")}</td></tr>
+            <tr><td>20</td><td>{t("investor.task20")}</td><td>{t("investor.ownerAll")}</td></tr>
+            <tr><td>21</td><td>{t("investor.task21")}</td><td>{t("investor.ownerFounder")}</td></tr>
+            <tr><td>22</td><td>{t("investor.task22")}</td><td>{t("investor.ownerAll")}</td></tr>
           </tbody>
         </table>
       </section>
 
       {/* ── 5. FILE MAP ── */}
       <section className="inv-section">
-        <h2 className="inv-section__title">Project Files</h2>
+        <h2 className="inv-section__title">{t("investor.filesTitle")}</h2>
         <div className="inv-section__divider" />
         <table className="inv-table">
-          <thead><tr><th>Folder</th><th>Description</th></tr></thead>
+          <thead><tr><th>{t("investor.thFolder")}</th><th>{t("investor.thDescription")}</th></tr></thead>
           <tbody>
-            <tr><td>verde-ulasli.com</td><td>Live website — 7 pages, 3 languages</td></tr>
-            <tr><td>marka-stratejisi/</td><td>Brand documents, catalogue, trademark report, roadmap</td></tr>
-            <tr><td>instagram/</td><td>All IG content: grid, weekly posts, stories, highlights</td></tr>
-            <tr><td>logo/</td><td>Final logo file (golden olive tree)</td></tr>
+            <tr><td>{t("investor.folderWebsite")}</td><td>{t("investor.folderWebsiteDesc")}</td></tr>
+            <tr><td>{t("investor.folderBrand")}</td><td>{t("investor.folderBrandDesc")}</td></tr>
+            <tr><td>{t("investor.folderIG")}</td><td>{t("investor.folderIGDesc")}</td></tr>
+            <tr><td>{t("investor.folderLogo")}</td><td>{t("investor.folderLogoDesc")}</td></tr>
           </tbody>
         </table>
       </section>
