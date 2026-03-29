@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect, useCallback } from "react";
 import TopNav from "./components/TopNav";
 import { useLanguage } from "./i18n/LanguageContext";
 import { usePageMeta } from "./hooks/usePageMeta";
+import "./styles/GalleryPage.css";
 
 type Media =
   | { id: string; type: "image"; src: string; alt: string; category: Category; featured?: boolean }

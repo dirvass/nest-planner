@@ -5,6 +5,8 @@ import { usePageMeta } from "./hooks/usePageMeta";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
+import "./styles/InvestorPage.css";
+import "./styles/PlannerPage.css";
 
 type Villa = { id: string; name: string; dailyFee: number; occupancy: number; costPct: number };
 type Scenario = "pessimistic" | "base" | "optimistic";

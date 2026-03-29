@@ -1,0 +1,36 @@
+/* =========================================================
+   404 NOT FOUND PAGE (.nf prefix)
+   =======================================================*/
+.nf-page{
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  background:var(--verde-deep); color:var(--mist);
+  text-align:center; padding:40px 24px;
+}
+.nf-content{
+  display:flex; flex-direction:column; align-items:center;
+  gap:12px; margin-top:-40px;
+}
+.nf-code{
+  font-family:var(--serif); font-size:clamp(7rem,20vw,12rem);
+  font-weight:700; line-height:1;
+  color:var(--gold); opacity:.18;
+  pointer-events:none; user-select:none;
+}
+.nf-title{
+  font-family:var(--serif); font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:400; letter-spacing:.06em;
+  margin-top:-24px;
+}
+.nf-subtitle{
+  color:var(--sand); font-size:1rem; max-width:420px; opacity:.8;
+}
+.nf-cta{
+  display:inline-block; margin-top:20px;
+  padding:14px 36px; border-radius:6px;
+  background:var(--brand); color:#fff;
+  font-weight:600; font-size:.95rem;
+  text-decoration:none; letter-spacing:.03em;
+  transition:background .25s, transform .2s;
+}
+.nf-cta:hover{ background:var(--brand-dark); transform:translateY(-1px) }

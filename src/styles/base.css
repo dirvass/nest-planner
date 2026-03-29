@@ -1,0 +1,69 @@
+/* =========================================================
+   Base tokens (safe globals)
+   =======================================================*/
+:root{
+  /* VERDE brand palette — from marka-vizyon-brainstorm.md */
+  --verde-deep:#0E1A16;       /* koyu yeşil — hero, footer, dark sections */
+  --brand:#2D5040;             /* orman yeşili — buttons, accents, links */
+  --brand-dark:#1e4a2e;
+  --brand-light:rgba(45,80,64,.08);
+  --brand-border:rgba(45,80,64,.2);
+  --brand-glow:rgba(45,80,64,.15);
+  --sand:#C9B99A;              /* kumtaşı — warm accents, secondary text */
+  --gold:#C3A564;              /* soluk altın — luxury accents, dividers */
+  --ink:#1a1f16;
+  --muted:#5e6b58;
+  --bg:#f4f5f0;
+  --mist:#EBE8E1;              /* sis beyazı — light text on dark bg */
+  --card:rgba(255,255,255,.94);
+  --border:rgba(148,163,140,.28);
+  --shadow:0 24px 48px rgba(14,26,22,.14);
+  --serif:"Playfair Display", Georgia, "Times New Roman", serif;
+}
+*{ box-sizing:border-box }
+html,body,#root{ height:100% }
+body{
+  margin:0;
+  font-family:Inter, "Noto Sans Arabic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.5;
+}
+/* Keep headings and paragraphs tidy without touching other pages */
+h1,h2,h3,h4,h5,h6,p{ margin:0 }
+button,select,textarea{ font-family:inherit }
+
+/* =========================================================
+   Shared hero (legacy — kept for planner page)
+   =======================================================*/
+header.hero{
+  position:relative; min-height:78vh; display:flex; align-items:flex-end; justify-content:center;
+  padding:60px 16px 120px;
+  background:
+    linear-gradient(180deg, rgba(14,26,22,.75) 0%, rgba(14,26,22,.3) 65%, rgba(14,26,22,.1) 100%),
+    url("/hero.jpg") center/cover no-repeat;
+  color:#fff; overflow:hidden;
+}
+header.hero .hero__inner{ max-width:960px; text-align:center }
+header.hero .hero__title{ font-family:var(--serif); font-size:clamp(2.5rem,6vw,4rem); font-weight:400; letter-spacing:.08em; margin:20px 0 12px }
+header.hero .hero__subtitle{ max-width:680px; margin:0 auto; color:rgba(226,232,240,.95); font-size:1rem }
+header.hero .badge{
+  display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:999px;
+  font-size:13px; font-weight:600; color:#fff; background:rgba(14,26,22,.45);
+  border:1px solid rgba(255,255,255,.45); backdrop-filter:blur(8px);
+}
+
+/* =========================================================
+   RTL Support
+   =======================================================*/
+/* (nav-buttons RTL removed — see nav-desktop RTL above) */
+[dir="rtl"] .bk-dates__arrow{ transform:scaleX(-1) }
+[dir="rtl"] .bk__reset{ margin-left:0; margin-right:auto }
+[dir="rtl"] .bk-summary__row strong{ text-align:left }
+[dir="rtl"] .bk-enh__switch::after{ left:auto; right:4px }
+[dir="rtl"] .bk-enh__toggle input:checked + .bk-enh__switch::after{ transform:translateX(-18px) }
+[dir="rtl"] .gal-lightbox__nav--prev{ left:auto; right:20px }
+[dir="rtl"] .gal-lightbox__nav--next{ right:auto; left:20px }
+@media (max-width:640px){
+  /* (nav-buttons mobile RTL removed) */
+}

@@ -1,0 +1,154 @@
+/* =========================================================
+   ADMIN PAGE — Extranet
+   =======================================================*/
+.admin-hero{
+  position:relative; min-height:40vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; color:#fff;
+}
+.admin-hero__bg{
+  position:absolute; inset:0; z-index:0;
+  background:url("/media/dis-mekan/giris-avlusu-gece-ai-render.jpg") center/cover no-repeat;
+  transform:scale(1.06);
+  transition:transform 10s cubic-bezier(.25,.46,.45,.94);
+}
+.admin-hero--vis .admin-hero__bg{ transform:scale(1) }
+.admin-hero__ov{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(26,31,22,.8) 0%, rgba(26,31,22,.5) 50%, rgba(26,31,22,.75) 100%);
+}
+.admin-hero__ct{
+  position:relative; z-index:2; text-align:center; max-width:640px; padding:0 24px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.admin-hero__badge{
+  display:inline-flex; padding:8px 20px; border-radius:999px;
+  font-size:11px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
+  color:rgba(255,255,255,.85); background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2); backdrop-filter:blur(12px);
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .2s, transform .7s ease .2s;
+}
+.admin-hero--vis .admin-hero__badge{ opacity:1; transform:translateY(0) }
+.admin-hero__title{
+  font-family:var(--serif); font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:400; letter-spacing:.08em; line-height:1.1; margin-top:18px;
+  opacity:0; transform:translateY(20px);
+  transition:opacity .8s ease .4s, transform .8s ease .4s;
+}
+.admin-hero--vis .admin-hero__title{ opacity:1; transform:translateY(0) }
+.admin-hero__line{
+  width:50px; height:1px; background:rgba(255,255,255,.35); margin:18px 0;
+  opacity:0; transform:scaleX(0);
+  transition:opacity .6s ease .7s, transform .7s ease .7s;
+}
+.admin-hero--vis .admin-hero__line{ opacity:1; transform:scaleX(1) }
+.admin-hero__sub{
+  font-size:.95rem; font-weight:300; color:rgba(226,232,240,.8);
+  max-width:480px;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s ease .9s, transform .7s ease .9s;
+}
+.admin-hero--vis .admin-hero__sub{ opacity:1; transform:translateY(0) }
+
+.admin{
+  max-width:780px; margin:0 auto; padding:0 24px 100px;
+}
+
+/* Stats */
+.admin-stats{
+  display:flex; gap:14px; margin-top:-28px; position:relative; z-index:2;
+}
+.admin-stat{
+  flex:1; background:#fff; border-radius:16px; padding:18px 20px;
+  border:1px solid var(--border); box-shadow:0 8px 24px rgba(26,31,22,.06);
+  display:flex; flex-direction:column; gap:4px;
+}
+.admin-stat__label{
+  font-size:.7rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted);
+}
+.admin-stat__value{
+  font-family:var(--serif); font-size:1.2rem; font-weight:600;
+}
+
+/* Villa section */
+.admin-villa{
+  margin-top:40px; padding-bottom:32px;
+  border-bottom:1px solid var(--border);
+}
+.admin-villa:last-of-type{ border-bottom:none }
+.admin-villa__head{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  margin-bottom:20px;
+}
+.admin-villa__name{
+  font-family:var(--serif); font-size:1.5rem; font-weight:400; letter-spacing:.06em;
+}
+
+.admin-empty{
+  color:var(--muted); font-size:.9rem; font-style:italic;
+}
+
+/* Ranges */
+.admin-ranges{ display:flex; flex-direction:column; gap:12px }
+.admin-range{
+  display:flex; align-items:flex-end; gap:12px;
+  padding:16px 18px; border-radius:14px;
+  background:#fff; border:1px solid var(--border);
+  box-shadow:0 4px 16px rgba(26,31,22,.04);
+}
+.admin-range__arrow{ color:var(--muted); font-size:1.1rem; padding-bottom:8px }
+.admin-field{
+  display:flex; flex-direction:column; gap:4px; flex:1;
+}
+.admin-field span{
+  font-size:.7rem; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--muted);
+}
+.admin-field input[type="date"]{
+  padding:10px 12px; border-radius:10px; border:1px solid var(--border);
+  font-family:inherit; font-size:.9rem; font-weight:600; color:var(--ink);
+  background:#fff;
+}
+.admin-field input:focus-visible{
+  outline:2px solid rgba(45,80,64,.25); outline-offset:1px;
+}
+
+/* Buttons */
+.admin-btn{
+  padding:9px 18px; border-radius:999px; font-size:.85rem; font-weight:700;
+  cursor:pointer; border:none; transition:all .2s ease;
+}
+.admin-btn--add{
+  background:transparent; color:var(--brand); border:1px solid var(--brand);
+}
+.admin-btn--add:hover{ background:var(--brand); color:#fff }
+.admin-btn--del{
+  width:34px; height:34px; padding:0; border-radius:50%;
+  background:transparent; border:1px solid var(--border);
+  color:var(--muted); font-size:14px;
+  display:inline-flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-bottom:4px;
+}
+.admin-btn--del:hover{ background:rgba(192,57,43,.08); color:#c0392b; border-color:rgba(192,57,43,.3) }
+.admin-btn--save{
+  background:linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color:#fff; padding:14px 32px; font-size:.95rem;
+  box-shadow:0 12px 28px rgba(45,80,64,.2);
+}
+.admin-btn--save:hover{ transform:translateY(-1px); box-shadow:0 16px 36px rgba(45,80,64,.25) }
+
+.admin-save{
+  margin-top:40px; display:flex; flex-direction:column; align-items:center; gap:12px;
+}
+.admin-save__hint{
+  font-size:.82rem; color:var(--muted); text-align:center;
+}
+
+/* Admin responsive */
+@media (max-width:640px){
+  .admin-hero{ min-height:35vh }
+  .admin{ padding:0 16px 80px }
+  .admin-stats{ flex-direction:column; margin-top:-20px }
+  .admin-range{ flex-wrap:wrap }
+  .admin-range__arrow{ display:none }
+}

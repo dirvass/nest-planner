@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "./components/TopNav";
 import { getBooked, setBooked, VillaKey, BookedRange } from "./availability";
+import "./styles/AdminPage.css";
 
 const VILLAS: VillaKey[] = ["ALYA", "ZEHRA"];
 

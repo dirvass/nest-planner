@@ -1,0 +1,134 @@
+/* =========================================================
+   Language Selector
+   =======================================================*/
+.lang-sel{
+  position:relative; z-index:101;
+  display:inline-flex; gap:4px; padding:0;
+  background:none; border:none; backdrop-filter:none;
+  pointer-events:auto; align-items:center;
+}
+.lang-sel::before{
+  content:""; width:1px; height:14px; background:rgba(255,255,255,.2);
+  margin-right:8px;
+}
+.lang-btn{
+  padding:2px 6px; border-radius:0; border:none;
+  font-size:.7rem; font-weight:500; letter-spacing:1px;
+  color:rgba(255,255,255,.45); background:transparent;
+  cursor:pointer; transition:color .2s ease;
+  pointer-events:auto;
+  font-family:inherit;
+  line-height:1;
+}
+.lang-btn:hover{ color:rgba(255,255,255,.85); background:none }
+.lang-btn--active{
+  background:none; color:#fff;
+}
+
+/* Mobile overlay keeps pill style */
+.nav-mobile__lang .lang-sel{
+  gap:2px; padding:3px;
+  border-radius:999px; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+}
+.nav-mobile__lang .lang-sel::before{ display:none }
+.nav-mobile__lang .lang-btn{
+  padding:8px 16px; border-radius:999px;
+  font-size:13px; font-weight:700; letter-spacing:.5px;
+  color:rgba(255,255,255,.6);
+}
+.nav-mobile__lang .lang-btn--active{
+  background:#fff; color:var(--ink);
+}
+
+/* =========================================================
+   FOOTER
+   =======================================================*/
+.site-footer{
+  background:var(--verde-deep, #0E1A16); color:var(--mist, #EBE8E1);
+}
+.site-footer__inner{
+  max-width:1100px; margin:0 auto; padding:64px 24px 40px;
+  display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px;
+}
+.site-footer__logo{
+  font-family:var(--serif); font-size:1.4rem; font-weight:600;
+  letter-spacing:.08em; color:#fff; display:block; margin-bottom:8px;
+}
+.site-footer__tagline{
+  font-size:.9rem; color:rgba(235,232,225,.5); font-style:italic;
+}
+.site-footer__heading{
+  font-size:.7rem; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gold, #C3A564); margin-bottom:16px;
+}
+.site-footer__nav{ display:flex; flex-direction:column; gap:8px }
+.site-footer__link{
+  font-size:.85rem; color:rgba(235,232,225,.6); text-decoration:none;
+  display:block; transition:color .2s;
+}
+.site-footer__link:hover{ color:#fff }
+.site-footer__bottom{
+  border-top:1px solid rgba(235,232,225,.1);
+  padding:20px 24px; text-align:center;
+  font-size:.75rem; color:rgba(235,232,225,.3); letter-spacing:.5px;
+}
+@media(max-width:768px){
+  .site-footer__inner{ grid-template-columns:1fr; gap:32px; padding:48px 24px 32px }
+}
+
+/* =========================================================
+   LOCATION MAP (radial SVG)
+   =======================================================*/
+.loc-map{
+  max-width:700px; margin:32px auto 0;
+}
+.loc-map__svg{
+  width:100%; height:auto;
+  border-radius:20px;
+  box-shadow:0 16px 48px rgba(14,26,22,.25);
+  border:1px solid rgba(195,165,100,.1);
+}
+
+/* =========================================================
+   PASSWORD GATE (.pw prefix)
+   =======================================================*/
+.pw-gate{
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:var(--verde-deep);
+  opacity:0; transition:opacity .6s ease;
+}
+.pw-gate--vis{ opacity:1 }
+.pw-card{
+  display:flex; flex-direction:column; align-items:center;
+  gap:16px; padding:48px 40px; max-width:360px; width:100%;
+}
+.pw-brand{
+  font-family:var(--serif); font-size:1.6rem; font-weight:400;
+  letter-spacing:.12em; color:var(--mist);
+}
+.pw-line{
+  width:40px; height:1px; background:var(--gold); opacity:.5;
+}
+.pw-hint{
+  font-size:.85rem; color:var(--sand); opacity:.6;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.pw-input{
+  width:100%; padding:14px 18px; border:1px solid rgba(235,232,225,.12);
+  border-radius:6px; background:rgba(255,255,255,.04); color:var(--mist);
+  font-size:1rem; text-align:center; letter-spacing:.1em;
+  outline:none; transition:border-color .25s;
+}
+.pw-input::placeholder{ color:rgba(235,232,225,.25) }
+.pw-input:focus{ border-color:var(--gold) }
+.pw-err{
+  font-size:.8rem; color:#c0392b; opacity:.9;
+}
+.pw-btn{
+  width:100%; padding:14px; border:none; border-radius:6px;
+  background:var(--brand); color:#fff;
+  font-size:.95rem; font-weight:600; letter-spacing:.04em;
+  cursor:pointer; transition:background .25s, transform .2s;
+}
+.pw-btn:hover{ background:var(--brand-dark); transform:translateY(-1px) }

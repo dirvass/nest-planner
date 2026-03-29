@@ -10,7 +10,6 @@ import AdminPage from "./AdminPage";
 import InvestorPage from "./InvestorPage";
 import PasswordGate from "./components/PasswordGate";
 import NotFoundPage from "./NotFoundPage";
-import "./styles.css";
 
 export default function App() {
   return (

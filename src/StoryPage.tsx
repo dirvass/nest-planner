@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import LocationMap from "./components/LocationMap";
 import { useLanguage } from "./i18n/LanguageContext";
 import { usePageMeta } from "./hooks/usePageMeta";
+import "./styles/StoryPage.css";
 
 const SECTIONS = [
   { key: "s1",  img: "/media/dis-mekan/drone-genel-gorunum-render.jpg" },

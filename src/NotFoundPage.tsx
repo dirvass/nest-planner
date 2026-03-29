@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TopNav from "./components/TopNav";
 import { useLanguage } from "./i18n/LanguageContext";
+import "./styles/NotFoundPage.css";
 
 export default function NotFoundPage() {
   const { t } = useLanguage();

@@ -4,6 +4,7 @@ import TopNav from "./components/TopNav";
 import Footer from "./components/Footer";
 import { useLanguage } from "./i18n/LanguageContext";
 import { usePageMeta } from "./hooks/usePageMeta";
+import "./styles/ExperiencePage.css";
 
 const EXPERIENCES = [
   { key: "1", img: "/media/insaat-sureci/arazi-hazirligi-genel-gorunum.jpg", season: "allSeasons" },
