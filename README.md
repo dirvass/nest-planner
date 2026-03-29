@@ -1,8 +1,8 @@
-# VERDE Ulaşlı — Turkey's First Agro-Luxury Villa Estate
+# VERDE ULAŞLI — Turkey's First Agro-Luxury Villa Estate
 
 Live: **https://verde-ulasli.com**
 
-Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
+Two twin villas on 5,500 m² of living land in Ulaşlı, Kocaeli.
 
 ## Pages
 
@@ -12,8 +12,8 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 | `/story` | Public | Our Story — 10-section narrative (medieval history, philosophy, agro-culture, Verde etymology with وردة, location distances) |
 | `/experience` | Public | Experiences — 10 experience cards + 4 seasonal packages (Uyanış, Altın Saat, Hasat, Sığınak) |
 | `/gallery` | Public | Gallery — 34 media items (Exterior, Interior, Construction) with lightbox + Kuzu Yayla video |
-| `/book` | Public | Booking — 5-step guided flow, enquiry-based pricing (no public prices), 6 included experiences, WhatsApp/email CTA |
-| `/planner` | Private | Investment ROI planner — 3 scenarios, area charts, villa breakdown |
+| `/book` | Public | Booking — 5-step guided flow, enquiry-based pricing (no public prices), 6 included experiences |
+| `/investor` | Private | Investor Portal — Financials tab (KPI cards, interactive chart, villa table, 3 scenario breakdowns, ROI comparison, growth strategy) + Brand tab (project overview, brand identity, completed work, roadmap, file map) |
 | `/admin` | Private | Availability manager — add/edit/remove booked dates per villa |
 
 ## Brand Identity
@@ -39,9 +39,9 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 
 - **React 18** + **TypeScript** + **Vite 5**
 - **react-router-dom** v6 (SPA routing)
-- **Recharts** (area charts on planner page)
+- **Recharts** (area charts — financial projections)
 - **react-day-picker** + **date-fns** (booking calendar)
-- **Cloudflare Pages** (deployment, auto-deploy on push to main)
+- **Cloudflare Pages** (auto-deploy on push to main)
 - Custom CSS with CSS custom properties (no framework)
 
 ## Navigation
@@ -51,12 +51,20 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 
 ## Internationalisation
 
-3 languages: **English**, **Turkish**, **Arabic** (RTL).
+4 languages: **English**, **Turkish**, **Arabic** (RTL), **German**.
 
-- Translation files: `src/i18n/{en,tr,ar}.json`
+- Translation files: `src/i18n/{en,tr,ar,de}.json`
 - React Context-based i18n with `t()` function
+- Auto-detect from browser locale, override with `?lang=` URL param
 - Language selector in nav (desktop: inline text, mobile: overlay pill buttons)
 - Preference persisted in localStorage
+
+## SEO
+
+- `usePageMeta` hook: dynamic title/description/OG tags per page per language
+- `sitemap.xml`: public pages indexed
+- `robots.txt`: /investor and /admin blocked
+- SPA navigation: all internal links use `<Link>` for instant transitions
 
 ## Feature Flags
 
@@ -71,16 +79,18 @@ Twin-villa agro-luxury estate in Kocaeli, Ulaşlı — opening September 2026.
 | `TopNav` | `src/components/TopNav.tsx` | Desktop nav + mobile hamburger/overlay |
 | `Footer` | `src/components/Footer.tsx` | Global footer (dark verde bg, nav links, contact) |
 | `LocationMap` | `src/components/LocationMap.tsx` | SVG geographic map of Marmara region |
-| `LanguageSelector` | `src/components/LanguageSelector.tsx` | EN/TR/AR toggle |
+| `LanguageSelector` | `src/components/LanguageSelector.tsx` | EN/TR/AR/DE toggle |
+| `PasswordGate` | `src/components/PasswordGate.tsx` | Password protection for private routes |
+| `NotFoundPage` | `src/NotFoundPage.tsx` | Branded 404 page with i18n |
 
 ## Media Structure
 
 ```
 public/media/
-  dis-mekan/       # 12 exterior renders
-  ic-mekan/        # 7 interior renders
-  insaat-sureci/   # 10 construction photos
-  videolar/        # 5 videos (4 construction + 1 Kuzu Yayla)
+  dis-mekan/       # Exterior renders
+  ic-mekan/        # Interior renders
+  insaat-sureci/   # Construction photos
+  videolar/        # Videos (construction + Kuzu Yayla)
 ```
 
 ## Digital Assets
@@ -90,7 +100,7 @@ public/media/
 | Domain | verde-ulasli.com (Cloudflare Registrar) |
 | Hosting | Cloudflare Pages |
 | GitHub | github.com/dirvass/verde-ulasli |
-| Email | info@verde-ulasli.com → verde.ulasli@gmail.com |
+| Email | info@verde-ulasli.com / reservations@verde-ulasli.com |
 | Instagram | @verde.ulasli |
 
 ## Development
@@ -103,5 +113,5 @@ npm run build    # production build → dist/
 
 ## Private Links
 
-- **Investment Planner**: https://verde-ulasli.com/planner
+- **Investor Portal**: https://verde-ulasli.com/investor
 - **Admin Extranet**: https://verde-ulasli.com/admin
