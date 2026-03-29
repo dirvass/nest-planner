@@ -10,7 +10,7 @@ type Scenario = "pessimistic" | "base" | "optimistic";
 type Currency = "EUR" | "USD" | "GBP";
 
 const SCN_LABEL_KEYS: Record<Scenario, string> = { pessimistic: "planner.pessimistic", base: "planner.base", optimistic: "planner.optimistic" };
-const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#c0392b", base: "#2D5040", optimistic: "#1abc9c" };
+const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#C9B99A", base: "#C3A564", optimistic: "#6ECFA0" };
 
 export default function PlannerPage({ embedded = false }: { embedded?: boolean }) {
   const [villas, setVillas] = useState<Villa[]>([
@@ -175,25 +175,25 @@ export default function PlannerPage({ embedded = false }: { embedded?: boolean }
               <AreaChart data={chartData} margin={{ top: 12, right: 20, left: 10, bottom: 8 }}>
                 <defs>
                   <linearGradient id="gPess" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={SCN_COLORS.pessimistic} stopOpacity={0.2} />
-                    <stop offset="100%" stopColor={SCN_COLORS.pessimistic} stopOpacity={0} />
+                    <stop offset="0%" stopColor={SCN_COLORS.pessimistic} stopOpacity={0.3} />
+                    <stop offset="100%" stopColor={SCN_COLORS.pessimistic} stopOpacity={0.02} />
                   </linearGradient>
                   <linearGradient id="gBase" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={SCN_COLORS.base} stopOpacity={0.25} />
-                    <stop offset="100%" stopColor={SCN_COLORS.base} stopOpacity={0.02} />
+                    <stop offset="0%" stopColor={SCN_COLORS.base} stopOpacity={0.35} />
+                    <stop offset="100%" stopColor={SCN_COLORS.base} stopOpacity={0.03} />
                   </linearGradient>
                   <linearGradient id="gOpt" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={SCN_COLORS.optimistic} stopOpacity={0.2} />
-                    <stop offset="100%" stopColor={SCN_COLORS.optimistic} stopOpacity={0} />
+                    <stop offset="0%" stopColor={SCN_COLORS.optimistic} stopOpacity={0.3} />
+                    <stop offset="100%" stopColor={SCN_COLORS.optimistic} stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid stroke="rgba(148,163,140,.15)" strokeDasharray="4 4" vertical={false} />
-                <XAxis dataKey="year" tickFormatter={y => `${y}Y`} tick={{ fill: "var(--muted)", fontSize: 12 }} axisLine={false} tickLine={false} />
-                <YAxis tickFormatter={v => `${sym[currency]} ${fmt0(v)}`} tick={{ fill: "var(--muted)", fontSize: 12 }} width={95} axisLine={false} tickLine={false} />
+                <CartesianGrid stroke="rgba(195,165,100,.08)" strokeDasharray="3 6" vertical={false} />
+                <XAxis dataKey="year" tickFormatter={y => `${y}Y`} tick={{ fill: "rgba(235,232,225,.4)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                <YAxis tickFormatter={v => `${sym[currency]} ${fmt0(v)}`} tick={{ fill: "rgba(235,232,225,.35)", fontSize: 11 }} width={95} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Area type="monotone" dataKey="pessimistic" stroke={SCN_COLORS.pessimistic} strokeWidth={2.5} fill="url(#gPess)" dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: "#fff" }} />
-                <Area type="monotone" dataKey="base" stroke={SCN_COLORS.base} strokeWidth={3} fill="url(#gBase)" dot={false} activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }} />
-                <Area type="monotone" dataKey="optimistic" stroke={SCN_COLORS.optimistic} strokeWidth={2.5} fill="url(#gOpt)" dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: "#fff" }} />
+                <Area type="monotone" dataKey="pessimistic" stroke={SCN_COLORS.pessimistic} strokeWidth={2} fill="url(#gPess)" dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: "#0E1A16" }} />
+                <Area type="monotone" dataKey="base" stroke={SCN_COLORS.base} strokeWidth={2.5} fill="url(#gBase)" dot={false} activeDot={{ r: 6, strokeWidth: 2, stroke: "#0E1A16" }} />
+                <Area type="monotone" dataKey="optimistic" stroke={SCN_COLORS.optimistic} strokeWidth={2} fill="url(#gOpt)" dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: "#0E1A16" }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -271,75 +271,75 @@ export default function PlannerPage({ embedded = false }: { embedded?: boolean }
 
         {/* ═══ DETAILED SCENARIO BREAKDOWN ═══ */}
         <section className="pl-detail">
-          <h2 className="pl-section-title">Scenario Breakdown</h2>
-          <p className="pl-section-desc">Revenue, cost and profitability detail per scenario. All figures EUR, 60% occupancy, 2 villas at equal rate.</p>
+          <h2 className="pl-section-title">{t("planner.scnTitle")}</h2>
+          <p className="pl-section-desc">{t("planner.scnDesc")}</p>
 
           <div className="pl-detail__grid">
             {/* ── LAUNCH ── */}
             <div className="pl-detail__card">
-              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.pessimistic}}>Launch &mdash; &euro;500/villa</h3>
+              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.pessimistic}}>{t("planner.scnLaunch")}</h3>
               <table className="pl-detail__table">
                 <tbody>
-                  <tr><td>Accommodation (2 villas)</td><td className="pl-td--num">&euro; 219,000</td></tr>
-                  <tr><td>Cleaning + service + extras</td><td className="pl-td--num">&euro; 32,450</td></tr>
-                  <tr><td><strong>Gross Revenue</strong></td><td className="pl-td--num"><strong>&euro; 251,450</strong></td></tr>
+                  <tr><td>{t("planner.accommodation")}</td><td className="pl-td--num">&euro; 219,000</td></tr>
+                  <tr><td>{t("planner.cleaningExtras")}</td><td className="pl-td--num">&euro; 32,450</td></tr>
+                  <tr><td><strong>{t("planner.grossRevenue")}</strong></td><td className="pl-td--num"><strong>&euro; 251,450</strong></td></tr>
                   <tr><td colSpan={2} style={{height:8}}></td></tr>
-                  <tr><td>Personnel (1-2)</td><td className="pl-td--num">&euro; 30,000</td></tr>
-                  <tr><td>Utilities + insurance + maintenance</td><td className="pl-td--num">&euro; 29,000</td></tr>
-                  <tr><td>Marketing + platform commission</td><td className="pl-td--num">&euro; 24,710</td></tr>
-                  <tr><td>Cleaning + amenities + accounting</td><td className="pl-td--num">&euro; 12,000</td></tr>
-                  <tr><td><strong>Total OpEx</strong></td><td className="pl-td--num"><strong>&euro; 95,710</strong></td></tr>
+                  <tr><td>{t("planner.personnel1")}</td><td className="pl-td--num">&euro; 30,000</td></tr>
+                  <tr><td>{t("planner.utilities")}</td><td className="pl-td--num">&euro; 29,000</td></tr>
+                  <tr><td>{t("planner.marketingPlatform")}</td><td className="pl-td--num">&euro; 24,710</td></tr>
+                  <tr><td>{t("planner.cleaningAccounting")}</td><td className="pl-td--num">&euro; 12,000</td></tr>
+                  <tr><td><strong>{t("planner.totalOpex")}</strong></td><td className="pl-td--num"><strong>&euro; 95,710</strong></td></tr>
                   <tr><td colSpan={2} style={{height:8}}></td></tr>
                   <tr><td><strong>EBITDA</strong></td><td className="pl-td--num"><strong>&euro; 155,740</strong></td></tr>
-                  <tr><td>Depreciation + tax (25%)</td><td className="pl-td--num">&euro; (61,060)</td></tr>
-                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>Net Profit (annual)</strong></td><td className="pl-td--num"><strong>&euro; 94,680</strong></td></tr>
+                  <tr><td>{t("planner.depreciationTax")}</td><td className="pl-td--num">&euro; (61,060)</td></tr>
+                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>{t("planner.netProfitAnnual")}</strong></td><td className="pl-td--num"><strong>&euro; 94,680</strong></td></tr>
                 </tbody>
               </table>
             </div>
 
             {/* ── GROWTH ── */}
             <div className="pl-detail__card">
-              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.base}}>Growth &mdash; &euro;750/villa</h3>
+              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.base}}>{t("planner.scnGrowth")}</h3>
               <table className="pl-detail__table">
                 <tbody>
-                  <tr><td>Accommodation (2 villas)</td><td className="pl-td--num">&euro; 328,500</td></tr>
-                  <tr><td>Cleaning + service</td><td className="pl-td--num">&euro; 32,925</td></tr>
-                  <tr><td>Chef + ATV + transfer + experiences</td><td className="pl-td--num">&euro; 49,310</td></tr>
-                  <tr><td><strong>Gross Revenue</strong></td><td className="pl-td--num"><strong>&euro; 410,735</strong></td></tr>
+                  <tr><td>{t("planner.accommodation")}</td><td className="pl-td--num">&euro; 328,500</td></tr>
+                  <tr><td>{t("planner.cleaningService")}</td><td className="pl-td--num">&euro; 32,925</td></tr>
+                  <tr><td>{t("planner.chefExperiences")}</td><td className="pl-td--num">&euro; 49,310</td></tr>
+                  <tr><td><strong>{t("planner.grossRevenue")}</strong></td><td className="pl-td--num"><strong>&euro; 410,735</strong></td></tr>
                   <tr><td colSpan={2} style={{height:8}}></td></tr>
-                  <tr><td>Personnel (2)</td><td className="pl-td--num">&euro; 45,000</td></tr>
-                  <tr><td>Utilities + insurance + maintenance</td><td className="pl-td--num">&euro; 34,600</td></tr>
-                  <tr><td>Marketing + platform commission</td><td className="pl-td--num">&euro; 34,638</td></tr>
-                  <tr><td>Operations + farm + supplies</td><td className="pl-td--num">&euro; 40,390</td></tr>
-                  <tr><td><strong>Total OpEx</strong></td><td className="pl-td--num"><strong>&euro; 154,628</strong></td></tr>
+                  <tr><td>{t("planner.personnel2")}</td><td className="pl-td--num">&euro; 45,000</td></tr>
+                  <tr><td>{t("planner.utilities")}</td><td className="pl-td--num">&euro; 34,600</td></tr>
+                  <tr><td>{t("planner.marketingPlatform")}</td><td className="pl-td--num">&euro; 34,638</td></tr>
+                  <tr><td>{t("planner.operationsFarm")}</td><td className="pl-td--num">&euro; 40,390</td></tr>
+                  <tr><td><strong>{t("planner.totalOpex")}</strong></td><td className="pl-td--num"><strong>&euro; 154,628</strong></td></tr>
                   <tr><td colSpan={2} style={{height:8}}></td></tr>
                   <tr><td><strong>EBITDA</strong></td><td className="pl-td--num"><strong>&euro; 256,107</strong></td></tr>
-                  <tr><td>Depreciation + tax (25%)</td><td className="pl-td--num">&euro; (86,152)</td></tr>
-                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>Net Profit (annual)</strong></td><td className="pl-td--num"><strong>&euro; 169,955</strong></td></tr>
+                  <tr><td>{t("planner.depreciationTax")}</td><td className="pl-td--num">&euro; (86,152)</td></tr>
+                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>{t("planner.netProfitAnnual")}</strong></td><td className="pl-td--num"><strong>&euro; 169,955</strong></td></tr>
                 </tbody>
               </table>
             </div>
 
             {/* ── PREMIUM ── */}
             <div className="pl-detail__card">
-              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.optimistic}}>Premium &mdash; &euro;1,000/villa</h3>
+              <h3 className="pl-detail__h" style={{borderColor: SCN_COLORS.optimistic}}>{t("planner.scnPremium")}</h3>
               <table className="pl-detail__table">
                 <tbody>
-                  <tr><td>Accommodation (2 villas)</td><td className="pl-td--num">&euro; 438,000</td></tr>
-                  <tr><td>Cleaning + service</td><td className="pl-td--num">&euro; 38,400</td></tr>
-                  <tr><td>Chef + ATV + transfer + experiences</td><td className="pl-td--num">&euro; 86,790</td></tr>
-                  <tr><td>Local product sales</td><td className="pl-td--num">&euro; 3,000</td></tr>
-                  <tr><td><strong>Gross Revenue</strong></td><td className="pl-td--num"><strong>&euro; 566,190</strong></td></tr>
+                  <tr><td>{t("planner.accommodation")}</td><td className="pl-td--num">&euro; 438,000</td></tr>
+                  <tr><td>{t("planner.cleaningService")}</td><td className="pl-td--num">&euro; 38,400</td></tr>
+                  <tr><td>{t("planner.chefExperiences")}</td><td className="pl-td--num">&euro; 86,790</td></tr>
+                  <tr><td>{t("planner.localProducts")}</td><td className="pl-td--num">&euro; 3,000</td></tr>
+                  <tr><td><strong>{t("planner.grossRevenue")}</strong></td><td className="pl-td--num"><strong>&euro; 566,190</strong></td></tr>
                   <tr><td colSpan={2} style={{height:8}}></td></tr>
-                  <tr><td>Personnel (4)</td><td className="pl-td--num">&euro; 84,240</td></tr>
-                  <tr><td>Utilities + insurance + maintenance</td><td className="pl-td--num">&euro; 45,000</td></tr>
-                  <tr><td>Marketing + influencer + commission</td><td className="pl-td--num">&euro; 51,280</td></tr>
-                  <tr><td>Operations + farm + premium amenities</td><td className="pl-td--num">&euro; 64,229</td></tr>
-                  <tr><td><strong>Total OpEx</strong></td><td className="pl-td--num"><strong>&euro; 244,749</strong></td></tr>
+                  <tr><td>{t("planner.personnel4")}</td><td className="pl-td--num">&euro; 84,240</td></tr>
+                  <tr><td>{t("planner.utilities")}</td><td className="pl-td--num">&euro; 45,000</td></tr>
+                  <tr><td>{t("planner.marketingInfluencer")}</td><td className="pl-td--num">&euro; 51,280</td></tr>
+                  <tr><td>{t("planner.operationsPremium")}</td><td className="pl-td--num">&euro; 64,229</td></tr>
+                  <tr><td><strong>{t("planner.totalOpex")}</strong></td><td className="pl-td--num"><strong>&euro; 244,749</strong></td></tr>
                   <tr><td colSpan={2} style={{height:8}}></td></tr>
                   <tr><td><strong>EBITDA</strong></td><td className="pl-td--num"><strong>&euro; 321,441</strong></td></tr>
-                  <tr><td>Depreciation + tax (25%)</td><td className="pl-td--num">&euro; (102,485)</td></tr>
-                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>Net Profit (annual)</strong></td><td className="pl-td--num"><strong>&euro; 218,956</strong></td></tr>
+                  <tr><td>{t("planner.depreciationTax")}</td><td className="pl-td--num">&euro; (102,485)</td></tr>
+                  <tr style={{background:'rgba(45,80,64,0.06)'}}><td><strong>{t("planner.netProfitAnnual")}</strong></td><td className="pl-td--num"><strong>&euro; 218,956</strong></td></tr>
                 </tbody>
               </table>
             </div>
@@ -348,31 +348,31 @@ export default function PlannerPage({ embedded = false }: { embedded?: boolean }
 
         {/* ═══ COMPARISON & ROI ═══ */}
         <section className="pl-table-wrap">
-          <h2 className="pl-section-title">Return on Investment</h2>
-          <p className="pl-section-desc">CAPEX: &euro;500,000 | First 2 years: net profit = 0 (marketing investment) | 60% occupancy</p>
+          <h2 className="pl-section-title">{t("planner.roiTitle")}</h2>
+          <p className="pl-section-desc">{t("planner.roiDesc")}</p>
           <div className="pl-table-scroll">
             <table className="pl-table">
               <thead>
                 <tr>
                   <th></th>
-                  <th>Launch (&euro;500)</th>
-                  <th>Growth (&euro;750)</th>
-                  <th>Premium (&euro;1,000)</th>
+                  <th>{t("planner.roiLaunch")}</th>
+                  <th>{t("planner.roiGrowth")}</th>
+                  <th>{t("planner.roiPremium")}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td>Per villa / night</td><td className="pl-td--num">&euro;500</td><td className="pl-td--num">&euro;750</td><td className="pl-td--num">&euro;1,000</td></tr>
-                <tr><td>2 villas combined / night</td><td className="pl-td--num">&euro;1,000</td><td className="pl-td--num">&euro;1,500</td><td className="pl-td--num">&euro;2,000</td></tr>
-                <tr><td>Personnel</td><td className="pl-td--num">1-2</td><td className="pl-td--num">2</td><td className="pl-td--num">4</td></tr>
-                <tr><td>Gross revenue</td><td className="pl-td--num">&euro;251K</td><td className="pl-td--num">&euro;411K</td><td className="pl-td--num">&euro;566K</td></tr>
-                <tr><td>Net profit (annual)</td><td className="pl-td--num">&euro;95K</td><td className="pl-td--num">&euro;170K</td><td className="pl-td--num">&euro;219K</td></tr>
-                <tr><td>Net margin</td><td className="pl-td--num">37.6%</td><td className="pl-td--num">41.4%</td><td className="pl-td--num">38.7%</td></tr>
-                <tr style={{background:'rgba(195,165,100,0.06)'}}><td>Year 1-2</td><td className="pl-td--num">&euro;0</td><td className="pl-td--num">&euro;0</td><td className="pl-td--num">&euro;0</td></tr>
-                <tr><td>5Y cumulative</td><td className="pl-td--num">&euro;284K</td><td className="pl-td--num">&euro;510K</td><td className="pl-td--num">&euro;657K</td></tr>
-                <tr><td>10Y cumulative</td><td className="pl-td--num">&euro;757K</td><td className="pl-td--num">&euro;1.36M</td><td className="pl-td--num">&euro;1.75M</td></tr>
-                <tr><td>15Y cumulative</td><td className="pl-td--num">&euro;1.23M</td><td className="pl-td--num">&euro;2.21M</td><td className="pl-td--num">&euro;2.85M</td></tr>
-                <tr style={{background:'rgba(45,80,64,0.08)'}}><td><strong>Payback period</strong></td><td className="pl-td--num"><strong>7.3 years</strong></td><td className="pl-td--num"><strong>5.0 years</strong></td><td className="pl-td--num"><strong>4.3 years</strong></td></tr>
-                <tr><td>Break-even occupancy</td><td className="pl-td--num">17.0%</td><td className="pl-td--num">14.1%</td><td className="pl-td--num">18.8%</td></tr>
+                <tr><td>{t("planner.perVillaNight")}</td><td className="pl-td--num">&euro;500</td><td className="pl-td--num">&euro;750</td><td className="pl-td--num">&euro;1,000</td></tr>
+                <tr><td>{t("planner.combinedNight")}</td><td className="pl-td--num">&euro;1,000</td><td className="pl-td--num">&euro;1,500</td><td className="pl-td--num">&euro;2,000</td></tr>
+                <tr><td>{t("planner.personnel")}</td><td className="pl-td--num">1-2</td><td className="pl-td--num">2</td><td className="pl-td--num">4</td></tr>
+                <tr><td>{t("planner.grossRevenueShort")}</td><td className="pl-td--num">&euro;251K</td><td className="pl-td--num">&euro;411K</td><td className="pl-td--num">&euro;566K</td></tr>
+                <tr><td>{t("planner.netProfitRow")}</td><td className="pl-td--num">&euro;95K</td><td className="pl-td--num">&euro;170K</td><td className="pl-td--num">&euro;219K</td></tr>
+                <tr><td>{t("planner.netMargin")}</td><td className="pl-td--num">37.6%</td><td className="pl-td--num">41.4%</td><td className="pl-td--num">38.7%</td></tr>
+                <tr style={{background:'rgba(195,165,100,0.06)'}}><td>{t("planner.year12")}</td><td className="pl-td--num">&euro;0</td><td className="pl-td--num">&euro;0</td><td className="pl-td--num">&euro;0</td></tr>
+                <tr><td>{t("planner.cumulative5y")}</td><td className="pl-td--num">&euro;284K</td><td className="pl-td--num">&euro;510K</td><td className="pl-td--num">&euro;657K</td></tr>
+                <tr><td>{t("planner.cumulative10y")}</td><td className="pl-td--num">&euro;757K</td><td className="pl-td--num">&euro;1.36M</td><td className="pl-td--num">&euro;1.75M</td></tr>
+                <tr><td>{t("planner.cumulative15y")}</td><td className="pl-td--num">&euro;1.23M</td><td className="pl-td--num">&euro;2.21M</td><td className="pl-td--num">&euro;2.85M</td></tr>
+                <tr style={{background:'rgba(45,80,64,0.08)'}}><td><strong>{t("planner.payback")}</strong></td><td className="pl-td--num"><strong>{t("planner.payback1")}</strong></td><td className="pl-td--num"><strong>{t("planner.payback2")}</strong></td><td className="pl-td--num"><strong>{t("planner.payback3")}</strong></td></tr>
+                <tr><td>{t("planner.breakeven")}</td><td className="pl-td--num">17.0%</td><td className="pl-td--num">14.1%</td><td className="pl-td--num">18.8%</td></tr>
               </tbody>
             </table>
           </div>
@@ -380,15 +380,15 @@ export default function PlannerPage({ embedded = false }: { embedded?: boolean }
 
         {/* ═══ GROWTH STRATEGY ═══ */}
         <section className="pl-table-wrap">
-          <h2 className="pl-section-title">Growth Strategy</h2>
-          <p className="pl-section-desc">Phased pricing approach. Transition trigger: guest rating 4.8+ AND demand exceeds capacity.</p>
+          <h2 className="pl-section-title">{t("planner.gsTitle")}</h2>
+          <p className="pl-section-desc">{t("planner.gsDesc")}</p>
           <div className="pl-table-scroll">
             <table className="pl-table">
-              <thead><tr><th>Period</th><th>Pricing</th><th>Team</th><th>Goal</th></tr></thead>
+              <thead><tr><th>{t("planner.gsPeriod")}</th><th>{t("planner.gsPricing")}</th><th>{t("planner.gsTeam")}</th><th>{t("planner.gsGoal")}</th></tr></thead>
               <tbody>
-                <tr><td>Month 1–6</td><td>Launch: &euro;500/villa</td><td>1-2 staff</td><td>Build platform ratings, test experiences</td></tr>
-                <tr><td>Month 7–18</td><td>Growth: &euro;750/villa</td><td>2 staff</td><td>Activate all experiences, build brand depth</td></tr>
-                <tr><td>Month 18+</td><td>Premium: &euro;1,000/villa</td><td>3-4 staff</td><td>Full premium, Gulf market expansion</td></tr>
+                <tr><td>{t("planner.gsP1")}</td><td>{t("planner.gsPr1")}</td><td>{t("planner.gsT1")}</td><td>{t("planner.gsG1")}</td></tr>
+                <tr><td>{t("planner.gsP2")}</td><td>{t("planner.gsPr2")}</td><td>{t("planner.gsT2")}</td><td>{t("planner.gsG2")}</td></tr>
+                <tr><td>{t("planner.gsP3")}</td><td>{t("planner.gsPr3")}</td><td>{t("planner.gsT3")}</td><td>{t("planner.gsG3")}</td></tr>
               </tbody>
             </table>
           </div>

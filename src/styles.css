@@ -618,28 +618,31 @@ header.hero .badge{
 /* ── Main ── */
 .pl{ max-width:1100px; margin:0 auto; padding:0 24px 100px }
 
-/* ── KPI Cards ── */
+/* ── KPI Cards — dark luxury ── */
 .pl-kpis{
-  display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:14px;
   margin-top:-40px; position:relative; z-index:2;
 }
 .pl-kpi{
-  background:#fff; border-radius:18px; padding:22px 24px;
-  border:1px solid var(--border);
-  box-shadow:0 12px 32px rgba(26,31,22,.06);
+  background:var(--verde-deep, #0E1A16); border-radius:16px; padding:24px;
+  border:1px solid rgba(195,165,100,.1);
+  box-shadow:0 12px 32px rgba(14,26,22,.15);
   display:flex; flex-direction:column; gap:6px;
+  color:var(--mist, #EBE8E1);
 }
 .pl-kpi--accent{
-  background:var(--brand); color:#fff; border-color:var(--brand);
-  box-shadow:0 16px 40px rgba(45,80,64,.2);
+  background:linear-gradient(135deg, #2D5040 0%, #1e3a2c 100%);
+  border-color:rgba(195,165,100,.2);
+  box-shadow:0 16px 40px rgba(45,80,64,.25);
 }
 .pl-kpi__label{
-  font-size:.7rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
-  color:var(--muted);
+  font-size:.65rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--gold, #C3A564);
 }
-.pl-kpi--accent .pl-kpi__label{ color:rgba(255,255,255,.7) }
+.pl-kpi--accent .pl-kpi__label{ color:rgba(195,165,100,.7) }
 .pl-kpi__value{
-  font-family:var(--serif); font-size:clamp(1.2rem,2.5vw,1.6rem); font-weight:600;
+  font-family:var(--serif); font-size:clamp(1.3rem,2.5vw,1.7rem); font-weight:600;
+  color:var(--mist, #EBE8E1);
 }
 
 /* ── Controls ── */
@@ -651,13 +654,16 @@ header.hero .badge{
 .pl-scenarios{ display:flex; gap:6px }
 .pl-scn{
   display:inline-flex; align-items:center; gap:6px;
-  padding:9px 16px; border-radius:999px; border:1px solid var(--border);
-  background:#fff; font-size:.82rem; font-weight:600; cursor:pointer;
-  color:var(--ink); transition:all .2s ease;
+  padding:9px 16px; border-radius:999px; border:1px solid rgba(195,165,100,.15);
+  background:rgba(14,26,22,.5); font-size:.82rem; font-weight:600; cursor:pointer;
+  color:var(--muted); transition:all .2s ease;
+  backdrop-filter:blur(4px);
 }
-.pl-scn:hover{ border-color:var(--brand) }
+.pl-scn:hover{ border-color:rgba(195,165,100,.3); color:var(--ink) }
 .pl-scn--active{
-  background:var(--ink); color:#fff; border-color:var(--ink);
+  background:var(--verde-deep, #0E1A16); color:var(--mist, #EBE8E1);
+  border-color:rgba(195,165,100,.3);
+  box-shadow:0 4px 16px rgba(14,26,22,.2);
 }
 .pl-scn__dot{
   width:8px; height:8px; border-radius:50%;
@@ -681,16 +687,17 @@ header.hero .badge{
 }
 .pl-section-desc{ font-size:.88rem; color:var(--muted); margin-top:4px }
 
-/* ── Chart ── */
+/* ── Chart — dark luxury ── */
 .pl-chart-wrap{ margin-top:8px }
 .pl-chart{
-  background:#fff; border-radius:20px; border:1px solid var(--border);
-  padding:24px 16px 16px; margin-top:20px;
-  box-shadow:0 12px 36px rgba(26,31,22,.05);
+  background:var(--verde-deep, #0E1A16); border-radius:20px;
+  border:1px solid rgba(195,165,100,.1);
+  padding:28px 20px 20px; margin-top:20px;
+  box-shadow:0 16px 48px rgba(14,26,22,.2);
 }
 .pl-chart__legend{
-  display:flex; gap:20px; justify-content:center; margin-top:14px;
-  font-size:.82rem; color:var(--muted);
+  display:flex; gap:24px; justify-content:center; margin-top:16px;
+  font-size:.8rem; color:rgba(235,232,225,.5);
 }
 .pl-chart__ldot{
   width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:6px;
@@ -699,13 +706,15 @@ header.hero .badge{
 
 /* ── Tooltip ── */
 .pl-tooltip{
-  background:var(--ink); color:#fff; padding:14px 16px;
-  border-radius:14px; box-shadow:0 12px 32px rgba(0,0,0,.25);
-  font-size:.82rem; min-width:200px;
+  background:rgba(14,26,22,.95); color:#EBE8E1; padding:16px 18px;
+  border-radius:14px; box-shadow:0 16px 40px rgba(0,0,0,.4);
+  border:1px solid rgba(195,165,100,.15);
+  font-size:.82rem; min-width:210px;
+  backdrop-filter:blur(12px);
 }
-.pl-tooltip__label{ opacity:.6; margin-bottom:8px; font-weight:600 }
+.pl-tooltip__label{ color:var(--gold, #C3A564); margin-bottom:10px; font-weight:600; font-size:.75rem; letter-spacing:1px; text-transform:uppercase }
 .pl-tooltip__row{
-  display:flex; align-items:center; gap:8px; padding:3px 0;
+  display:flex; align-items:center; gap:8px; padding:4px 0;
 }
 .pl-tooltip__dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0 }
 .pl-tooltip__row span{ flex:1 }
