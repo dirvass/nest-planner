@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import TopNav from "./components/TopNav";
 import Footer from "./components/Footer";
 import LocationMap from "./components/LocationMap";
 import { useLanguage } from "./i18n/LanguageContext";
+import { usePageMeta } from "./hooks/usePageMeta";
 
 const EXPERIENCES = [
   { key: "1", img: "/media/insaat-sureci/arazi-hazirligi-genel-gorunum.jpg" },
@@ -19,6 +21,7 @@ const DISTANCES = [
 ];
 
 export default function Home() {
+  usePageMeta("meta.homeTitle", "meta.homeDesc");
   const [visible, setVisible] = useState(false);
   const { t } = useLanguage();
 
@@ -101,22 +104,22 @@ export default function Home() {
           <h2 className="home-section-title">{t("home.villasTitle")}</h2>
         </div>
         <div className="home-villas__grid">
-          <a href="/book" className="home-villa-card">
+          <Link to="/book" className="home-villa-card">
             <img className="home-villa-card__img" src="/media/dis-mekan/kus-bakisi-gunduz-ai-render.jpg" alt="ALYA" loading="lazy" />
             <div className="home-villa-card__overlay" />
             <div className="home-villa-card__content">
               <h3 className="home-villa-card__name">{t("home.alyaName")}</h3>
               <p className="home-villa-card__desc">{t("home.alyaDesc")}</p>
             </div>
-          </a>
-          <a href="/book" className="home-villa-card">
+          </Link>
+          <Link to="/book" className="home-villa-card">
             <img className="home-villa-card__img" src="/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg" alt="ZEHRA" loading="lazy" />
             <div className="home-villa-card__overlay" />
             <div className="home-villa-card__content">
               <h3 className="home-villa-card__name">{t("home.zehraName")}</h3>
               <p className="home-villa-card__desc">{t("home.zehraDesc")}</p>
             </div>
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -168,7 +171,7 @@ export default function Home() {
           <h2 className="home-closing__title">{t("home.closingTitle")}</h2>
           <div className="home-section-divider" style={{ margin: "16px auto", background: "var(--gold,#C3A564)" }} />
           <p className="home-closing__body">{t("home.closingBody")}</p>
-          <a href="/book" className="home-closing__cta">{t("home.closingCta")}</a>
+          <Link to="/book" className="home-closing__cta">{t("home.closingCta")}</Link>
         </div>
       </section>
 

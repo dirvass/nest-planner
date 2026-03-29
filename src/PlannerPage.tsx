@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import TopNav from "./components/TopNav";
 import { useLanguage } from "./i18n/LanguageContext";
+import { usePageMeta } from "./hooks/usePageMeta";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
@@ -13,6 +14,7 @@ const SCN_LABEL_KEYS: Record<Scenario, string> = { pessimistic: "planner.pessimi
 const SCN_COLORS: Record<Scenario, string> = { pessimistic: "#C9B99A", base: "#C3A564", optimistic: "#6ECFA0" };
 
 export default function PlannerPage({ embedded = false }: { embedded?: boolean }) {
+  usePageMeta("meta.plannerTitle", "meta.plannerDesc");
   const [villas, setVillas] = useState<Villa[]>([
     { id: crypto.randomUUID(), name: "ALYA",  dailyFee: 750, occupancy: 0.60, costPct: 0.35 },
     { id: crypto.randomUUID(), name: "ZEHRA", dailyFee: 750, occupancy: 0.60, costPct: 0.35 },
@@ -35,9 +37,7 @@ export default function PlannerPage({ embedded = false }: { embedded?: boolean }
 
   const fx = (n: number) => n * (rates[currency] ?? 1);
   const fmt0 = (n: number) => new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(n);
-  const fmt2 = (n: number) => new Intl.NumberFormat("de-DE", { maximumFractionDigits: 2 }).format(n);
   const fmtC = (n: number) => `${sym[currency]}\u00A0${fmt0(fx(n))}`;
-  const fmtC2 = (n: number) => `${sym[currency]}\u00A0${fmt2(fx(n))}`;
 
   const rows = useMemo(() => villas.map(v => {
     const ebitda = v.dailyFee * 365 * v.occupancy;
@@ -245,11 +245,11 @@ export default function PlannerPage({ embedded = false }: { embedded?: boolean }
                         <span>%</span>
                       </div>
                     </td>
-                    <td className="pl-td--num">{fmtC2(r.ebitda)}</td>
-                    <td className="pl-td--num">{fmtC2(r.net)}</td>
-                    <td className="pl-td--num">{fmtC2(r.net * eff(5))}</td>
-                    <td className="pl-td--num">{fmtC2(r.net * eff(10))}</td>
-                    <td className="pl-td--num">{fmtC2(r.net * eff(15))}</td>
+                    <td className="pl-td--num">{fmtC(r.ebitda)}</td>
+                    <td className="pl-td--num">{fmtC(r.net)}</td>
+                    <td className="pl-td--num">{fmtC(r.net * eff(5))}</td>
+                    <td className="pl-td--num">{fmtC(r.net * eff(10))}</td>
+                    <td className="pl-td--num">{fmtC(r.net * eff(15))}</td>
                     <td><button className="pl-del" onClick={() => removeVilla(r.id)}>&#10005;</button></td>
                   </tr>
                 ))}
@@ -257,11 +257,11 @@ export default function PlannerPage({ embedded = false }: { embedded?: boolean }
               <tfoot>
                 <tr>
                   <td><strong>{t("planner.total")}</strong></td><td></td><td></td><td></td>
-                  <td className="pl-td--num"><strong>{fmtC2(totals.ebitda)}</strong></td>
-                  <td className="pl-td--num"><strong>{fmtC2(totals.net)}</strong></td>
-                  <td className="pl-td--num"><strong>{fmtC2(totals.net * eff(5))}</strong></td>
-                  <td className="pl-td--num"><strong>{fmtC2(totals.net * eff(10))}</strong></td>
-                  <td className="pl-td--num"><strong>{fmtC2(totals.net * eff(15))}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC(totals.ebitda)}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC(totals.net)}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC(totals.net * eff(5))}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC(totals.net * eff(10))}</strong></td>
+                  <td className="pl-td--num"><strong>{fmtC(totals.net * eff(15))}</strong></td>
                   <td></td>
                 </tr>
               </tfoot>

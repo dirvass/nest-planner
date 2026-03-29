@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /planner
+Disallow: /investor
+Disallow: /admin
+
+Sitemap: https://verde-ulasli.com/sitemap.xml

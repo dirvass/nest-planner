@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import TopNav from "./components/TopNav";
 import { useLanguage } from "./i18n/LanguageContext";
+import { usePageMeta } from "./hooks/usePageMeta";
 
 type Media =
   | { id: string; type: "image"; src: string; alt: string; category: Category; featured?: boolean }
@@ -91,6 +92,7 @@ function GalleryCard({ item, idx, onOpen }: { item: Media; idx: number; onOpen: 
 type FilterTab = "all" | Category;
 
 export default function GalleryPage() {
+  usePageMeta("meta.galleryTitle", "meta.galleryDesc");
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
   const [activeId, setActiveId] = useState<string | null>(null);

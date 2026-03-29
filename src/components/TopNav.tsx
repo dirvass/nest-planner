@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
 
@@ -32,9 +32,9 @@ export default function TopNav() {
         {LINKS.map((l) => {
           const active = pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href));
           return (
-            <a key={l.href} href={l.href} className={`nav-btn ${active ? "primary" : "dark"}`}>
+            <Link key={l.href} to={l.href} className={`nav-btn ${active ? "primary" : "dark"}`}>
               {t(l.key)}
-            </a>
+            </Link>
           );
         })}
         <LanguageSelector />
@@ -60,14 +60,14 @@ export default function TopNav() {
             {LINKS.map((l) => {
               const active = pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href));
               return (
-                <a
+                <Link
                   key={l.href}
-                  href={l.href}
+                  to={l.href}
                   className={`nav-mobile__link ${active ? "nav-mobile__link--active" : ""}`}
                   onClick={() => setOpen(false)}
                 >
                   {t(l.key)}
-                </a>
+                </Link>
               );
             })}
           </nav>

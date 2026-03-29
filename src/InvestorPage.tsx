@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import TopNav from "./components/TopNav";
 import PlannerPage from "./PlannerPage";
 import { useLanguage } from "./i18n/LanguageContext";
+import { usePageMeta } from "./hooks/usePageMeta";
 
 type Tab = "financials" | "brand";
 
 export default function InvestorPage() {
+  usePageMeta("meta.investorTitle", "meta.investorDesc");
   const { t } = useLanguage();
   const [tab, setTab] = useState<Tab>("financials");
   const [heroVis, setHeroVis] = useState(false);

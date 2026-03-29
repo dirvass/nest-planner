@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import TopNav from "./components/TopNav";
 import Footer from "./components/Footer";
 import LocationMap from "./components/LocationMap";
 import { useLanguage } from "./i18n/LanguageContext";
+import { usePageMeta } from "./hooks/usePageMeta";
 
 const SECTIONS = [
   { key: "s1",  img: "/media/dis-mekan/drone-genel-gorunum-render.jpg" },
@@ -17,6 +19,7 @@ const SECTIONS = [
 ];
 
 export default function StoryPage() {
+  usePageMeta("meta.storyTitle", "meta.storyDesc");
   const [vis, setVis] = useState(false);
   const { t } = useLanguage();
   useEffect(() => { const tm = setTimeout(() => setVis(true), 100); return () => clearTimeout(tm); }, []);
@@ -87,7 +90,7 @@ export default function StoryPage() {
           <blockquote className="story__quote">
             "{t("story.closingQuote")}"
           </blockquote>
-          <a href="/book" className="story__cta">{t("home.closingCta")}</a>
+          <Link to="/book" className="story__cta">{t("home.closingCta")}</Link>
         </section>
       </main>
 

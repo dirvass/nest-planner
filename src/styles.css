@@ -724,21 +724,22 @@ header.hero .badge{
 .pl-table-wrap{ margin-top:12px }
 .pl-table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin-top:16px }
 .pl-table{
-  width:100%; min-width:900px; border-collapse:collapse;
-  font-size:.85rem; font-variant-numeric:tabular-nums;
+  width:100%; min-width:720px; border-collapse:collapse;
+  font-size:.82rem; font-variant-numeric:tabular-nums;
   background:#fff; border-radius:16px; overflow:hidden;
   border:1px solid var(--border);
   box-shadow:0 8px 28px rgba(26,31,22,.05);
+  table-layout:auto;
 }
 .pl-table thead th{
-  text-align:left; padding:14px 14px;
+  text-align:left; padding:10px 8px;
   background:rgba(244,245,240,.8);
-  color:var(--ink); font-weight:700; font-size:.75rem;
-  letter-spacing:.5px; text-transform:uppercase;
+  color:var(--ink); font-weight:700; font-size:.7rem;
+  letter-spacing:.4px; text-transform:uppercase;
   border-bottom:1px solid var(--border);
 }
 .pl-table td{
-  padding:12px 14px; border-top:1px solid rgba(226,232,240,.4);
+  padding:10px 8px; border-top:1px solid rgba(226,232,240,.4);
   white-space:nowrap;
 }
 .pl-table tfoot td{
@@ -749,15 +750,15 @@ header.hero .badge{
 
 .pl-input{
   border-radius:10px; border:1px solid rgba(203,213,225,.7);
-  padding:8px 10px; background:#fff; font-weight:600; color:var(--ink);
-  font-size:.85rem; width:90px; font-family:inherit;
+  padding:6px 8px; background:#fff; font-weight:600; color:var(--ink);
+  font-size:.82rem; width:72px; font-family:inherit;
 }
-.pl-input--name{ width:110px }
-.pl-input--sm{ width:55px }
+.pl-input--name{ width:90px }
+.pl-input--sm{ width:48px }
 .pl-input:focus-visible{ outline:2px solid rgba(45,80,64,.25); outline-offset:1px }
 .pl-input-group{
-  display:inline-flex; align-items:center; gap:4px;
-  color:var(--muted); font-weight:600; font-size:.85rem;
+  display:inline-flex; align-items:center; gap:3px;
+  color:var(--muted); font-weight:600; font-size:.82rem;
 }
 
 .pl-del{
@@ -2176,3 +2177,40 @@ header.hero .badge{
   .inv-tab{ padding:12px 20px; font-size:.9rem }
   .inv-brand{ padding:24px 16px 60px }
 }
+
+/* =========================================================
+   404 NOT FOUND PAGE (.nf prefix)
+   =======================================================*/
+.nf-page{
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  background:var(--verde-deep); color:var(--mist);
+  text-align:center; padding:40px 24px;
+}
+.nf-content{
+  display:flex; flex-direction:column; align-items:center;
+  gap:12px; margin-top:-40px;
+}
+.nf-code{
+  font-family:var(--serif); font-size:clamp(7rem,20vw,12rem);
+  font-weight:700; line-height:1;
+  color:var(--gold); opacity:.18;
+  pointer-events:none; user-select:none;
+}
+.nf-title{
+  font-family:var(--serif); font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:400; letter-spacing:.06em;
+  margin-top:-24px;
+}
+.nf-subtitle{
+  color:var(--sand); font-size:1rem; max-width:420px; opacity:.8;
+}
+.nf-cta{
+  display:inline-block; margin-top:20px;
+  padding:14px 36px; border-radius:6px;
+  background:var(--brand); color:#fff;
+  font-weight:600; font-size:.95rem;
+  text-decoration:none; letter-spacing:.03em;
+  transition:background .25s, transform .2s;
+}
+.nf-cta:hover{ background:var(--brand-dark); transform:translateY(-1px) }

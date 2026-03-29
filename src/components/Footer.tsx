@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const NAV = [
@@ -22,7 +23,7 @@ export default function Footer() {
           <h4 className="site-footer__heading">{t("footer.nav")}</h4>
           <nav className="site-footer__nav">
             {NAV.map((l) => (
-              <a key={l.href} href={l.href} className="site-footer__link">{t(l.key)}</a>
+              <Link key={l.href} to={l.href} className="site-footer__link">{t(l.key)}</Link>
             ))}
           </nav>
         </div>

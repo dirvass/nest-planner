@@ -463,5 +463,26 @@
     "allSeasons": "4 Jahreszeiten",
     "summerOnly": "Sommer",
     "springSummer": "Frühling–Herbst"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "subtitle": "Die gesuchte Seite existiert nicht.",
+    "cta": "Zurück zur Startseite"
+  },
+  "meta": {
+    "homeTitle": "VERDE ULASLI — Agro-Luxury Villa-Anwesen",
+    "homeDesc": "Türkeis erstes Agro-Luxury-Villenanwesen. Zwei private Villen auf 5.500 m² lebendigem Land mit Bio-Gärten, Infinity-Pool und exklusiven Erlebnissen in Kocaeli.",
+    "storyTitle": "Unsere Geschichte — VERDE ULASLI",
+    "storyDesc": "Wie ein nebeliger Hang in Ulaşlı zu Türkeis erstem Agro-Luxury-Anwesen wurde. Entdecken Sie die Philosophie, das Land und die Vision hinter VERDE.",
+    "experienceTitle": "Erlebnisse — VERDE ULASLI",
+    "experienceDesc": "Bauernhof-Morgen, Erntetafeln, Feuerkreis, Sauna unter den Sternen — 10 kuratierte Erlebnisse über vier Jahreszeiten bei VERDE ULASLI.",
+    "galleryTitle": "Galerie — VERDE ULASLI",
+    "galleryDesc": "Entdecken Sie Architektur-Renderings, Innendesigns und den Baufortschritt von VERDE ULASLI — Türkeis erstem Agro-Luxury-Villenanwesen.",
+    "bookingTitle": "Aufenthalt buchen — VERDE ULASLI",
+    "bookingDesc": "Reservieren Sie Ihre private Villa bei VERDE ULASLI. Wählen Sie aus zwei Luxusvillen, bestimmen Sie Ihre Daten und gestalten Sie Ihr persönliches Agro-Luxury-Erlebnis.",
+    "plannerTitle": "Investitionsplaner — VERDE ULASLI",
+    "plannerDesc": "Umsatzprognosen, Kostenanalyse und ROI-Szenarien für VERDE ULASLI — Türkeis erstes Agro-Luxury-Villa-Investment.",
+    "investorTitle": "Investorenportal — VERDE ULASLI",
+    "investorDesc": "Projektübersicht, Finanzprognosen, Markenidentität und Wachstumsfahrplan für VERDE ULASLI — eine Premium-Agro-Luxury-Investitionsmöglichkeit."
   }
 }

@@ -463,5 +463,26 @@
     "allSeasons": "4 Seasons",
     "summerOnly": "Summer",
     "springSummer": "Spring–Autumn"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "subtitle": "The page you're looking for doesn't exist.",
+    "cta": "Back to Home"
+  },
+  "meta": {
+    "homeTitle": "VERDE ULASLI — Agro-Luxury Villa Estate",
+    "homeDesc": "Turkey's first agro-luxury villa estate. Two private villas on 5,500 m² of living land with organic gardens, infinity pool, and bespoke experiences in Kocaeli.",
+    "storyTitle": "Our Story — VERDE ULASLI",
+    "storyDesc": "How a misty hillside in Ulaşlı became Turkey's first agro-luxury estate. Discover the philosophy, the land, and the vision behind VERDE.",
+    "experienceTitle": "Experiences — VERDE ULASLI",
+    "experienceDesc": "Farm mornings, harvest tables, fire circles, sauna under the stars — 10 curated experiences across four seasons at VERDE ULASLI.",
+    "galleryTitle": "Gallery — VERDE ULASLI",
+    "galleryDesc": "Explore architectural renders, interior designs, and construction progress of VERDE ULASLI — Turkey's first agro-luxury villa estate.",
+    "bookingTitle": "Book Your Stay — VERDE ULASLI",
+    "bookingDesc": "Reserve your private villa at VERDE ULASLI. Choose from two luxury villas, select dates, and curate your bespoke agro-luxury experience.",
+    "plannerTitle": "Investment Planner — VERDE ULASLI",
+    "plannerDesc": "Revenue projections, cost analysis, and ROI scenarios for VERDE ULASLI — Turkey's first agro-luxury villa estate investment.",
+    "investorTitle": "Investor Portal — VERDE ULASLI",
+    "investorDesc": "Project overview, financial projections, brand identity, and growth roadmap for VERDE ULASLI — a premium agro-luxury investment opportunity."
   }
 }

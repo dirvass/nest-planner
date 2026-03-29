@@ -463,5 +463,26 @@
     "allSeasons": "4 Mevsim",
     "summerOnly": "Yaz",
     "springSummer": "İlkbahar–Sonbahar"
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "subtitle": "Aradığınız sayfa mevcut değil.",
+    "cta": "Ana Sayfaya Dön"
+  },
+  "meta": {
+    "homeTitle": "VERDE ULASLI — Agro-Luxury Villa Rezidans",
+    "homeDesc": "Türkiye'nin ilk agro-luxury villa rezidansı. Kocaeli Ulaşlı'da 5.500 m² yaşayan toprak üzerinde iki özel villa, organik bahçeler, sonsuzluk havuzu ve butik deneyimler.",
+    "storyTitle": "Hikâyemiz — VERDE ULASLI",
+    "storyDesc": "Ulaşlı'daki sisli bir yamaç, Türkiye'nin ilk agro-luxury rezidansına nasıl dönüştü? VERDE'nin felsefesini, toprağını ve vizyonunu keşfedin.",
+    "experienceTitle": "Deneyimler — VERDE ULASLI",
+    "experienceDesc": "Çiftlik sabahları, hasat sofraları, ateş çemberi, yıldızların altında sauna — VERDE ULASLI'da dört mevsime yayılan 10 özel deneyim.",
+    "galleryTitle": "Galeri — VERDE ULASLI",
+    "galleryDesc": "VERDE ULASLI'nın mimari tasarımlarını, iç mekân konseptlerini ve inşaat sürecini keşfedin — Türkiye'nin ilk agro-luxury villa rezidansı.",
+    "bookingTitle": "Rezervasyon — VERDE ULASLI",
+    "bookingDesc": "VERDE ULASLI'da özel villanızı ayırtın. İki lüks villadan seçiminizi yapın, tarihleri belirleyin ve size özel agro-luxury deneyiminizi tasarlayın.",
+    "plannerTitle": "Yatırım Planlayıcı — VERDE ULASLI",
+    "plannerDesc": "VERDE ULASLI için gelir projeksiyonları, maliyet analizi ve yatırım getirisi senaryoları — Türkiye'nin ilk agro-luxury villa yatırımı.",
+    "investorTitle": "Yatırımcı Portalı — VERDE ULASLI",
+    "investorDesc": "VERDE ULASLI proje özeti, finansal projeksiyonlar, marka kimliği ve büyüme yol haritası — premium bir agro-luxury yatırım fırsatı."
   }
 }

@@ -4,6 +4,7 @@ import { DayPicker, DateRange } from "react-day-picker";
 import { differenceInCalendarDays, format, isBefore, startOfToday } from "date-fns";
 import "react-day-picker/dist/style.css";
 import { useLanguage } from "./i18n/LanguageContext";
+import { usePageMeta } from "./hooks/usePageMeta";
 import { getBooked, toDateRanges } from "./availability";
 
 /* ── Feature flag: set to true to show pricing breakdown publicly ── */
@@ -54,6 +55,7 @@ const opt = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) =
 
 /* ══════════════════════════════════════════════ */
 export default function BookingPage() {
+  usePageMeta("meta.bookingTitle", "meta.bookingDesc");
   const { t } = useLanguage();
 
   const [villa, setVilla] = useState<VillaKey>("ALYA");

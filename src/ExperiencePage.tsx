@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import TopNav from "./components/TopNav";
 import Footer from "./components/Footer";
 import { useLanguage } from "./i18n/LanguageContext";
+import { usePageMeta } from "./hooks/usePageMeta";
 
 const EXPERIENCES = [
   { key: "1", img: "/media/insaat-sureci/arazi-hazirligi-genel-gorunum.jpg", season: "allSeasons" },
@@ -19,6 +21,7 @@ const EXPERIENCES = [
 const SEASONS = ["spring", "summer", "autumn", "winter"] as const;
 
 export default function ExperiencePage() {
+  usePageMeta("meta.experienceTitle", "meta.experienceDesc");
   const [vis, setVis] = useState(false);
   const { t } = useLanguage();
   useEffect(() => { const tm = setTimeout(() => setVis(true), 100); return () => clearTimeout(tm); }, []);
@@ -72,7 +75,7 @@ export default function ExperiencePage() {
         <section className="exp-cta-section">
           <h2 className="exp-cta__title">{t("home.closingTitle")}</h2>
           <p className="exp-cta__body">{t("home.closingBody")}</p>
-          <a href="/book" className="exp-cta__btn">{t("home.closingCta")}</a>
+          <Link to="/book" className="exp-cta__btn">{t("home.closingCta")}</Link>
         </section>
       </main>
 
