@@ -86,6 +86,33 @@ export default function StoryPage() {
           </div>
         </section>
 
+        {/* ═══ CATALOGUE DOWNLOAD ═══ */}
+        <section className="story__catalogue">
+          <h2 className="story__catalogue-title">{t("story.catalogueTitle")}</h2>
+          <div className="story__divider" style={{ margin: "14px auto" }} />
+          <p className="story__catalogue-desc">{t("story.catalogueDesc")}</p>
+          <div className="story__catalogue-links">
+            <a
+              href="/media/VERDE-ULASLI-Katalog.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="story__catalogue-btn"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              {t("story.catalogueTR")}
+            </a>
+            <a
+              href="/media/VERDE-ULASLI-Catalogue-EN.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="story__catalogue-btn"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              {t("story.catalogueEN")}
+            </a>
+          </div>
+        </section>
+
         {/* Closing quote */}
         <section className="story__closing">
           <blockquote className="story__quote">

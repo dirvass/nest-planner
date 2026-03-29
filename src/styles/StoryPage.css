@@ -117,6 +117,36 @@
   .story__section--reverse .story__text{ order:0 }
 }
 
+/* ── Story catalogue download ── */
+.story__catalogue{
+  text-align:center; padding:64px 24px;
+  border-bottom:1px solid var(--border);
+}
+.story__catalogue-title{
+  font-family:var(--serif); font-size:clamp(1.3rem,3vw,1.8rem);
+  font-weight:400; letter-spacing:.02em; color:var(--ink);
+}
+.story__catalogue-desc{
+  font-size:.95rem; line-height:1.7; color:var(--muted);
+  max-width:500px; margin:14px auto 28px;
+}
+.story__catalogue-links{
+  display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+}
+.story__catalogue-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:14px 28px; border-radius:999px;
+  font-size:.82rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--brand); background:transparent;
+  border:1.5px solid var(--brand); text-decoration:none;
+  transition:all .25s ease;
+}
+.story__catalogue-btn:hover{
+  color:#fff; background:var(--brand);
+  transform:translateY(-2px); box-shadow:0 8px 24px rgba(45,80,64,.25);
+}
+.story__catalogue-btn svg{ flex-shrink:0 }
+
 /* Story closing */
 .story__closing{
   text-align:center; padding:80px 24px;
