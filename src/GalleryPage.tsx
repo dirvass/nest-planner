@@ -22,7 +22,30 @@ const CAT_DESC_KEYS: Record<Category, string> = {
 };
 
 const MEDIA: Media[] = [
-  // ─── EXTERIOR ───
+  // ─── EXTERIOR — NEW LANDSCAPE RENDERS ───
+  { id: "ext2-bahce-patika-gunduz", type: "image", src: "/media/dis-mekan/bahce-peyzaj-patika-gunduz-render.jpg", alt: "Garden landscape with pathways — day", category: "exterior", featured: true },
+  { id: "ext2-bahce-patika-gece", type: "image", src: "/media/dis-mekan/bahce-peyzaj-patika-gece-render.jpg", alt: "Garden landscape with pathways — night", category: "exterior", featured: true },
+  { id: "ext2-havuz-satranc-sauna-gunduz", type: "image", src: "/media/dis-mekan/havuz-satranc-sauna-gunduz-render.jpg", alt: "Pool, chess garden & sauna pavilion — day", category: "exterior", featured: true },
+  { id: "ext2-havuz-satranc-sauna-gece", type: "image", src: "/media/dis-mekan/havuz-satranc-sauna-gece-render.jpg", alt: "Pool, chess garden & sauna pavilion — night", category: "exterior" },
+  { id: "ext2-on-cephe-mangal-gunduz", type: "image", src: "/media/dis-mekan/on-cephe-havuz-mangal-gunduz-render.jpg", alt: "Front facade with pool & outdoor kitchen — day", category: "exterior" },
+  { id: "ext2-on-cephe-mangal-gece", type: "image", src: "/media/dis-mekan/on-cephe-havuz-mangal-gece-render.jpg", alt: "Front facade with pool & outdoor kitchen — night", category: "exterior" },
+  { id: "ext2-on-cephe-yakin-gunduz", type: "image", src: "/media/dis-mekan/on-cephe-havuz-yakin-gunduz-render.jpg", alt: "Front facade close-up with pool — day", category: "exterior" },
+  { id: "ext2-on-cephe-yakin-gece", type: "image", src: "/media/dis-mekan/on-cephe-havuz-yakin-gece-render.jpg", alt: "Front facade close-up with pool — night", category: "exterior" },
+  { id: "ext2-sauna-jakuzi-gunduz", type: "image", src: "/media/dis-mekan/sauna-jakuzi-gunduz-render.jpg", alt: "Sauna cabin & jacuzzi terrace — day", category: "exterior" },
+  { id: "ext2-sauna-jakuzi-gece", type: "image", src: "/media/dis-mekan/sauna-jakuzi-gece-render.jpg", alt: "Sauna cabin & jacuzzi terrace — night", category: "exterior" },
+  { id: "ext2-kus-bakisi-otopark-gunduz", type: "image", src: "/media/dis-mekan/kus-bakisi-otopark-gunduz-render.jpg", alt: "Bird's eye — parking & entrance, day", category: "exterior" },
+  { id: "ext2-kus-bakisi-otopark-gece", type: "image", src: "/media/dis-mekan/kus-bakisi-otopark-gece-render.jpg", alt: "Bird's eye — parking & entrance, night", category: "exterior" },
+  { id: "ext2-kus-bakisi-deniz-gunduz", type: "image", src: "/media/dis-mekan/kus-bakisi-deniz-gunduz-render.jpg", alt: "Bird's eye with sea view — day", category: "exterior" },
+  { id: "ext2-kus-bakisi-deniz-gece", type: "image", src: "/media/dis-mekan/kus-bakisi-deniz-gece-render.jpg", alt: "Bird's eye with sea view — night", category: "exterior" },
+  { id: "ext2-giris-deniz-golden", type: "image", src: "/media/dis-mekan/giris-avlusu-deniz-golden-hour-render.jpg", alt: "Entrance courtyard — golden hour, sea view", category: "exterior" },
+  { id: "ext2-giris-yolu-golden", type: "image", src: "/media/dis-mekan/giris-yolu-deniz-golden-hour-render.jpg", alt: "Arrival drive — golden hour, sea backdrop", category: "exterior" },
+  { id: "ext2-havuz-mutfak-yakin", type: "image", src: "/media/dis-mekan/on-cephe-havuz-mutfak-yakin-render.jpg", alt: "Pool & outdoor kitchen close-up", category: "exterior" },
+  { id: "ext2-havuz-teras-gunbatimi", type: "image", src: "/media/dis-mekan/havuz-teras-deniz-gunbatimi-render.jpg", alt: "Pool terrace at sunset with sea view", category: "exterior" },
+  { id: "ext2-bahce-havuz-kus", type: "image", src: "/media/dis-mekan/bahce-havuz-sauna-kus-bakisi-render.jpg", alt: "Garden overview — pool & sauna from above", category: "exterior" },
+  { id: "ext2-giris-zeytin", type: "image", src: "/media/dis-mekan/giris-avlusu-zeytin-agaci-render.jpg", alt: "Entrance courtyard with olive tree", category: "exterior" },
+  { id: "ext2-satranc-patika", type: "image", src: "/media/dis-mekan/satranc-alani-bahce-patika-render.jpg", alt: "Chess area with garden pathways", category: "exterior" },
+
+  // ─── EXTERIOR — PREVIOUS RENDERS ───
   { id: "vid-yayla", type: "video", src: "/media/videolar/kuzu-yayla.mp4", poster: "/media/videolar/kuzu-yayla-poster.jpg", alt: "Kuzu Yayla — highland meadows and mountain views", category: "construction" },
   { id: "ext-kus-bakisi-gunduz", type: "image", src: "/media/dis-mekan/kus-bakisi-gunduz-ai-render.jpg", alt: "Aerial view — daytime", category: "exterior", featured: true },
   { id: "ext-havuz-deniz", type: "image", src: "/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg", alt: "Infinity pool with sea panorama", category: "exterior", featured: true },
