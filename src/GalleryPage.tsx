@@ -22,7 +22,9 @@ const CAT_DESC_KEYS: Record<Category, string> = {
 };
 
 const MEDIA: Media[] = [
-  // ─── EXTERIOR — NEW LANDSCAPE RENDERS ───
+  // ─── EXTERIOR ───
+  { id: "ext-havuz-deniz", type: "image", src: "/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg", alt: "Infinity pool with sea panorama", category: "exterior", featured: true },
+
   { id: "ext2-bahce-patika-gunduz", type: "image", src: "/media/dis-mekan/bahce-peyzaj-patika-gunduz-render.jpg", alt: "Garden landscape with pathways — day", category: "exterior", featured: true },
   { id: "ext2-bahce-patika-gece", type: "image", src: "/media/dis-mekan/bahce-peyzaj-patika-gece-render.jpg", alt: "Garden landscape with pathways — night", category: "exterior", featured: true },
   { id: "ext2-havuz-satranc-sauna-gunduz", type: "image", src: "/media/dis-mekan/havuz-satranc-sauna-gunduz-render.jpg", alt: "Pool, chess garden & sauna pavilion — day", category: "exterior", featured: true },
@@ -48,7 +50,6 @@ const MEDIA: Media[] = [
   // ─── EXTERIOR — PREVIOUS RENDERS ───
   { id: "vid-yayla", type: "video", src: "/media/videolar/kuzu-yayla.mp4", poster: "/media/videolar/kuzu-yayla-poster.jpg", alt: "Kuzu Yayla — highland meadows and mountain views", category: "construction" },
   { id: "ext-kus-bakisi-gunduz", type: "image", src: "/media/dis-mekan/kus-bakisi-gunduz-ai-render.jpg", alt: "Aerial view — daytime", category: "exterior", featured: true },
-  { id: "ext-havuz-deniz", type: "image", src: "/media/dis-mekan/havuz-deniz-manzarasi-konsept.jpg", alt: "Infinity pool with sea panorama", category: "exterior", featured: true },
   { id: "ext-on-cephe-ates", type: "image", src: "/media/dis-mekan/on-cephe-ates-cukuru-render.jpg", alt: "Front facade with fire pit", category: "exterior", featured: true },
   { id: "ext-drone-genel", type: "image", src: "/media/dis-mekan/drone-genel-gorunum-render.jpg", alt: "Drone overview of the estate", category: "exterior" },
   { id: "ext-giris-gece", type: "image", src: "/media/dis-mekan/giris-avlusu-gece-ai-render.jpg", alt: "Entrance courtyard — evening", category: "exterior" },
