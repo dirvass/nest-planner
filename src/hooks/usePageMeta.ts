@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLanguage, Locale } from "../i18n/LanguageContext";
 
-const OG_IMAGE = "/media/dis-mekan/drone-genel-gorunum-render.jpg";
+const OG_IMAGE = "/media/dis-mekan/kus-bakisi-gunduz-ai-render.jpg";
 
 const LOCALE_MAP: Record<Locale, string> = {
   en: "en_US",

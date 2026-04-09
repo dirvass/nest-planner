@@ -44,7 +44,7 @@ const MEDIA: Media[] = [
   { id: "int-salon-somine", type: "image", src: "/media/ic-mekan/salon-somine-kahverengi-koltuk-render.jpg", alt: "Lounge with fireplace", category: "interior" },
   { id: "int-salon-manzara", type: "image", src: "/media/ic-mekan/salon-somine-manzara-render.jpg", alt: "Salon with fireplace and panoramic view", category: "interior" },
   { id: "int-yatak-minimalist", type: "image", src: "/media/ic-mekan/yatak-odasi-genis-minimalist-render.jpg", alt: "Minimalist bedroom suite", category: "interior" },
-  { id: "int-yatak-yesil", type: "image", src: "/media/ic-mekan/yatak-odasi-yesil-dus-render.jpg", alt: "Bedroom with walk-in shower", category: "interior" },
+  { id: "int-yatak-yesil", type: "image", src: "/media/ic-mekan/yatak-odasi-yesil-dus-render.png", alt: "Bedroom with walk-in shower", category: "interior" },
 
   // ─── CONSTRUCTION PROCESS (insaat-sureci) ───
   { id: "con-foto3", type: "image", src: "/media/insaat-sureci/insaat-fotograf-3.jpg", alt: "Foundation formwork with sea panorama", category: "construction", featured: true },
