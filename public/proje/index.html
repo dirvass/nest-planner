@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VERDE ULAŞLI — Tesisat Projeleri Özet</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@200;300;400;500;600&display=swap');
+
+:root {
+  --deep-green: #0E1A16;
+  --forest: #2D5040;
+  --forest-light: #3a6555;
+  --sand: #C9B99A;
+  --gold: #C3A564;
+  --mist: #EBE8E1;
+  --text: #d0cdc4;
+  --text-muted: #8a8a7a;
+  --gold-faint: rgba(195,165,100,0.08);
+  --gold-subtle: rgba(195,165,100,0.2);
+  --card-bg: rgba(45,80,64,0.25);
+  --card-border: rgba(195,165,100,0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+html, body {
+  background: var(--deep-green);
+  color: var(--mist);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ── Layout ── */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Header ── */
+header {
+  text-align: center;
+  padding: 80px 24px 60px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 2.4rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+header .subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 24px;
+}
+
+header .badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-subtle);
+  padding: 6px 18px;
+  border-radius: 20px;
+}
+
+/* ── Navigation ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(14,26,22,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 14px 0;
+}
+
+nav .container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+nav::-webkit-scrollbar { display: none; }
+
+nav a {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+nav a:hover, nav a:focus {
+  color: var(--gold);
+  border-color: var(--gold-subtle);
+  background: var(--gold-faint);
+}
+
+/* ── Sections ── */
+section {
+  padding: 60px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+section:last-of-type {
+  border-bottom: none;
+}
+
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: var(--mist);
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 32px;
+  max-width: 700px;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: var(--sand);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card h3 .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--gold-faint);
+  border: 1px solid var(--gold-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card ul li {
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--forest-light);
+}
+
+.card ul li strong {
+  color: var(--mist);
+  font-weight: 500;
+}
+
+.card .sub-list {
+  margin-left: 20px;
+  margin-top: 4px;
+}
+
+.card .sub-list li::before {
+  width: 4px;
+  height: 4px;
+  background: var(--text-muted);
+}
+
+.file-ref {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: rgba(45,80,64,0.3);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  letter-spacing: 0.02em;
+}
+
+/* ── Important callout ── */
+.callout {
+  background: linear-gradient(135deg, rgba(195,165,100,0.08), rgba(195,165,100,0.03));
+  border: 1px solid var(--gold-subtle);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: var(--sand);
+}
+
+.callout strong {
+  color: var(--gold);
+}
+
+/* ── Grid ── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  header h1 { font-size: 1.8rem; }
+  .section-title { font-size: 1.4rem; }
+}
+
+/* ── Glossary table ── */
+.glossary-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.glossary-table th {
+  text-align: left;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--card-bg);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.glossary-table td {
+  padding: 12px 20px;
+  font-size: 0.88rem;
+  border-bottom: 1px solid rgba(45,80,64,0.2);
+  vertical-align: top;
+}
+
+.glossary-table tr:last-child td {
+  border-bottom: none;
+}
+
+.glossary-table td:first-child {
+  color: var(--sand);
+  font-weight: 500;
+  white-space: nowrap;
+  width: 200px;
+}
+
+.glossary-table td:last-child {
+  color: var(--text);
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--card-border);
+}
+
+footer span { color: var(--gold); }
+
+/* ── Analysis severity colors ── */
+.card[style*="c0392b"] li::before { background: #c0392b; }
+.card[style*="e67e22"] li::before { background: #e67e22; }
+.card[style*="2980b9"] li::before { background: #2980b9; }
+
+@media print {
+  nav { position: static; }
+  body { font-size: 11px; }
+  .card { break-inside: avoid; }
+  section { padding: 30px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<header>
+  <div class="badge">Verde Ulaşlı &mdash; Teknik Doküman</div>
+  <h1>Elektrik &amp; Tesisat Projeleri</h1>
+  <p class="subtitle">Mimari çizimlerdeki elektrik, aydınlatma, ısıtma ve akıllı ev detaylarının oda oda özeti. Her iki villa (A ve B) için geçerlidir.</p>
+</header>
+
+<!-- ════════ NAV ════════ -->
+<nav>
+  <div class="container">
+    <a href="#giris-kat">Giriş Katı</a>
+    <a href="#ust-kat">Üst Kat</a>
+    <a href="#salon-akilli-ev">Salon &amp; Akıllı Ev</a>
+    <a href="#salon-kesit">Salon Kesitleri</a>
+    <a href="#yatak-odasi">Yatak Odası</a>
+    <a href="#giyinme">Giyinme</a>
+    <a href="#merdiven">Merdiven Holü</a>
+    <a href="#oda-detay">Oda Detayları</a>
+    <a href="#sozluk">Sözlük</a>
+    <a href="#analiz" style="color:var(--gold);border-color:var(--gold-subtle)">Kritik Analiz</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ════════ GİRİŞ KATI ════════ -->
+<section id="giris-kat">
+  <div class="section-label">Genel Plan &mdash; G1</div>
+  <h2 class="section-title">Giriş Katı</h2>
+  <p class="section-desc">Her iki villanın giriş katını gösteren ana plan. İki villa simetrik yerleşimli.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">&#9728;</span> Aydınlatma</h3>
+      <ul>
+        <li><strong>Magnet ray</strong> sistemi</li>
+        <li><strong>Gizli slot</strong> LED'ler</li>
+        <li><strong>Perdelik LED</strong> &mdash; perde raylarının içine gömülü ışık</li>
+        <li><strong>Gizli ters LED</strong> &mdash; tavanda dolaylı aydınlatma</li>
+        <li>Merkezi <strong>avize</strong> noktası</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9881;</span> Tesisat &amp; Donanım</h3>
+      <ul>
+        <li><strong>Jakuzi</strong> &mdash; su ve elektrik tesisatı planlanmış (dış mekan)</li>
+        <li><strong>Kapılar</strong> &mdash; 95&times;230cm, sürgülü ve açılır tipler</li>
+        <li><strong>27 adet anahtar</strong> noktası numaralandırılmış (1&ndash;27)</li>
+        <li><strong>Kolektör</strong> &mdash; yerden ısıtma dağıtım merkezi (her villada)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">&#9737;</span> Güvenlik</h3>
+      <ul>
+        <li><strong>4 adet kamera</strong> noktası (her villada 2)</li>
+        <li><strong>Kamera odası</strong> &mdash; kayıt cihazı ve izleme merkezi</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9881;</span> Teknik Oda</h3>
+      <ul>
+        <li><strong>Kombi</strong> (kazan) bu katta konumlanacak</li>
+        <li><strong>Elektrik sayacı</strong> bu odada olacak</li>
+        <li><strong>Su sayacı</strong> bu odada olacak</li>
+      </ul>
+    </div>
+  </div>
+  <span class="file-ref">01-giris-kat-genel-plan-elektrik-tesisat.pdf</span>
+</section>
+
+<!-- ════════ ÜST KAT ════════ -->
+<section id="ust-kat">
+  <div class="section-label">Genel Plan &mdash; Z1</div>
+  <h2 class="section-title">Üst Kat</h2>
+  <p class="section-desc">Yatak odaları, mutfak ve ortak alanlar. Her iki villa için geçerli.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">&#9961;</span> Mutfak Tesisatı</h3>
+      <ul>
+        <li>Elektrikli <strong>ocak fişi</strong> &mdash; panele monte</li>
+        <li><strong>Bulaşık makinesi</strong> fişi &mdash; panele monte</li>
+        <li>Ek priz ucu (mutfak robotları vb. için)</li>
+        <li>Mutfak anahtarı belirli noktaya konulacak</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9734;</span> Yatak Odaları &amp; Genel</h3>
+      <ul>
+        <li><strong>160&times;200cm</strong> yatak yerleri işaretli</li>
+        <li><strong>Volkswagen</strong> marka sürgülü kapı sistemi</li>
+        <li><strong>Kitaplık</strong> &mdash; LED aydınlatmalı raflar</li>
+        <li>Yerden ısıtma <strong>kolektörü</strong> konumu belirli</li>
+        <li><strong>Yer su merkezi</strong> &mdash; yerden ısıtma su dağıtım noktası</li>
+        <li>Magnet ray, gizli slot, <strong>2 adet avize</strong> noktası</li>
+        <li><strong>Kamera</strong> noktaları işaretli (üst katta da)</li>
+        <li>Mutfağa <strong>pürüzleyici/blender</strong> için ek priz ucu bırakılacak</li>
+        <li><strong>Mutfak anahtarı</strong> belirli konuma (700. noktaya) yerleştirilecek</li>
+      </ul>
+    </div>
+  </div>
+  <span class="file-ref">02-ust-kat-genel-plan-elektrik-tesisat.pdf</span>
+</section>
+
+<!-- ════════ SALON & AKILLI EV ════════ -->
+<section id="salon-akilli-ev">
+  <div class="section-label">Sayfa 3 &mdash; En Detaylı Çizim</div>
+  <h2 class="section-title">Giriş &amp; Ana Salon</h2>
+  <p class="section-desc">Villanın kalbi. Akıllı ev sistemi, şömine, pivot kapı ve güvenlik kameralarının merkezi.</p>
+
+  <div class="callout">
+    <strong>Akıllı Ev Sistemi:</strong> Tüm perdeler motorlu &mdash; telefon ve duvar anahtarıyla kontrol edilecek. Tek sistemden yönetilecekler: kapı diyafonu, perdeler, havalandırma &amp; klima, aydınlatma. Perde anahtarı girişte, diğer anahtarların yanında olacak.
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">&#9758;</span> Giriş</h3>
+      <ul>
+        <li><strong>Pivot kapı</strong> &mdash; büyük döner kapı, lüks giriş</li>
+        <li><strong>2 adet kamera</strong> &mdash; giriş güvenliği</li>
+        <li>LED-Magnet ray anahtarı</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9832;</span> Salon</h3>
+      <ul>
+        <li><strong>Şömine</strong> &mdash; menfez (havalandırma çıkışı) ile destekli</li>
+        <li>Yerden ısıtma (tüm alanlarda)</li>
+        <li><strong>3 adet</strong> havalandırma-klima çıkışı</li>
+        <li><strong>2 adet magnet ray</strong> (salon boyunca)</li>
+        <li>Perdelik LED + gizli slot aydınlatma</li>
+        <li><strong>Sabit camlar</strong> &mdash; açılmayan panoramik pencereler (3 panel)</li>
+        <li>Ledli alçıpan <strong>korkuluk</strong> (merdiven korkuluğu)</li>
+        <li><strong>Perde anahtarı</strong> &mdash; girişte, ayrı kontrol noktası</li>
+        <li>Sürgülü kapılar (2 adet)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">&#10138;</span> Merdiven</h3>
+    <ul>
+      <li>Merdiven LED anahtarı &mdash; <strong>vavien</strong> (hem alttan hem üstten açılıp kapanır)</li>
+    </ul>
+  </div>
+
+  <span class="file-ref">03-giris-salon-akilli-ev-somine-pivot-kapi.pdf</span>
+</section>
+
+<!-- ════════ SALON KESİTLERİ ════════ -->
+<section id="salon-kesit">
+  <div class="section-label">Sayfa 2, 6, 8</div>
+  <h2 class="section-title">Salon Kesitleri</h2>
+  <p class="section-desc">Salonun yan görünümleri. Sayfa 2 = Villa A, Sayfa 6 &amp; 8 = Villa B varyantları.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">&#9650;</span> Asma Kat (Mezzanine)</h3>
+      <ul>
+        <li>Asma kat profili belirlenmiş</li>
+        <li>Merdiven basamaklarına <strong>LED</strong> konulacak</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9635;</span> Pencereler</h3>
+      <ul>
+        <li><strong>Isı camı arası motorlu jaluzi</strong> &mdash; camların arasına gömülü otomatik panjur</li>
+        <li>Sabit + açılır cam kombinasyonu</li>
+        <li><strong>Volkswagen</strong> sürgülü kapı (Villa B)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9728;</span> Aydınlatma</h3>
+      <ul>
+        <li>Perdelik LED (perde rayı boyunca gizli ışık)</li>
+        <li>Duvar aplikleri (2 adet, karşılıklı)</li>
+        <li><strong>Avize</strong> &mdash; 125cm asma mesafesi</li>
+        <li>LED-Avize anahtarı (ayrı kontrol)</li>
+        <li>Gizli slot aydınlatma</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#10052;</span> Klima</h3>
+      <ul>
+        <li>Her seviyede havalandırma-klima çıkışı</li>
+        <li>Kiriş (tavan kirişi) etrafında çözüm</li>
+      </ul>
+    </div>
+  </div>
+  <span class="file-ref">04-salon-asma-kat-merdiven-avize-klima.pdf</span>
+  <span class="file-ref">11-salon-b-asma-kat-motorlu-jaluzi.pdf</span>
+  <span class="file-ref">12-salon-b-klima-merdiven-led.pdf</span>
+</section>
+
+<!-- ════════ YATAK ODASI ════════ -->
+<section id="yatak-odasi">
+  <div class="section-label">Sayfa 4</div>
+  <h2 class="section-title">Ana Yatak Odası &amp; Giyinme Bölümü</h2>
+  <p class="section-desc">Yatak odası aydınlatma detayları ve bağımsız giyinme bölümü.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">&#9790;</span> Yatak Odası</h3>
+      <ul>
+        <li>Havalandırma-Klima (her iki tarafta)</li>
+        <li><strong>Alçıpan Z profil LED</strong> &mdash; tavan kenarlarında şerit</li>
+        <li><strong>Tavan sarkıt</strong> &mdash; 30cm sarkma + avize</li>
+        <li>Perde-sarkıt avize kombinasyonu</li>
+        <li><strong>Profil aydınlatma</strong> (lineer LED) &mdash; 690cm ve 635cm uzunluğunda 2 hat</li>
+        <li>Sabit camlar + <strong>LED niş</strong></li>
+        <li>Yerden ısıtma</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9733;</span> Giyinme Bölümü</h3>
+      <ul>
+        <li><strong>Ayrı anahtarla</strong> açılacak (bağımsız kontrol)</li>
+        <li>Sürgülü kapı ile ayrılmış</li>
+        <li>LED-Magnet ray anahtarı</li>
+        <li>Gizli slot aydınlatma</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Perdeler:</strong> Motorlu &mdash; akıllı ev sistemine bağlı. Telefon + anahtar kontrolü. Anahtar girişte diğerlerinin yanında.
+  </div>
+
+  <span class="file-ref">06-yatak-odasi-giyinme-bolumu-aydinlatma.pdf</span>
+</section>
+
+<!-- ════════ GİYİNME DETAY ════════ -->
+<section id="giyinme">
+  <div class="section-label">Sayfa 7</div>
+  <h2 class="section-title">Giyinme Odası &mdash; Dolap Detayı</h2>
+  <p class="section-desc">Giyinme bölümünün aydınlatma detayı.</p>
+
+  <div class="card">
+    <h3><span class="icon">&#10023;</span> Dolaplar &amp; Aydınlatma</h3>
+    <ul>
+      <li><strong>3 adet dolap</strong> &mdash; her birinin içi LED aydınlatmalı (açıldığında yanar)</li>
+      <li>Perdelik LED</li>
+      <li>Sabit camlar</li>
+      <li>Yerden ısıtma</li>
+      <li>Gizli slot aydınlatma</li>
+    </ul>
+  </div>
+  <span class="file-ref">07-giyinme-dolap-ici-led-detay.pdf</span>
+</section>
+
+<!-- ════════ MERDİVEN HOLÜ ════════ -->
+<section id="merdiven">
+  <div class="section-label">Sayfa 10</div>
+  <h2 class="section-title">Merdiven Holü &amp; Koridor</h2>
+  <p class="section-desc">Villanın dikey bağlantı alanı ve ana koridor.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="icon">&#10138;</span> Merdiven</h3>
+      <ul>
+        <li>En alt basamak <strong>LED'li</strong> olacak</li>
+        <li>Merdiven LED anahtarı &mdash; <strong>vavien</strong> (2 noktadan kontrol)</li>
+        <li>Ledli alçıpan korkuluk</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9639;</span> Hol</h3>
+      <ul>
+        <li><strong>TV tesisatı</strong> (kablo/priz hazır)</li>
+        <li>Kitaplık rafları <strong>LED'li</strong> olacak</li>
+        <li>Niş aydınlatma (duvardaki girinti)</li>
+        <li>Sürgülü kapı</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#9737;</span> Güvenlik</h3>
+      <ul>
+        <li><strong>2 adet kamera</strong> noktası</li>
+        <li>LED-Magnet ray anahtarı</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="icon">&#10052;</span> Klima</h3>
+      <ul>
+        <li><strong>3 adet</strong> havalandırma-klima çıkışı (her seviyede)</li>
+      </ul>
+    </div>
+  </div>
+  <span class="file-ref">05-merdiven-hollu-tv-kitaplik-kamera.pdf</span>
+</section>
+
+<!-- ════════ ODA DETAYLARI ════════ -->
+<section id="oda-detay">
+  <div class="section-label">Sayfa 1, 5, 9</div>
+  <h2 class="section-title">Oda Detayları &mdash; Üst Kat</h2>
+  <p class="section-desc">Üst kattaki odaların tavan ve tesisat detayları.</p>
+
+  <div class="card">
+    <h3><span class="icon">&#9707;</span> Ortak Özellikler</h3>
+    <ul>
+      <li>Havalandırma sistemi</li>
+      <li>Yerden ısıtma (tüm odalarda)</li>
+      <li><strong>Alçıpan Z profil LED</strong> &mdash; tavan kenarlarında şerit aydınlatma</li>
+      <li><strong>Magnet ray</strong> aydınlatma</li>
+      <li><strong>LED niş</strong> (dekoratif girinti)</li>
+      <li>Sürgülü kapı</li>
+      <li>Motorlu jaluzi + anahtar (Sayfa 1)</li>
+      <li>Gizli slot (Sayfa 9)</li>
+      <li>Kiriş etrafında çözüm</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="icon">&#9679;</span> Küçük Oda / Koridor (Sayfa 5)</h3>
+    <ul>
+      <li>Havalandırma</li>
+      <li>Alçıpan Z profil LED</li>
+      <li>Yerden ısıtma</li>
+      <li>2 adet <strong>aplik hattı</strong> (duvar lambası kablolama)</li>
+    </ul>
+  </div>
+
+  <span class="file-ref">08-oda-detay-havalandirma-led-jaluzi.pdf</span>
+  <span class="file-ref">09-oda-detay-havalandirma-led-surgu-kapi.pdf</span>
+  <span class="file-ref">10-oda-detay-aplik-yerden-isitma.pdf</span>
+</section>
+
+<!-- ════════ SÖZLÜK ════════ -->
+<section id="sozluk">
+  <div class="section-label">Referans</div>
+  <h2 class="section-title">Teknik Terimler Sözlüğü</h2>
+  <p class="section-desc">Çizimlerde geçen terimlerin sade açıklamaları.</p>
+
+  <table class="glossary-table">
+    <thead>
+      <tr><th>Terim</th><th>Açıklama</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Yerden ısıtma</td><td>Zemin altına döşenen borularla ısıtma sistemi</td></tr>
+      <tr><td>Alçıpan Z profil LED</td><td>Asma tavanın kenarındaki Z şeklinde profile gömülü şerit LED</td></tr>
+      <tr><td>Magnet ray</td><td>Mıknatıslı ray sistemi &mdash; spotlar rayın istediğin yerine takılıp kaydırılabilir</td></tr>
+      <tr><td>Gizli slot</td><td>Tavandaki gizli yarıktan yayılan dolaylı LED ışık</td></tr>
+      <tr><td>Perdelik LED</td><td>Perde rayının arkasına gömülü LED şerit</td></tr>
+      <tr><td>Niş</td><td>Duvardaki dekoratif girinti (içine LED veya obje konur)</td></tr>
+      <tr><td>Pivot kapı</td><td>Ortadan dönen büyük kapı (lüks girişlerde kullanılır)</td></tr>
+      <tr><td>Vavien</td><td>İki farklı noktadan açılıp kapanabilen anahtar (merdiven için)</td></tr>
+      <tr><td>Menfez</td><td>Havalandırma ızgarası / çıkışı</td></tr>
+      <tr><td>Sabit cam</td><td>Açılmayan, panoramik pencere</td></tr>
+      <tr><td>Motorlu jaluzi</td><td>Otomatik açılıp kapanan panjur &mdash; akıllı ev veya anahtarla kontrol</td></tr>
+      <tr><td>Isı camı arası jaluzi</td><td>Çift cam arasına yerleştirilmiş motorlu panjur</td></tr>
+      <tr><td>Sürgü kapı</td><td>Raya oturan kayar kapı</td></tr>
+      <tr><td>Aplik</td><td>Duvara monte edilen dekoratif lamba</td></tr>
+      <tr><td>Tavan sarkıt</td><td>Tavandan sarkan (asılan) aydınlatma</td></tr>
+      <tr><td>Kolektör</td><td>Yerden ısıtma borularının dağıtım merkezi</td></tr>
+      <tr><td>Kiriş</td><td>Tavan kirişi &mdash; tesisat bu kirişin etrafından geçirilir</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════ KRİTİK ANALİZ ════════ -->
+<section id="analiz">
+  <div class="section-label">Verde Ulaşlı &mdash; Kritik Değerlendirme</div>
+  <h2 class="section-title">Eksik Olan Ne? Ne Eklenmeli?</h2>
+  <p class="section-desc">Lüks villa resort standartlarına göre mevcut tesisat projelerinin değerlendirmesi. Çizimlerde olan ve olmayan sistemlerin karşılaştırması.</p>
+
+  <!-- WHAT'S GOOD -->
+  <div class="callout" style="border-left-color: var(--forest-light);">
+    <strong style="color: var(--forest-light);">Projelerde Doğru Yapılanlar:</strong> Yerden ısıtma (tüm mekanlarda), magnet ray aydınlatma, akıllı ev konsepti, motorlu perdeler/jaluziler, pivot kapı, gizli LED aydınlatma, ısı cam arası jaluzi. Bunlar lüks segment için doğru tercihler.
+  </div>
+
+  <!-- SMART HOME -->
+  <div class="card" style="border-left: 3px solid #c0392b;">
+    <h3><span class="icon" style="color:#c0392b;">!</span> Akıllı Ev Sistemi &mdash; Detay Eksik</h3>
+    <ul>
+      <li><strong>Protokol/marka belirtilmemiş</strong> &mdash; KNX, Zigbee, Z-Wave, Loxone? Kablo altyapısı protokole göre değişir. Karar şimdi verilmeli, sonra değiştirmek çok zor.</li>
+      <li><strong>Merkezi hub/panel konumu yok</strong> &mdash; akıllı ev beyni nereye konulacak?</li>
+      <li><strong>Sahne senaryoları planlanmamış</strong> &mdash; "Hoş geldin", "Uyku", "Sinema", "Dışarı çıkıyorum" gibi tek tuşla çalışan senaryolar</li>
+      <li><strong>Sesli asistan entegrasyonu</strong> &mdash; Google Home / Alexa hazırlığı (tavan mikrofon/hoparlör noktaları)</li>
+    </ul>
+  </div>
+
+  <!-- NETWORK -->
+  <div class="card" style="border-left: 3px solid #c0392b;">
+    <h3><span class="icon" style="color:#c0392b;">!</span> Ağ / IT Altyapısı &mdash; Tamamen Eksik</h3>
+    <ul>
+      <li><strong>WiFi erişim noktaları (AP)</strong> planlanmamış &mdash; her katta en az 1-2 tavan tipi AP gerekli (UniFi, TP-Link Omada vb.)</li>
+      <li><strong>Ethernet kablolama</strong> (CAT6/CAT7) çizilmemiş &mdash; TV, kamera, AP'ler için kablolu bağlantı şart</li>
+      <li><strong>Fiber internet giriş noktası</strong> belirsiz</li>
+      <li><strong>Network rack/patch panel</strong> konumu yok &mdash; teknik odada olabilir ama belirtilmemiş</li>
+      <li><strong>Dış mekan WiFi</strong> &mdash; havuz/bahçe alanı için outdoor AP gerekli</li>
+    </ul>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="card" style="border-left: 3px solid #e67e22;">
+    <h3><span class="icon" style="color:#e67e22;">&#9888;</span> Güvenlik &mdash; Yetersiz</h3>
+    <ul>
+      <li><strong>Kamera odası var ama NVR/DVR detayı yok</strong> &mdash; kayıt cihazı kapasitesi, disk boyutu, uzaktan erişim</li>
+      <li><strong>Dış mekan kamerası eksik</strong> &mdash; giriş yolu, otopark, bahçe, havuz çevresi</li>
+      <li><strong>Alarm sistemi yok</strong> &mdash; hareket sensörleri, kapı/pencere manyetik kontakları, siren</li>
+      <li><strong>Akıllı kilit detayı yok</strong> &mdash; parmak izi / şifre / kart ile giriş (pivot kapıya uygun model?)</li>
+      <li><strong>Çevre aydınlatması</strong> &mdash; hareketle aktive olan dış mekan ışıkları</li>
+      <li><strong>Panik butonu</strong> &mdash; yatak odası ve girişte</li>
+    </ul>
+  </div>
+
+  <!-- OUTDOOR ELECTRICAL -->
+  <div class="card" style="border-left: 3px solid #c0392b;">
+    <h3><span class="icon" style="color:#c0392b;">!</span> Dış Mekan Elektrik &mdash; Ciddi Eksiklik</h3>
+    <ul>
+      <li><strong>Havuz tesisatı planlanmamış</strong> &mdash; pompa, filtrasyon, aydınlatma (sualtı LED), ısıtma sistemi</li>
+      <li><strong>Sauna elektrik tesisatı yok</strong> &mdash; renderlar sauna gösteriyor ama çizimlerde elektrik detayı yok</li>
+      <li><strong>Dış mekan mutfak/mangal</strong> &mdash; renderlar açık mutfak gösteriyor ama priz/aydınlatma planı yok</li>
+      <li><strong>Bahçe aydınlatması</strong> &mdash; patika ışıkları, spot aydınlatma, ağaç altı LED planlanmamış</li>
+      <li><strong>Sulama sistemi elektriği</strong> &mdash; otomatik bahçe sulama için elektrik/vana kontrol</li>
+      <li><strong>Bahçe ses sistemi</strong> &mdash; dış mekan hoparlör noktaları</li>
+      <li><strong>Elektrikli araç şarj istasyonu</strong> &mdash; lüks segment misafirleri için EV charger (otopark alanında)</li>
+      <li><strong>Dış mekan priz noktaları</strong> &mdash; teras, havuz kenarı, bahçe için su geçirmez prizler</li>
+    </ul>
+  </div>
+
+  <!-- BATHROOM -->
+  <div class="card" style="border-left: 3px solid #e67e22;">
+    <h3><span class="icon" style="color:#e67e22;">&#9888;</span> Banyo &mdash; Detay Eksik</h3>
+    <ul>
+      <li><strong>Banyo aydınlatma detayı yok</strong> &mdash; ayna arkası LED, duş içi aydınlatma, gece ışığı</li>
+      <li><strong>Buğu önleyici ayna ısıtması</strong> yok</li>
+      <li><strong>Havlupan (ısıtmalı havluluk)</strong> elektrik bağlantısı belirtilmemiş</li>
+      <li><strong>Banyo yerden ısıtma</strong> &mdash; genel "yerden ısıtma" var ama banyo özel sıcaklık kontrolü?</li>
+      <li><strong>Akıllı klozet</strong> elektrik hazırlığı (Türk/Körfez pazarında taharet musluklu model yaygın)</li>
+      <li><strong>Banyo hoparlör</strong> &mdash; tavan tipi Bluetooth hoparlör (lüks deneyim)</li>
+    </ul>
+  </div>
+
+  <!-- ENERGY -->
+  <div class="card" style="border-left: 3px solid #e67e22;">
+    <h3><span class="icon" style="color:#e67e22;">&#9888;</span> Enerji &amp; Yedekleme</h3>
+    <ul>
+      <li><strong>Güneş paneli altyapısı</strong> yok &mdash; çatıda veya bahçede panel için kablo güzergahı</li>
+      <li><strong>Jeneratör / UPS</strong> planlanmamış &mdash; elektrik kesintisinde kameralar, akıllı ev, buzdolabı ne olacak?</li>
+      <li><strong>Enerji izleme</strong> &mdash; akıllı sayaç, tüketim takibi (misafirler için önemli değil ama işletme için kritik)</li>
+    </ul>
+  </div>
+
+  <!-- AUDIO -->
+  <div class="card" style="border-left: 3px solid #2980b9;">
+    <h3><span class="icon" style="color:#2980b9;">+</span> Ses Sistemi &mdash; Hiç Yok</h3>
+    <ul>
+      <li><strong>Dahili hoparlör noktaları</strong> planlanmamış &mdash; salon, yatak odası, banyo, teras için tavan/duvar hoparlörleri</li>
+      <li><strong>Multi-room audio</strong> &mdash; Sonos / Bose gibi çoklu oda ses sistemi altyapısı</li>
+      <li>Lüks villalarda ses sistemi standart beklenti &mdash; en azından salon ve teras için planlanmalı</li>
+    </ul>
+  </div>
+
+  <!-- USB & CONVENIENCE -->
+  <div class="card" style="border-left: 3px solid #2980b9;">
+    <h3><span class="icon" style="color:#2980b9;">+</span> Konfor Detayları</h3>
+    <ul>
+      <li><strong>USB-C şarj prizleri</strong> &mdash; yatak başı, mutfak tezgahı, çalışma masası yanına entegre priz</li>
+      <li><strong>Giriş kapı otomasyonu</strong> &mdash; araç yaklaşınca giriş kapısı/bariyeri açılması</li>
+      <li><strong>Karşılama aydınlatma senaryosu</strong> &mdash; misafir geldiğinde giriş yolu + avlu otomatik aydınlanması</li>
+      <li><strong>Su arıtma sistemi</strong> elektrikleri &mdash; mutfak altı veya teknik odada</li>
+      <li><strong>Robot süpürge şarj noktaları</strong> &mdash; gizli nisler içinde</li>
+    </ul>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="callout">
+    <strong>Genel Değerlendirme:</strong> Mevcut çizimler iç mekan elektrik ve aydınlatma için detaylı. Ancak bir <em>lüks villa resort</em> olarak düşünüldüğünde, dış mekan tesisatı (havuz, sauna, mangal, bahçe), ağ altyapısı, güvenlik sistemi detayları ve ses sistemi tamamen eksik. Bu sistemler inşaat sırasında kablo çekilmezse sonradan eklemek çok maliyetli ve görsel olarak çirkin olur. <strong>Mimara bu listeyi mümkün olan en kısa sürede iletmeniz önerilir.</strong>
+  </div>
+
+</section>
+
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+  <span>VERDE ULAŞLI</span> &mdash; Tesisat Projeleri Özet Dokümanı
+</footer>
+
+</body>
+</html>
